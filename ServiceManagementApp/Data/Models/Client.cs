@@ -8,7 +8,7 @@ namespace ServiceManagementApp.Data.Models
 
         [Required]
         [MaxLength(255)]
-        public string FullName { get; set; }
+        public string FullName { get; set; } = null!;
 
         public int PhoneId { get; set; }
         public Phone? Phone { get; set; }
@@ -16,7 +16,6 @@ namespace ServiceManagementApp.Data.Models
         public int EmailId { get; set; }
         public Email? Email { get; set; }
 
-        // Връзка към фирми
-        public ICollection<ClientCompany> ClientCompanies { get; set; } = new List<ClientCompany>();
+        public ICollection<ClientCompany>? ClientCompanies { get; set; } = new List<ClientCompany>();
     }
 }

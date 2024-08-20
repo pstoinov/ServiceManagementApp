@@ -30,5 +30,6 @@ namespace ServiceManagementApp.Data.Models
         public int EmailId { get; set; }
         public Email Email { get; set; } = null!;
         public ICollection<ClientCompany> ClientCompanies { get; set; } = new List<ClientCompany>();
+        public ICollection<CashRegister>? CashRegisters { get; set; } = new List<CashRegister>();
     }
 }

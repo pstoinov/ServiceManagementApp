@@ -64,8 +64,12 @@ namespace ServiceManagementApp.Data.Models
         
         [Required]
         public bool IsDisposed { get; set; } = false;
+        //TODO: Да се направи логика за дерегистрация
+        public bool IsRegistered { get; set; } = true;
+
         public ICollection<Contract> Contracts { get; set; } = new List<Contract>(); // Колекция от договори
 
         public ICollection<CashRegisterRepair> CashRegisterRepairs { get; set; } = new List<CashRegisterRepair>(); // Колекция от ремонти
+
     }
 }

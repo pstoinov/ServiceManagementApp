@@ -1,6 +1,6 @@
 ﻿namespace ServiceManagementApp.Data.Enums
 {
-    public enum DisposeReason
+    public enum DisposalReason
     {
         Disposal = 0,       // Брак и др.
         Theft = 1,          // Кражба
