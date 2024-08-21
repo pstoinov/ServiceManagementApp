@@ -25,7 +25,7 @@ namespace ServiceManagementApp.Data.Models
     }
 }
 
-//TODO: Да се добави това в контролера за ремонтите
+//TODO Да се добави това в контролера за ремонтите
 //public void ProcessRepair(CashRegisterRepair repair)
 //{
 //    // Проверка дали ремонтът води до бракуване на касовия апарат
@@ -39,4 +39,3 @@ namespace ServiceManagementApp.Data.Models
 //        }
 //    }
 //}
-//TODO: същото и за смяна на фискалната памет.

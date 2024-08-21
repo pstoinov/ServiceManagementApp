@@ -39,7 +39,7 @@ namespace ServiceManagementApp.Data.Models
 
         [Required]
         [MaxLength(100)]
-        public string RegionalNAPOffice { get; set; } = null!; 
+        public string RegionalNRAOffice { get; set; } = null!; 
 
         [Required]
         public Manufacturer Manufacturer { get; set; } 
