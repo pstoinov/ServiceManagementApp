@@ -9,8 +9,12 @@ namespace ServiceManagementApp.Data.Models
         public int Id { get; set; }
         public DateTime StartRepairDate { get; set; }
         public DateTime EndRepairDate { get; set; }
-
-        public string Description { get; set; } = null!;
+        /*TODO да се добави Описание на Дефекта
+         * сервизна фирма
+         * отстранена ли е пломбата
+         * дата и час на приемане от клиента
+        */
+        public string DescriptionOfRepair { get; set; } = null!;
         public int CashRegisterId { get; set; }
         public CashRegister CashRegister { get; set; } = null!;
         public bool IsDisposed { get; set; } = false;
