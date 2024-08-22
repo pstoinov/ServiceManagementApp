@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using ServiceManagementApp.Data.Models.ServiceModels;
 
-namespace ServiceManagementApp.Data.Models.Client
+namespace ServiceManagementApp.Data.Models.ClientModels
 {
     public class Contract
     {

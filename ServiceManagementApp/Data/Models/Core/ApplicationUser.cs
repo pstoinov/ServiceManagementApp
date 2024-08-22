@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using ServiceManagementApp.Data.Models.Service;
+using ServiceManagementApp.Data.Models.ClientModels;
+using ServiceManagementApp.Data.Models.ServiceModels;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ServiceManagementApp.Data.Models
+namespace ServiceManagementApp.Data.Models.Core
 {
     public class ApplicationUser : IdentityUser
     {

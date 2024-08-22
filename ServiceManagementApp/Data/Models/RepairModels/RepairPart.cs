@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ServiceManagementApp.Data.Models.Wherehouse;
 
-namespace ServiceManagementApp.Data.Models.Repair.Repair
+namespace ServiceManagementApp.Data.Models.RepairModels
 {
     public class RepairPart
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServiceManagementApp.Data.Models
+namespace ServiceManagementApp.Data.Models.Core
 {
     public class Email
     {

@@ -1,7 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ServiceManagementApp.Data.Enums;
+using ServiceManagementApp.Data.Models.Core;
+using ServiceManagementApp.Data.Models.RepairModels;
+using ServiceManagementApp.Data.Models.RequestModels;
 
-namespace ServiceManagementApp.Data.Models.Service
+namespace ServiceManagementApp.Data.Models.ServiceModels
 {
     public class Employee
     {
@@ -10,7 +14,7 @@ namespace ServiceManagementApp.Data.Models.Service
         [Required]
         public string FullName { get; set; } = null!;
         [Required]
-        public string Position { get; set; } = null!;
+        public Position Position { get; set; }
 
         [ForeignKey(nameof(PhoneId))]
         public int PhoneId { get; set; }
@@ -22,6 +26,12 @@ namespace ServiceManagementApp.Data.Models.Service
 
         public string? EGN { get; set; }
 
+        [ForeignKey(nameof(ServiceId))]
+        public int ServiceId { get; set; }
+        public Service Service { get; set; } = null!;
+
+        ICollection<Repair>? Repairs { get; set; } = new HashSet<Repair>();
+        ICollection<ServiceRequest>? ServiceRequests { get; set; } = new HashSet<ServiceRequest>();
 
         public bool IsCertifiedForCashRegisterRepair { get; set; } = false;
     }

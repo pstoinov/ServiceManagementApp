@@ -1,8 +1,9 @@
 ﻿using ServiceManagementApp.Data.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
+using ServiceManagementApp.Data.Models.ServiceModels;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ServiceManagementApp.Data.Models.Service
+namespace ServiceManagementApp.Data.Models.RequestModels
 {
     public class ServiceRequest
     {

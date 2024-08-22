@@ -1,4 +1,4 @@
-﻿namespace ServiceManagementApp.Data.Models.Client
+﻿namespace ServiceManagementApp.Data.Models.ClientModels
 {
     public class ClientCompany
     {

@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ServiceManagementApp.Data.Models.Core;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Net;
-using System.Numerics;
+using ServiceManagementApp.Data.Models.ClientModels;
 
-namespace ServiceManagementApp.Data.Models.Service
+namespace ServiceManagementApp.Data.Models.ServiceModels
 {
     public class Service
     {
@@ -30,8 +30,8 @@ namespace ServiceManagementApp.Data.Models.Service
         public int EmailId { get; set; }
         public Email Email { get; set; } = null!;
 
-        public ICollection<Employee> Employees { get; set; } = new List<Employee>();
+        public ICollection<Employee>? Employees { get; set; } = new List<Employee>();
 
-        public ICollection<Client> Clients { get; set; } = new List<Client>();
+        public ICollection<Client>? Clients { get; set; } = new List<Client>();
     }
 }

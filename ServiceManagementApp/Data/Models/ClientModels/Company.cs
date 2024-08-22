@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ServiceManagementApp.Data.Models.Service;
+using ServiceManagementApp.Data.Models.Core;
+using ServiceManagementApp.Data.Models.RepairModels;
+using ServiceManagementApp.Data.Models.RequestModels;
 
-namespace ServiceManagementApp.Data.Models.Client
+namespace ServiceManagementApp.Data.Models.ClientModels
 {
     public class Company
     {

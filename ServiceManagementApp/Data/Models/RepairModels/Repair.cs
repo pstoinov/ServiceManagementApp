@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using ServiceManagementApp.Data.Models.Client;
-using ServiceManagementApp.Data.Models.Service;
+using ServiceManagementApp.Data.Models.ClientModels;
+using ServiceManagementApp.Data.Models.ServiceModels;
 
-namespace ServiceManagementApp.Data.Models.Repair
+namespace ServiceManagementApp.Data.Models.RepairModels
 {
     public class Repair
     {
@@ -40,7 +40,7 @@ namespace ServiceManagementApp.Data.Models.Repair
         [Required]
         public int EmployeeId { get; set; }
         [ForeignKey(nameof(EmployeeId))]
-        public Employee Employee { get; set; }
+        public Employee Employee { get; set; } = null!;
 
         public int? CompanyId { get; set; } // Поле за фирма, не е задължително
         [ForeignKey(nameof(CompanyId))]

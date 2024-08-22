@@ -1,11 +1,10 @@
-﻿using Azure.Identity;
-using ServiceManagementApp.Data.Enums;
-using ServiceManagementApp.Data.Models.Client;
-using ServiceManagementApp.Data.Models.Service;
+﻿using ServiceManagementApp.Data.Enums;
+using ServiceManagementApp.Data.Models.ClientModels;
+using ServiceManagementApp.Data.Models.ServiceModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ServiceManagementApp.Data.Models
+namespace ServiceManagementApp.Data.Models.RepairModels
 {
     public class CashRegisterRepair
     {
@@ -15,7 +14,7 @@ namespace ServiceManagementApp.Data.Models
         [Required]
         public DateTime EndRepairDate { get; set; }
         [Required]
-        public DateTime TakenByClient {  get; set; }
+        public DateTime TakenByClient { get; set; }
         [Required]
         public string DescriptionOfProblem { get; set; } = null!;
         [Required]
