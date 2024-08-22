@@ -19,6 +19,7 @@ namespace ServiceManagementApp.Data.Models
         public string DescriptionOfProblem { get; set; } = null!;
         [Required]
         public string DescriptionOfRepair { get; set; } = null!;
+        [ForeignKey(nameof(CashRegisterId))]
         public int CashRegisterId { get; set; }
         public CashRegister CashRegister { get; set; } = null!;
         public bool IsDisposed { get; set; } = false;
@@ -26,8 +27,10 @@ namespace ServiceManagementApp.Data.Models
         public string LastReportBeforeRepair { get; set; } = null!;
         public int NumberOfReceiptsDuringRepair { get; set; }
         public string LastReportAfterRepair { get; set; } = null!;
+        [ForeignKey(nameof(EmployeeId))]
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; } = null!;
+        public ICollection<RepairPart>? RepairPart { get; set; } = new List<RepairPart>();
         public bool IsFiscalMemoryRemoved { get; set; } = false;  // Индикация за демонтаж на фискалната памет
         public string? NewFiscalMemoryNumber { get; set; }  // Номер на новата фискална памет, ако е подменена
         public FiscalMemoryRemovalReason? FiscalMemoryRemovalReason { get; set; }  // Причина за демонтаж на фискалната памет

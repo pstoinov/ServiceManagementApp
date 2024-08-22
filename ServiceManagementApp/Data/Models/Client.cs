@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceManagementApp.Data.Models
 {
@@ -9,10 +10,10 @@ namespace ServiceManagementApp.Data.Models
         [Required]
         [MaxLength(255)]
         public string FullName { get; set; } = null!;
-
+        [ForeignKey(nameof(PhoneId))]
         public int PhoneId { get; set; }
         public Phone? Phone { get; set; }
-
+        [ForeignKey(nameof(EmailId))]
         public int EmailId { get; set; }
         public Email? Email { get; set; }
 

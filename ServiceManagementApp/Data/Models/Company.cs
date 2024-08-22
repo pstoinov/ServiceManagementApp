@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceManagementApp.Data.Models
 {
@@ -17,16 +18,17 @@ namespace ServiceManagementApp.Data.Models
         [MaxLength(15)]
         public string? VATNumber { get; set; }
         [Required]
+        [ForeignKey(nameof(AddressId))]
         public int AddressId { get; set; }
         public Address Address { get; set; } = null!;
         
         [Required]
         [MaxLength(255)]
         public string Manager { get; set; } = null!;
-
+        [ForeignKey(nameof(PhoneId))]
         public int PhoneId { get; set; }
         public Phone Phone { get; set; } = null!;
-
+        [ForeignKey(nameof(EmailId))]
         public int EmailId { get; set; }
         public Email Email { get; set; } = null!;
         public ICollection<ClientCompany> ClientCompanies { get; set; } = new List<ClientCompany>();

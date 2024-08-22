@@ -12,16 +12,12 @@ namespace ServiceManagementApp.Data.Models
         [Required]
         public string Position { get; set; } = null!;
 
-        [Required]
-        public int PhoneId { get; set; }
-
         [ForeignKey(nameof(PhoneId))]
+        public int PhoneId { get; set; }
         public Phone EmployeePhoneNumber { get; set; } = null!;
 
-        [Required]
-        public int EmailId { get; set; }
-
         [ForeignKey(nameof(EmailId))]
+        public int EmailId { get; set; }
         public Email EmployeeEmailAddress { get; set; } = null!;
 
         public string? EGN { get; set; }
