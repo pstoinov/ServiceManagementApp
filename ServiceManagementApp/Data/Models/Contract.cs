@@ -23,16 +23,16 @@ namespace ServiceManagementApp.Data.Models
 
         [Required]
         public int CompanyId { get; set; }
-        [ForeignKey("CompanyId")]
+        [ForeignKey(nameof(CompanyId))]
         public Company Company { get; set; } = null!;
 
         [Required]
         public int ServiceId { get; set; }
-        [ForeignKey("ServiceId")]
+        [ForeignKey(nameof(ServiceId))]
         public Service Service { get; set; } = null!;
 
         public int CashRegisterId { get; set; }
-        [ForeignKey("CashRegisterId")]
+        [ForeignKey(nameof(CashRegisterId))]
         public CashRegister CashRegister { get; set; } = null!;
     }
 }

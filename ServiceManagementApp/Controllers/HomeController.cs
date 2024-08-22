@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ServiceManagementApp.Models;
+using ServiceManagementApp.Data.Models;
 using System.Diagnostics;
 
 namespace ServiceManagementApp.Controllers

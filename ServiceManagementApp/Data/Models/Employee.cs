@@ -15,13 +15,13 @@ namespace ServiceManagementApp.Data.Models
         [Required]
         public int PhoneId { get; set; }
 
-        [ForeignKey("PhoneId")]
+        [ForeignKey(nameof(PhoneId))]
         public Phone EmployeePhoneNumber { get; set; } = null!;
 
         [Required]
         public int EmailId { get; set; }
 
-        [ForeignKey("EmailId")]
+        [ForeignKey(nameof(EmailId))]
         public Email EmployeeEmailAddress { get; set; } = null!;
 
         public string? EGN { get; set; }

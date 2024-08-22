@@ -11,13 +11,17 @@ namespace ServiceManagementApp.Data.Models
         public int Id { get; set; }
 
         [Required]
+        public int ServiceId { get; set; }
+        [ForeignKey(nameof(ServiceId))]
+        public Service Service { get; set; } = null!;
+        [Required]
         public int CompanyId { get; set; }
-        [ForeignKey("CompanyId")]
+        [ForeignKey(nameof(CompanyId))]
         public Company Company { get; set; } = null!;
 
         [Required]
         public int AddressId { get; set; }
-        [ForeignKey("AddressId")]
+        [ForeignKey(nameof(AddressId))]
         public Address Address { get; set; } = null!;
 
         [Required]
@@ -29,12 +33,12 @@ namespace ServiceManagementApp.Data.Models
 
         [Required]
         public int SiteAddressId { get; set; }
-        [ForeignKey("SiteAddressId")]
+        [ForeignKey(nameof(SiteAddressId))]
         public Address SiteAddress { get; set; } = null!;
 
         [Required]
         public int ContactPhoneId { get; set; }
-        [ForeignKey("ContactPhoneId")]
+        [ForeignKey(nameof(ContactPhoneId))]
         public Phone ContactPhone { get; set; } = null!;
 
         [Required]

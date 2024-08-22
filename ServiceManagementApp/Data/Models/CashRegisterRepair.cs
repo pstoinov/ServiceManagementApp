@@ -1,19 +1,19 @@
 ﻿using Azure.Identity;
 using ServiceManagementApp.Data.Enums;
 using ServiceManagementApp.Data.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceManagementApp.Data.Models
 {
     public class CashRegisterRepair
     {
         public int Id { get; set; }
+        [Required]
         public DateTime StartRepairDate { get; set; }
         public DateTime EndRepairDate { get; set; }
-        /*TODO да се добави Описание на Дефекта
-         * сервизна фирма
-         * отстранена ли е пломбата
-         * дата и час на приемане от клиента
-        */
+        public DateTime TakenByClient {  get; set; }
+        public string DescriptionOfProblem { get; set; } = null!;
         public string DescriptionOfRepair { get; set; } = null!;
         public int CashRegisterId { get; set; }
         public CashRegister CashRegister { get; set; } = null!;
