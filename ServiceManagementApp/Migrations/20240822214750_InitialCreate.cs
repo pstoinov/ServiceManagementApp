@@ -222,7 +222,7 @@ namespace ServiceManagementApp.Migrations
                     EIK = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     VATNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: false),
-                    Manager = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Manager = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
                     PhoneId = table.Column<int>(type: "int", nullable: false),
                     EmailId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -293,8 +293,7 @@ namespace ServiceManagementApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
                     CompanyId = table.Column<int>(type: "int", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: false),
-                    Manager = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SiteManager = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SiteName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     SiteAddressId = table.Column<int>(type: "int", nullable: false),
                     ContactPhoneId = table.Column<int>(type: "int", nullable: false),
@@ -302,8 +301,8 @@ namespace ServiceManagementApp.Migrations
                     Manufacturer = table.Column<int>(type: "int", nullable: false),
                     BIMCertificateNumber = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     SerialNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FiscalMemoryNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FDRIDNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FiscalMemoryNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    FDRIDNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     FirstRegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDisposed = table.Column<bool>(type: "bit", nullable: false),
                     IsRegistered = table.Column<bool>(type: "bit", nullable: false)
@@ -312,35 +311,29 @@ namespace ServiceManagementApp.Migrations
                 {
                     table.PrimaryKey("PK_CashRegisters", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CashRegisters_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_CashRegisters_Addresses_SiteAddressId",
                         column: x => x.SiteAddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CashRegisters_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CashRegisters_Phones_ContactPhoneId",
                         column: x => x.ContactPhoneId,
                         principalTable: "Phones",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CashRegisters_Services_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "Services",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -398,19 +391,19 @@ namespace ServiceManagementApp.Migrations
                         column: x => x.EmailId,
                         principalTable: "Emails",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Employees_Phones_PhoneId",
                         column: x => x.PhoneId,
                         principalTable: "Phones",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Employees_Services_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "Services",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -435,19 +428,19 @@ namespace ServiceManagementApp.Migrations
                         column: x => x.CashRegisterId,
                         principalTable: "CashRegisters",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Contracts_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Contracts_Services_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "Services",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -465,13 +458,13 @@ namespace ServiceManagementApp.Migrations
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ClientCompany_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -673,11 +666,6 @@ namespace ServiceManagementApp.Migrations
                 name: "IX_CashRegisterRepairs_EmployeeId",
                 table: "CashRegisterRepairs",
                 column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CashRegisters_AddressId",
-                table: "CashRegisters",
-                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CashRegisters_CompanyId",

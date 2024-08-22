@@ -228,9 +228,6 @@ namespace ServiceManagementApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
                     b.Property<string>("BIMCertificateNumber")
                         .IsRequired()
                         .HasMaxLength(6)
@@ -244,26 +241,22 @@ namespace ServiceManagementApp.Migrations
 
                     b.Property<string>("FDRIDNumber")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("FirstRegistrationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FiscalMemoryNumber")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<bool>("IsDisposed")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsRegistered")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Manager")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Manufacturer")
                         .HasColumnType("int");
@@ -284,14 +277,16 @@ namespace ServiceManagementApp.Migrations
                     b.Property<int>("SiteAddressId")
                         .HasColumnType("int");
 
+                    b.Property<string>("SiteManager")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SiteName")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
 
                     b.HasIndex("CompanyId");
 
@@ -378,8 +373,8 @@ namespace ServiceManagementApp.Migrations
 
                     b.Property<string>("Manager")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
 
                     b.Property<int>("PhoneId")
                         .HasColumnType("int");
@@ -872,37 +867,29 @@ namespace ServiceManagementApp.Migrations
 
             modelBuilder.Entity("ServiceManagementApp.Data.Models.ClientModels.CashRegister", b =>
                 {
-                    b.HasOne("ServiceManagementApp.Data.Models.Core.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ServiceManagementApp.Data.Models.ClientModels.Company", "Company")
                         .WithMany("CashRegisters")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.Core.Phone", "ContactPhone")
                         .WithMany()
                         .HasForeignKey("ContactPhoneId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.Core.Address", "SiteAddress")
                         .WithMany()
                         .HasForeignKey("SiteAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Address");
 
                     b.Navigation("Company");
 
@@ -941,13 +928,13 @@ namespace ServiceManagementApp.Migrations
                     b.HasOne("ServiceManagementApp.Data.Models.ClientModels.Client", "Client")
                         .WithMany("ClientCompanies")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.ClientModels.Company", "Company")
                         .WithMany("ClientCompanies")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -987,19 +974,19 @@ namespace ServiceManagementApp.Migrations
                     b.HasOne("ServiceManagementApp.Data.Models.ClientModels.CashRegister", "CashRegister")
                         .WithMany("Contracts")
                         .HasForeignKey("CashRegisterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.ClientModels.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CashRegister");
@@ -1098,19 +1085,19 @@ namespace ServiceManagementApp.Migrations
                     b.HasOne("ServiceManagementApp.Data.Models.Core.Email", "EmployeeEmailAddress")
                         .WithMany()
                         .HasForeignKey("EmailId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.Core.Phone", "EmployeePhoneNumber")
                         .WithMany()
                         .HasForeignKey("PhoneId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Service", "Service")
                         .WithMany("Employees")
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("EmployeeEmailAddress");

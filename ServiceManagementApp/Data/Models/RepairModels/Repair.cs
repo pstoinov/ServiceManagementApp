@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using ServiceManagementApp.Data.Models.ClientModels;
+﻿using ServiceManagementApp.Data.Models.ClientModels;
 using ServiceManagementApp.Data.Models.ServiceModels;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceManagementApp.Data.Models.RepairModels
 {

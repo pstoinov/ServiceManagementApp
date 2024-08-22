@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using ServiceManagementApp.Data.Models.Core;
+﻿using ServiceManagementApp.Data.Models.Core;
 using ServiceManagementApp.Data.Models.RepairModels;
 using ServiceManagementApp.Data.Models.RequestModels;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceManagementApp.Data.Models.ClientModels
 {
@@ -26,7 +26,7 @@ namespace ServiceManagementApp.Data.Models.ClientModels
         public Address Address { get; set; } = null!;
 
         [Required]
-        [MaxLength(255)]
+        [MaxLength(80)]
         public string Manager { get; set; } = null!;
         [ForeignKey(nameof(PhoneId))]
         public int PhoneId { get; set; }

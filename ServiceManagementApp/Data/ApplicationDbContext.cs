@@ -34,8 +34,85 @@ namespace ServiceManagementApp.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            
+
+            // CashRegister
+            modelBuilder.Entity<CashRegister>()
+            .HasOne(cr => cr.Service)
+            .WithMany()
+            .HasForeignKey(cr => cr.ServiceId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CashRegister>()
+                .HasOne(cr => cr.Company)
+                .WithMany(c => c.CashRegisters)
+                .HasForeignKey(cr => cr.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CashRegister>()
+                .HasOne(cr => cr.SiteAddress)
+                .WithMany()
+                .HasForeignKey(cr => cr.SiteAddressId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CashRegister>()
+                .HasOne(cr => cr.ContactPhone)
+                .WithMany()
+                .HasForeignKey(cr => cr.ContactPhoneId)
+                .OnDelete(DeleteBehavior.Restrict);
+           // Employee
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.Service)
+                .WithMany(s => s.Employees)
+                .HasForeignKey(e => e.ServiceId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.EmployeePhoneNumber)
+                .WithMany()
+                .HasForeignKey(e => e.PhoneId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.EmployeeEmailAddress)
+                .WithMany()
+                .HasForeignKey(e => e.EmailId)
+                .OnDelete(DeleteBehavior.Restrict);
+            //Contract
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.Service)
+                .WithMany() 
+                .HasForeignKey(c => c.ServiceId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.Company)
+                .WithMany() 
+                .HasForeignKey(c => c.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Contract>()
+                .HasOne(c => c.CashRegister)
+                .WithMany(cr => cr.Contracts) 
+                 .HasForeignKey(c => c.CashRegisterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ClientCompany
             modelBuilder.Entity<ClientCompany>()
                 .HasKey(cc => new { cc.ClientId, cc.CompanyId });
+
+            modelBuilder.Entity<ClientCompany>()
+                .HasOne(cc => cc.Client)
+                .WithMany(c => c.ClientCompanies)
+                .HasForeignKey(cc => cc.ClientId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            modelBuilder.Entity<ClientCompany>()
+                .HasOne(cc => cc.Company)
+                .WithMany(c => c.ClientCompanies)
+                .HasForeignKey(cc => cc.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

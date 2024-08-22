@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ServiceManagementApp.Data.Models.Wherehouse;
+﻿using ServiceManagementApp.Data.Models.Wherehouse;
+using System.ComponentModel.DataAnnotations;
 
 namespace ServiceManagementApp.Data.Models.RepairModels
 {

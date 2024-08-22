@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using ServiceManagementApp.Data.Models.ServiceModels;
 using System.ComponentModel.DataAnnotations;
-using ServiceManagementApp.Data.Models.ServiceModels;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceManagementApp.Data.Models.ClientModels
 {
@@ -31,7 +31,7 @@ namespace ServiceManagementApp.Data.Models.ClientModels
         public int ServiceId { get; set; }
         [ForeignKey(nameof(ServiceId))]
         public Service Service { get; set; } = null!;
-
+        [Required]
         public int CashRegisterId { get; set; }
         [ForeignKey(nameof(CashRegisterId))]
         public CashRegister CashRegister { get; set; } = null!;

@@ -21,13 +21,9 @@ namespace ServiceManagementApp.Data.Models.ClientModels
         [ForeignKey(nameof(CompanyId))]
         public Company Company { get; set; } = null!;
 
-        [Required]
-        public int AddressId { get; set; }
-        [ForeignKey(nameof(AddressId))]
-        public Address Address { get; set; } = null!;
 
         [Required]
-        public string Manager { get; set; } = null!;
+        public string SiteManager { get; set; } = null!;
 
         [Required]
         [MaxLength(255)]
@@ -58,11 +54,11 @@ namespace ServiceManagementApp.Data.Models.ClientModels
         public string SerialNumber { get; set; } = null!;
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(15)]
         public string FiscalMemoryNumber { get; set; } = null!;
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(10)]
         public string FDRIDNumber { get; set; } = null!;
 
         [Required]

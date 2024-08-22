@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using ServiceManagementApp.Data.Enums;
+﻿using ServiceManagementApp.Data.Enums;
 using ServiceManagementApp.Data.Models.Core;
 using ServiceManagementApp.Data.Models.RepairModels;
 using ServiceManagementApp.Data.Models.RequestModels;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceManagementApp.Data.Models.ServiceModels
 {
