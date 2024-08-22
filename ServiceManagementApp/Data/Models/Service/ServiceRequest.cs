@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace ServiceManagementApp.Data.Models
+namespace ServiceManagementApp.Data.Models.Service
 {
     public class ServiceRequest
     {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using ServiceManagementApp.Data.Enums;
 
-namespace ServiceManagementApp.Data.Models
+namespace ServiceManagementApp.Data.Models.Client
 {
     public class CashRegister
     {
@@ -25,7 +25,7 @@ namespace ServiceManagementApp.Data.Models
         public Address Address { get; set; } = null!;
 
         [Required]
-        public string Manager { get; set; } = null!; 
+        public string Manager { get; set; } = null!;
 
         [Required]
         [MaxLength(255)]
@@ -43,29 +43,29 @@ namespace ServiceManagementApp.Data.Models
 
         [Required]
         [MaxLength(100)]
-        public string RegionalNRAOffice { get; set; } = null!; 
+        public string RegionalNRAOffice { get; set; } = null!;
 
         [Required]
-        public Manufacturer Manufacturer { get; set; } 
+        public Manufacturer Manufacturer { get; set; }
         [Required]
         [MaxLength(6)]
-        public string BIMCertificateNumber { get; set; } = null!; 
+        public string BIMCertificateNumber { get; set; } = null!;
 
         [Required]
         [MaxLength(50)]
-        public string SerialNumber { get; set; } = null!; 
+        public string SerialNumber { get; set; } = null!;
 
         [Required]
         [MaxLength(50)]
-        public string FiscalMemoryNumber { get; set; } = null!; 
+        public string FiscalMemoryNumber { get; set; } = null!;
 
         [Required]
         [MaxLength(50)]
-        public string FDRIDNumber { get; set; } = null!; 
+        public string FDRIDNumber { get; set; } = null!;
 
         [Required]
         public DateTime FirstRegistrationDate { get; set; }
-        
+
         [Required]
         public bool IsDisposed { get; set; } = false;
         //TODO: Да се направи логика за дерегистрация

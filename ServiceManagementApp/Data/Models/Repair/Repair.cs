@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using ServiceManagementApp.Data.Models.Client;
+using ServiceManagementApp.Data.Models.Service;
 
-namespace ServiceManagementApp.Data.Models
+namespace ServiceManagementApp.Data.Models.Repair
 {
     public class Repair
     {
@@ -10,13 +12,13 @@ namespace ServiceManagementApp.Data.Models
 
         [Required]
         public DateTime StartRepairDate { get; set; }
-        
+
         [Required]
         public DateTime EndRepairDate { get; set; }
-        
+
         [Required]
         public DateTime TakenByClient { get; set; }
-        
+
         [Required]
         [MaxLength(1000)]
         public string ProblemDescription { get; set; } = null!; // Описание на проблема

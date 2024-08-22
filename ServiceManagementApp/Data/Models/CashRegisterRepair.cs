@@ -1,6 +1,7 @@
 ﻿using Azure.Identity;
 using ServiceManagementApp.Data.Enums;
-using ServiceManagementApp.Data.Models;
+using ServiceManagementApp.Data.Models.Client;
+using ServiceManagementApp.Data.Models.Service;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

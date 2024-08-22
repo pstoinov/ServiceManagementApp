@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using ServiceManagementApp.Data.Models.Service;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceManagementApp.Data.Models

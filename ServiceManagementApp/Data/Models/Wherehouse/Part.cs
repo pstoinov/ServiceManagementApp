@@ -1,4 +1,4 @@
-﻿namespace ServiceManagementApp.Data.Models
+﻿namespace ServiceManagementApp.Data.Models.Wherehouse
 {
     public class Part
     {
