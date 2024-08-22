@@ -10,9 +10,13 @@ namespace ServiceManagementApp.Data.Models
 
         [Required]
         public DateTime StartRepairDate { get; set; }
-
-        public DateTime? EndRepairDate { get; set; } // Може да бъде null, ако ремонтът не е приключил
-
+        
+        [Required]
+        public DateTime EndRepairDate { get; set; }
+        
+        [Required]
+        public DateTime TakenByClient { get; set; }
+        
         [Required]
         [MaxLength(1000)]
         public string ProblemDescription { get; set; } = null!; // Описание на проблема

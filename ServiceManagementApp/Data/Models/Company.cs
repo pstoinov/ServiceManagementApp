@@ -33,5 +33,7 @@ namespace ServiceManagementApp.Data.Models
         public Email Email { get; set; } = null!;
         public ICollection<ClientCompany> ClientCompanies { get; set; } = new List<ClientCompany>();
         public ICollection<CashRegister>? CashRegisters { get; set; } = new List<CashRegister>();
+        public ICollection<Repair>? Repairs { get; set; } = new List<Repair>();
+        public ICollection<ServiceRequest>? ServiceRequests { get; set; } = new List<ServiceRequest>();
     }
 }
