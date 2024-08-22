@@ -11,13 +11,18 @@ namespace ServiceManagementApp.Data.Models
         public int Id { get; set; }
         [Required]
         public DateTime StartRepairDate { get; set; }
+        [Required]
         public DateTime EndRepairDate { get; set; }
+        [Required]
         public DateTime TakenByClient {  get; set; }
+        [Required]
         public string DescriptionOfProblem { get; set; } = null!;
+        [Required]
         public string DescriptionOfRepair { get; set; } = null!;
         public int CashRegisterId { get; set; }
         public CashRegister CashRegister { get; set; } = null!;
         public bool IsDisposed { get; set; } = false;
+        public DisposalReason? DisposalReason { get; set; }
         public string LastReportBeforeRepair { get; set; } = null!;
         public int NumberOfReceiptsDuringRepair { get; set; }
         public string LastReportAfterRepair { get; set; } = null!;
