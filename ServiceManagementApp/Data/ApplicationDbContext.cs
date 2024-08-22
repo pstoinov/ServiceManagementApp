@@ -29,5 +29,13 @@ namespace ServiceManagementApp.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ServiceRequest> ServiceRequests { get; set; }
         public DbSet<Part> Parts { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ClientCompany>()
+                .HasKey(cc => new { cc.ClientId, cc.CompanyId });
+        }
     }
 }
