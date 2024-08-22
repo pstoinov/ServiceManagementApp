@@ -1,5 +1,6 @@
-﻿services:
+services:
   servicemanagementapp:
+    container_name: servicemanagementapp-container 
     image: servicemanagementcontainer
     build:
       context: .
@@ -13,9 +14,12 @@
       - mssqlserver
 
   mssqlserver:
+    container_name: mssqlserver-container  
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       SA_PASSWORD: "TestPass123!"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+
+  
