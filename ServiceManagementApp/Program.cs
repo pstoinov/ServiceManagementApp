@@ -27,6 +27,8 @@
 //app.Run();
 using Microsoft.EntityFrameworkCore;
 using ServiceManagementApp.Data;
+using ServiceManagementApp.Interfaces;
+using ServiceManagementApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //.AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IPdfService, PdfService>();
 
 var app = builder.Build();
 

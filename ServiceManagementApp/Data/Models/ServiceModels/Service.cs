@@ -30,6 +30,9 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
         public int EmailId { get; set; }
         public Email Email { get; set; } = null!;
 
+        [MaxLength(2083)]
+        public string? LogoUrl { get; set; }
+
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
         public ICollection<Client> Clients { get; set; } = new List<Client>();
