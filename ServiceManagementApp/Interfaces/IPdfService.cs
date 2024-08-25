@@ -4,6 +4,7 @@
     {
         byte[] GenerateSimplePdf();
         byte[] GenerateContractPdf(int contractId);
+        byte[] GenerateCashRegisterRepairAcceptanceForm(int cashRegisterRepairId);
         //TODO to add more pdfs
     }
 }

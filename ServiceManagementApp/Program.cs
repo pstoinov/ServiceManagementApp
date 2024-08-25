@@ -25,6 +25,7 @@
 //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 //app.Run();
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ServiceManagementApp.Data;
 using ServiceManagementApp.Interfaces;
@@ -35,14 +36,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//services.AddDefaultIdentity<IdentityUser>()
+    //.AddEntityFrameworkStores<ApplicationDbContext>();
 
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//.AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPdfService, PdfService>();
+builder.Services.AddControllers();
+builder.Services.AddLogging();
 
 var app = builder.Build();
+
+// Добавяне на middleware за обработка на изключения
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseRouting();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
