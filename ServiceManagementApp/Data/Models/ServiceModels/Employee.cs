@@ -31,6 +31,8 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
         public Service Service { get; set; } = null!;
 
         ICollection<Repair>? Repairs { get; set; } = new HashSet<Repair>();
+        ICollection<CashRegisterRepair>? CashRegisterRepairs { get; set; } = new HashSet<CashRegisterRepair>();
+
         ICollection<ServiceRequest>? ServiceRequests { get; set; } = new HashSet<ServiceRequest>();
 
         public bool IsCertifiedForCashRegisterRepair { get; set; } = false;

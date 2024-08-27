@@ -11,6 +11,8 @@ using ServiceManagementApp.Data;
 using Microsoft.EntityFrameworkCore;
 using iText.IO.Image;
 using ServiceManagementApp.Data.Models.RepairModels;
+using iText.IO.Font.Constants;
+using iText.Kernel.Font;
 
 namespace ServiceManagementApp.Services
 {
@@ -126,30 +128,101 @@ namespace ServiceManagementApp.Services
                 return stream.ToArray();
             }
         }
+        public byte[] GenerateCashRegisterRepairAcceptanceForm(int cashRegisterRepairId)
+        {
+            using (var stream = new MemoryStream())
+            {
+                PdfWriter writer = new PdfWriter(stream);
+                PdfDocument pdf = new PdfDocument(writer);
+                Document document = new Document(pdf);
 
-                //private byte[] GeneratePdf(Action<Document> contentGenerator)
-                //{
-                //    using (var stream = new MemoryStream())
-                //    {
-                //        PdfWriter writer = new PdfWriter(stream);
-                //        PdfDocument pdf = new PdfDocument(writer);
-                //        Document document = new Document(pdf);
+                // Извличане на данни от базата
+                var repair = _context.CashRegisterRepairs
+                    .Include(r => r.CashRegister)
+                        .ThenInclude(cr => cr.Manufacturer)
+                    .Include(r => r.CashRegister)
+                        .ThenInclude(cr => cr.Company)
+                    .Include(r => r.CashRegister)
+                        .ThenInclude(cr => cr.Service)
+                    .FirstOrDefault(r => r.Id == cashRegisterRepairId);
 
-                //        // Добавяне на хедър
-                //        AddHeader(document, "path/to/logo.png", "Име на фирма", "Адрес на фирмата", "Телефон и Email");
+                if (repair == null)
+                {
+                    throw new Exception("Repair not found.");
+                }
 
-                //        // Генериране на съдържание чрез делегат
-                //        contentGenerator(document);
+                // Извличане на информация за клиента
+                var company = repair.CashRegister.Company;
+                var clientName = company?.Manager ?? "Неизвестен клиент";  // Използваме името на мениджъра като представител на клиента
+                var manufacturerName = repair.CashRegister.Manufacturer;
+                var serialNumber = repair.CashRegister.SerialNumber;
+                var companyName = company?.CompanyName ?? "Неизвестна компания";
+                var serviceName = repair.CashRegister.Service.ServiceName;
+                var descriptionOfProblem = repair.DescriptionOfProblem;
 
-                //        // Добавяне на футър
-                //        AddFooter(document, "Този документ е генериран от софтуер за управление на сервизи.", "© 2024 Вашата Фирма. Всички права запазени.");
+                // Шрифтове
+                PdfFont boldFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
+                PdfFont regularFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
 
-                //        document.Close();
-                //        return stream.ToArray();
-                //    }
-                //}
+                // Заглавие
+                Paragraph title = new Paragraph("Приемо-Предавателен протокол")
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(boldFont)
+                    .SetFontSize(18);
+                document.Add(title);
 
-                public byte[] GenerateContractPdf(int contractId)
+                // Номер и дата
+                Paragraph numberAndDate = new Paragraph($"Номер: {repair.Id} / от дата: {repair.StartRepairDate.ToShortDateString()}")
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(regularFont)
+                    .SetFontSize(14);
+                document.Add(numberAndDate);
+
+                // Информация за клиента и касовия апарат
+                Paragraph clientInfo = new Paragraph($"Днес, {clientName} остави касов апарат {manufacturerName} със сериен номер {serialNumber}, собственост на {companyName} в сервиза на {serviceName}, със следният проблем: {descriptionOfProblem}.")
+                    .SetTextAlignment(TextAlignment.LEFT)
+                    .SetFont(regularFont)
+                    .SetFontSize(14);
+                document.Add(clientInfo);
+
+                // Добавяне на празен ред за разстояние
+                document.Add(new Paragraph("\n\n"));
+
+                // Подписи - Приел: ... и Предал: ...
+                Table signatureTable = new Table(2).UseAllAvailableWidth();
+                signatureTable.AddCell(new Cell().Add(new Paragraph("Приел: ..................").SetFont(regularFont).SetFontSize(12)).SetBorder(Border.NO_BORDER));
+                signatureTable.AddCell(new Cell().Add(new Paragraph("Предал: ..................").SetFont(regularFont).SetFontSize(12)).SetTextAlignment(TextAlignment.RIGHT).SetBorder(Border.NO_BORDER));
+
+                document.Add(signatureTable);
+
+                // Финализиране на документа
+                document.Close();
+                return stream.ToArray();
+            }
+        }
+
+        //private byte[] GeneratePdf(Action<Document> contentGenerator)
+            //{
+            //    using (var stream = new MemoryStream())
+            //    {
+            //        PdfWriter writer = new PdfWriter(stream);
+            //        PdfDocument pdf = new PdfDocument(writer);
+            //        Document document = new Document(pdf);
+
+            //        // Добавяне на хедър
+            //        AddHeader(document, "path/to/logo.png", "Име на фирма", "Адрес на фирмата", "Телефон и Email");
+
+            //        // Генериране на съдържание чрез делегат
+            //        contentGenerator(document);
+
+            //        // Добавяне на футър
+            //        AddFooter(document, "Този документ е генериран от софтуер за управление на сервизи.", "© 2024 Вашата Фирма. Всички права запазени.");
+
+            //        document.Close();
+            //        return stream.ToArray();
+            //    }
+            //}
+        public byte[] GenerateContractPdf(int contractId)
         {
 
             using (var stream = new MemoryStream())
@@ -165,9 +238,6 @@ namespace ServiceManagementApp.Services
                 return stream.ToArray();
             }
         }
-
-
-
 
         public byte[] GenerateSimplePdf()
         {
