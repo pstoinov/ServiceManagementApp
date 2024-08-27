@@ -36,7 +36,7 @@ public class ExceptionHandlingMiddleware
         var result = new
         {
             error = "Възникна вътрешна грешка в сървъра.",
-            details = exception.Message // Може да се премахне в продукция за сигурност
+            details = exception.Message // TODO Може да се премахне в продукция за сигурност
         };
 
         return context.Response.WriteAsJsonAsync(result);
