@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Ремонти";
+}
+
+<h2>Ремонти</h2>
+
+@section Sidebar {
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" asp-action="CurrentRepairs">Текущи ремонти</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-action="History">История</a>
+        </li>
+    </ul>
+}

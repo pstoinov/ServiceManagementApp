@@ -56,6 +56,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
 builder.Services.AddScoped<IPdfService, PdfService>();
 builder.Services.AddControllers();
 builder.Services.AddLogging();
@@ -114,7 +117,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//app.MapRazorPages();
+app.MapRazorPages();
 
 app.Run();
 

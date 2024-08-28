@@ -1,4 +1,7 @@
 ﻿@model ServiceManagementApp.ViewModels.RegisterViewModel
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 
 <div class="container">
     <div class="row justify-content-center">
@@ -19,7 +22,7 @@
                             <label asp-for="ConfirmPassword"></label>
                             <input asp-for="ConfirmPassword" class="form-control" />
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Register</button>
                     </form>
                 </div>
             </div>

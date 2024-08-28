@@ -1,26 +1,62 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
     margin-bottom: 60px;
     background-color: #ffffff;
     color: #000000;
+}
+
+/* Обща навигация */
+.navbar {
+    background-color: #ffffff; /* Основен фон за светлата тема */
+    color: #000000;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    .navbar .nav-link {
+        color: #000000; /* Основен цвят на текста в светлата тема */
+        transition: color 0.3s ease;
+    }
+
+/* Стилове за активния таб и hover */
+.navbar-nav .nav-item {
+    margin-right: 10px; /* Малко разстояние между табовете */
+}
+
+.navbar-nav .nav-link {
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.navbar-nav .nav-item.active .nav-link {
+    background-color: #258cfb !important; /* Цветът на активния таб */
+    color: #ffffff !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important; /* Леко изпъкване чрез сенки */
+    border-radius: 8px !important;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 8px;
 }
 
 /* Тъмна тема */
@@ -30,17 +66,73 @@ body {
         color: #ffffff;
     }
 
-    /* TODO в следваща версия на приложението да се добави логика за предпочитания на темата от самото приложение */
     .navbar {
-        background-color: #333333;
-        color: #ffffff;
+        background-color: #333333 !important;
+        color: #ffffff !important;
     }
+
+        .navbar .nav-link {
+            color: #ffffff !important;
+        }
+
+            .navbar .nav-link:hover {
+                color: #bbbbff !important;
+            }
 
     .container {
-        background-color: #1e1e1e;
+        background-color: #1e1e1e !important;
     }
 
-    a {
-        color: #bbbbff;
+    .sidebar {
+        background-color: #1e1e1e !important;
+        color: #ffffff !important;
+        border: none !important;
     }
+
+        .sidebar a {
+            color: #bbbbff !important;
+        }
+
+            .sidebar a:hover {
+                color: #ffffff !important;
+            }
+
+    /* Footer */
+    footer {
+        background-color: #333333 !important;
+        color: #ffffff !important;
+        text-align: center !important;
+        padding: 10px 0 !important;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+/* Стилове за футъра */
+footer {
+    background-color: #333333; /* Цветът на фона на футъра */
+    color: #ffffff; /* Цветът на текста във футъра */
+    text-align: center; /* Центриране на текста */
+    padding: 10px 0; /* Вътрешни отстояния отгоре и отдолу */
+    position: fixed; /* Закрепване на футъра в долната част на страницата */
+    bottom: 0; /* Разположение в долната част на страницата */
+    width: 100%; /* Покрива цялата ширина на екрана */
+    z-index: 1000; /* Уверява се, че футърът е над всички други елементи */
+}
+
+body {
+    margin-bottom: 60px; /* Добавя място в долната част на страницата, за да се избегне припокриване с футъра */
+}
+
+.sidebar {
+    width: 190px; /* Задава ширината на страничната лента */
+}
+
+    .sidebar .nav-item {
+        width: 100%; /* Уверява се, че елементите в страничната лента заемат цялата ширина */
+    }
+
+.container {
+    margin-left: 210px; /* Регулира отстоянието на основното съдържание спрямо страничната лента */
 }
