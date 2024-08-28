@@ -18,5 +18,29 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* Тъмна тема */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #ffffff;
+    }
+
+    /* TODO в следваща версия на приложението да се добави логика за предпочитания на темата от самото приложение */
+    .navbar {
+        background-color: #333333;
+        color: #ffffff;
+    }
+
+    .container {
+        background-color: #1e1e1e;
+    }
+
+    a {
+        color: #bbbbff;
+    }
 }

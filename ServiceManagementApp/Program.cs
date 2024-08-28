@@ -34,10 +34,22 @@ using ServiceManagementApp.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //services.AddDefaultIdentity<IdentityUser>()
-    //.AddEntityFrameworkStores<ApplicationDbContext>();
+//.AddEntityFrameworkStores<ApplicationDbContext>();
+
+// БАЗА ДАННИ ЗА РАЗРАБОТКА
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseInMemoryDatabase("TestDatabase")); // Използва in-memory база данни в development среда
+}
+else
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -50,7 +62,35 @@ builder.Services.AddLogging();
 
 var app = builder.Build();
 
-// Добавяне на middleware за обработка на изключения
+var scope = app.Services.CreateScope();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+string adminRole = "Admin";
+string adminEmail = "admin@example.com";
+string adminPassword = "Admin123!";
+
+// Проверка дали ролята "Admin" съществува и създаване, ако не съществува
+if (!await roleManager.RoleExistsAsync(adminRole))
+{
+    await roleManager.CreateAsync(new IdentityRole(adminRole));
+}
+
+// Проверка дали администраторският потребител съществува и създаване, ако не съществува
+var adminUser = await userManager.FindByEmailAsync(adminEmail);
+if (adminUser == null)
+{
+    adminUser = new IdentityUser
+    {
+        UserName = adminEmail,
+        Email = adminEmail,
+        EmailConfirmed = true,
+    };
+    await userManager.CreateAsync(adminUser, adminPassword);
+    await userManager.AddToRoleAsync(adminUser, adminRole);
+}
+
+// middleware за обработка на exceptions
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseRouting();
 
