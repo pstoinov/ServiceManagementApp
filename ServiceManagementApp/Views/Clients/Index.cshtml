@@ -19,7 +19,14 @@
                 <td>@client.Phone</td>
                 <td>@client.Email</td>
                 <td>
-                    <!-- Добави действия като редактиране и изтриване -->
+                    <!-- Икона за добавяне на фирма -->
+                    <a href="#" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addCompanyModal" data-client-id="@client.Id" title="Добави фирма">
+                        <i class="fas fa-plus-circle"></i>
+                    </a>
+                    <!-- Икона за редактиране на клиент -->
+                    <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editClientModal" data-client-id="@client.Id" title="Редактирай клиент">
+                        <i class="fas fa-edit"></i>
+                    </a>
                 </td>
             </tr>
         }
@@ -27,6 +34,7 @@
 </table>
 
 <a class="btn btn-primary" asp-action="Create">Нов клиент</a>
+
 @section sidebar {
     <div class="sidebar">
         <ul class="nav flex-column">
@@ -42,3 +50,56 @@
         </ul>
     </div>
 }
+
+<!-- Модал за добавяне на фирма -->
+<div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addCompanyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCompanyModalLabel">Добавяне на фирма</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addCompanyForm">
+                    <!-- Полета за фирма -->
+                    <div class="form-group">
+                        <label for="companyName">Име на фирма</label>
+                        <input type="text" class="form-control" id="companyName" required>
+                    </div>
+                    <!-- Добави още полета за фирма -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Откажи</button>
+                <button type="button" class="btn btn-primary" id="saveCompanyBtn">Запази</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модал за редактиране на клиент -->
+<div class="modal fade" id="editClientModal" tabindex="-1" aria-labelledby="editClientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editClientModalLabel">Редактиране на клиент</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editClientForm">
+                    <!-- Полета за клиент -->
+                    <div class="form-group">
+                        <label for="clientName">Име на клиент</label>
+                        <input type="text" class="form-control" id="clientName" required>
+                    </div>
+                    <!-- Добави още полета за клиент -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Откажи</button>
+                <button type="button" class="btn btn-primary" id="saveClientBtn">Запази</button>
+            </div>
+        </div>
+    </div>
+</div>
+

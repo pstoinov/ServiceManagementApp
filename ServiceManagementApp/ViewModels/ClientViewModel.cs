@@ -4,6 +4,7 @@ namespace ServiceManagementApp.ViewModels
 {
     public class ClientViewModel
     {
+        public int Id { get; set; }
         [Required]
         public string FullName { get; set; } = null!;
         public string? Phone { get; set; }

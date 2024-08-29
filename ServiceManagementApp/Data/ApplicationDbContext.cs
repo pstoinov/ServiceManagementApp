@@ -29,6 +29,8 @@ namespace ServiceManagementApp.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ServiceRequest> ServiceRequests { get; set; }
         public DbSet<Part> Parts { get; set; }
+        public DbSet<ClientCompany> ClientCompanies { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
