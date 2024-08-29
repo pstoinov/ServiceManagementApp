@@ -1,38 +1,19 @@
-﻿$(document).ready(function () {
-    // Bind the add company modal
-    $('#addCompanyModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var clientId = button.data('client-id'); // Extract info from data-* attributes
-        var modal = $(this);
-        modal.find('#clientId').val(clientId); // Insert clientId into hidden field
-    });
+﻿// Премахни този код от JavaScript файла
+$('#editClientModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var clientId = button.data('client-id'); // Extract info from data-* attributes
+    var modal = $(this);
 
-    // Bind the edit company modal
-    $('#editCompanyModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var companyId = button.data('company-id'); // Extract info from data-* attributes
-        var modal = $(this);
-
-        // Perform AJAX request to get company details
-        $.ajax({
-            url: '/Clients/GetCompanyDetails/' + companyId,
-            type: 'GET',
-            success: function (data) {
-                modal.find('#editCompanyId').val(data.id);
-                modal.find('#editCompanyName').val(data.companyName);
-                modal.find('#editEIK').val(data.eik);
-                // Add more fields as needed
-            }
-        });
-    });
-
-    // Save company
-    $('#saveCompanyBtn').on('click', function () {
-        $('#addCompanyForm').submit();
-    });
-
-    // Save edited company
-    $('#saveEditCompanyBtn').on('click', function () {
-        $('#editCompanyForm').submit();
+    // Perform AJAX request to get client details
+    $.ajax({
+        url: '/Clients/GetClientDetails/' + clientId,
+        type: 'GET',
+        success: function (data) {
+            modal.find('#clientId').val(data.id);
+            modal.find('#clientName').val(data.fullName);
+            modal.find('#clientPhone').val(data.phone);
+            modal.find('#clientEmail').val(data.email);
+            // Add more fields as needed
+        }
     });
 });

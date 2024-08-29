@@ -24,7 +24,7 @@
                         <i class="fas fa-plus-circle"></i>
                     </a>
                     <!-- Икона за редактиране на клиент -->
-                    <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editClientModal" data-client-id="@client.Id" title="Редактирай клиент">
+                    <a href="@Url.Action("Edit", "Clients", new { id = client.Id })" class="btn btn-sm btn-info" title="Редактирай клиент">
                         <i class="fas fa-edit"></i>
                     </a>
                 </td>

@@ -10,5 +10,7 @@ namespace ServiceManagementApp.ViewModels
         public string? Phone { get; set; }
         [EmailAddress(ErrorMessage = "Моля, въведете валиден имейл адрес.")]
         public string? Email { get; set; }
+
+        public List<CompanyViewModel> Companies { get; set; } = new List<CompanyViewModel>();
     }
 }

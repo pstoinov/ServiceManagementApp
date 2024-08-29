@@ -27,8 +27,8 @@
         {
             <li>
                 @company.CompanyName - @company.EIK
-                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editCompanyModal" data-company-id="@company.Id">Редактирай</button>
-                <button type="button" class="btn btn-sm btn-danger" data-company-id="@company.Id">Изтрий</button>
+                <a href="@Url.Action("EditCompany", new { companyId = company.Id })" class="btn btn-sm btn-info">Редактирай</a>
+                <a href="@Url.Action("DeleteCompany", new { companyId = company.Id })" class="btn btn-sm btn-danger">Изтрий</a>
             </li>
         }
     </ul>
@@ -36,80 +36,4 @@
     <button type="submit" class="btn btn-primary">Запази промените</button>
 </form>
 
-<!-- Add Company Modal -->
-<div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addCompanyModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addCompanyModalLabel">Добави Фирма</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addCompanyForm" action="/Clients/AddCompany" method="post">
-                    <input type="hidden" name="ClientId" id="clientId" value="@Model.Id" />
-                    <div class="form-group">
-                        <label for="companyName">Име на фирма</label>
-                        <input type="text" class="form-control" id="companyName" name="CompanyName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="eik">ЕИК</label>
-                        <input type="text" class="form-control" id="eik" name="EIK" required>
-                    </div>
-                    <!-- Add more fields as needed -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
-                <button type="button" id="saveCompanyBtn" class="btn btn-primary">Запази</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit Company Modal -->
-<div class="modal fade" id="editCompanyModal" tabindex="-1" aria-labelledby="editCompanyModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyModalLabel">Редактирай Фирма</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editCompanyForm" action="/Clients/EditCompany" method="post">
-                    <input type="hidden" name="CompanyId" id="editCompanyId" />
-                    <div class="form-group">
-                        <label for="editCompanyName">Име на фирма</label>
-                        <input type="text" class="form-control" id="editCompanyName" name="CompanyName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editEIK">ЕИК</label>
-                        <input type="text" class="form-control" id="editEIK" name="EIK" required>
-                    </div>
-                    <!-- Add more fields as needed -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
-                <button type="button" id="saveEditCompanyBtn" class="btn btn-primary">Запази</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addCompanyModal">Добави фирма</a>
-
-@section sidebar {
-    <div class="sidebar">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Clients" asp-action="Index">Текущи клиенти</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Clients" asp-action="Create">Нов клиент</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Clients" asp-action="Reports">Справки</a>
-            </li>
-        </ul>
-    </div>
-}
+<a href="@Url.Action("AddCompany", new { clientId = Model.Id })" class="btn btn-secondary">Добави фирма</a>
