@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ServiceManagementApp.ViewModels.CompanyViewModel>
+
+<h2>List of Companies</h2>
+
+<input type="text" id="search" placeholder="Search by Company Name or EIK">
+
+<table>
+    <thead>
+        <tr>
+            <th>Company Name</th>
+            <th>EIK</th>
+            <th>VAT Number</th>
+            <th>Manager</th>
+            <th>Address</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var company in Model)
+        {
+            <tr>
+                <td>@company.CompanyName</td>
+                <td>@company.EIK</td>
+                <td>@company.VATNumber</td>
+                <td>@company.Manager</td>
+                <td>@company.AddressId</td>
+
+            </tr>
+        }
+    </tbody>
+</table>

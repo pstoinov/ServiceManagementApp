@@ -1,0 +1,49 @@
+﻿@using ServiceManagementApp.ViewModels
+@model ServiceManagementApp.ViewModels.CompanyViewModel
+
+<h2>Add New Company</h2>
+
+<form asp-action="Create" method="post">
+    <label for="companyName">Company Name:</label>
+    <input asp-for="CompanyName" required><br>
+
+    <label for="eik">EIK:</label>
+    <input asp-for="EIK" required><br>
+
+    <label for="vatNumber">VAT Number:</label>
+    <input asp-for="VATNumber"><br>
+
+    <label for="manager">Manager:</label>
+    <input asp-for="Manager" required><br>
+
+    <h3>Address</h3>
+    <label for="city">City:</label>
+    <input asp-for="City" required><br>
+
+    <label for="street">Street:</label>
+    <input asp-for="Street"><br>
+
+    <label for="number">Number:</label>
+    <input asp-for="Number"><br>
+
+    <label for="block">Block:</label>
+    <input asp-for="Block"><br>
+
+    <input type="submit" value="Add Company">
+</form>
+<!-- JavaScript for EIK validation -->
+@section Scripts {
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#EIK").blur(function(){
+                var eik = $(this).val();
+                $.post('/Company/CheckEIK', { EIK: eik }, function(data){
+                    if (!data) {
+                        alert('A company with this EIK already exists.');
+                    }
+                });
+            });
+        });
+    </script>
+}

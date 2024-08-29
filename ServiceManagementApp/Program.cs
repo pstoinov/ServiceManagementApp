@@ -32,6 +32,9 @@ using ServiceManagementApp.Interfaces;
 using ServiceManagementApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole(); // Добавете конзолно логване
+builder.Logging.AddDebug(); // Добавете логване за дебъг
 
 // Add services to the container.
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -47,7 +50,7 @@ var builder = WebApplication.CreateBuilder(args);
 //}
 //else
 //{
-  builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
       options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //}
 

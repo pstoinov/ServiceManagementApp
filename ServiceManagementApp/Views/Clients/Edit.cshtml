@@ -21,19 +21,5 @@
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
-    <h3>Свързани фирми</h3>
-    <ul>
-        @foreach (var company in Model.Companies)
-        {
-            <li>
-                @company.CompanyName - @company.EIK
-                <a href="@Url.Action("EditCompany", new { companyId = company.Id })" class="btn btn-sm btn-info">Редактирай</a>
-                <a href="@Url.Action("DeleteCompany", new { companyId = company.Id })" class="btn btn-sm btn-danger">Изтрий</a>
-            </li>
-        }
-    </ul>
-
     <button type="submit" class="btn btn-primary">Запази промените</button>
 </form>
-
-<a href="@Url.Action("AddCompany", new { clientId = Model.Id })" class="btn btn-secondary">Добави фирма</a>
