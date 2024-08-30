@@ -1,18 +1,15 @@
 ﻿@model IEnumerable<ServiceManagementApp.ViewModels.CompanyViewModel>
 
-<h2>List of Companies</h2>
+<h1>Списък с фирми</h1>
 
-<input type="text" id="search" placeholder="Search by Company Name or EIK">
-
-<table>
+<table class="table">
     <thead>
         <tr>
-            <th>Company Name</th>
-            <th>EIK</th>
+            <th>Име на фирма</th>
+            <th>ЕИК</th>
             <th>VAT Number</th>
-            <th>Manager</th>
-            <th>Address</th>
-
+            <th>Телефон</th>
+            <th>Email</th>
         </tr>
     </thead>
     <tbody>
@@ -22,10 +19,30 @@
                 <td>@company.CompanyName</td>
                 <td>@company.EIK</td>
                 <td>@company.VATNumber</td>
-                <td>@company.Manager</td>
-                <td>@company.AddressId</td>
-
+                <td>@company.Phone</td>
+                <td>@company.Email</td>
+                <td>
+                    <a href="@Url.Action("AssociateClient", "Companies", new { companyId = company.Id })" class="btn btn-sm btn-primary" title="Associate Client">
+                        <i class="fas fa-user-plus"></i> Associate Client
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section sidebar {
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Companies" asp-action="Index">Списък с фирми</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Companies" asp-action="Create">Създаване на фирма</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Companies" asp-action="Edit">Редакция на фирма</a>
+            </li>
+        </ul>
+    </div>
+}

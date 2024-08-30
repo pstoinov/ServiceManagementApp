@@ -1,49 +1,59 @@
-﻿@using ServiceManagementApp.ViewModels
-@model ServiceManagementApp.ViewModels.CompanyViewModel
+﻿@model ServiceManagementApp.ViewModels.CreateCompanyViewModel
 
-<h2>Add New Company</h2>
+<h1>Create New Company</h1>
 
 <form asp-action="Create" method="post">
-    <label for="companyName">Company Name:</label>
-    <input asp-for="CompanyName" required><br>
-
-    <label for="eik">EIK:</label>
-    <input asp-for="EIK" required><br>
-
-    <label for="vatNumber">VAT Number:</label>
-    <input asp-for="VATNumber"><br>
-
-    <label for="manager">Manager:</label>
-    <input asp-for="Manager" required><br>
-
-    <h3>Address</h3>
-    <label for="city">City:</label>
-    <input asp-for="City" required><br>
-
-    <label for="street">Street:</label>
-    <input asp-for="Street"><br>
-
-    <label for="number">Number:</label>
-    <input asp-for="Number"><br>
-
-    <label for="block">Block:</label>
-    <input asp-for="Block"><br>
-
-    <input type="submit" value="Add Company">
+    <div class="form-group">
+        <label asp-for="CompanyName"></label>
+        <input asp-for="CompanyName" class="form-control" />
+        <span asp-validation-for="CompanyName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EIK"></label>
+        <input asp-for="EIK" class="form-control" />
+        <span asp-validation-for="EIK" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="VATNumber"></label>
+        <input asp-for="VATNumber" class="form-control" />
+        <span asp-validation-for="VATNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Manager"></label>
+        <input asp-for="Manager" class="form-control" />
+        <span asp-validation-for="Manager" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmailAddress"></label>
+        <input asp-for="EmailAddress" class="form-control" />
+        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Address</label>
+        <div class="row">
+            <div class="col">
+                <input asp-for="City" class="form-control" placeholder="City" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <input asp-for="Street" class="form-control" placeholder="Street" />
+                <span asp-validation-for="Street" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <input asp-for="Number" class="form-control" placeholder="Number" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <input asp-for="Block" class="form-control" placeholder="Block" />
+                <span asp-validation-for="Block" class="text-danger"></span>
+            </div>
+           
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
 </form>
-<!-- JavaScript for EIK validation -->
-@section Scripts {
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $("#EIK").blur(function(){
-                var eik = $(this).val();
-                $.post('/Company/CheckEIK', { EIK: eik }, function(data){
-                    if (!data) {
-                        alert('A company with this EIK already exists.');
-                    }
-                });
-            });
-        });
-    </script>
-}

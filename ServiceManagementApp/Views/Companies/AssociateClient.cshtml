@@ -1,0 +1,16 @@
+﻿@model ServiceManagementApp.ViewModels.AssociateClientCompanyViewModel
+
+<h1>Associate Client with @Model.CompanyName</h1>
+
+<form asp-action="AssociateClient" method="post">
+    <input type="hidden" asp-for="CompanyId" />
+
+    <div class="form-group">
+        <label for="SelectedClientId">Select Client</label>
+        <select asp-for="SelectedClientId" asp-items="Model.Clients" class="form-control"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Associate Client</button>
+</form>
+
+@Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
