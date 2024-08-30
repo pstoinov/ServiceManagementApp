@@ -264,6 +264,32 @@ namespace ServiceManagementApp.Controllers
             return View(viewModel);
         }
 
+        public IActionResult Edit(int companyId)
+        {
+            var company = _context.Companies
+                .Include(c => c.Phone)
+                .Include(c => c.Email)
+                .FirstOrDefault(c => c.Id == companyId);
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new EditCompanyViewModel
+            {
+                Id = company.Id,
+                CompanyName = company.CompanyName,
+                EIK = company.EIK,
+                VATNumber = company.VATNumber,
+                Phone = company.Phone.PhoneNumber!,
+                Email = company.Email.EmailAddress!,
+                // Populate other fields as needed
+            };
+
+            return View(viewModel);
+        }
+
         public IActionResult Index()
         {
             var companies = _context.Companies
