@@ -30,13 +30,13 @@
         <input type="email" class="form-control" id="email" name="Email" value="@Model.Email" required />
     </div>
 
-    <h3>Associated Clients</h3>
+  @*   <h3>Associated Clients</h3>
     <ul id="clientsList">
         @foreach (var client in Model.Clients)
         {
             <li>@client.FullName</li>
         }
-    </ul>
+    </ul> *@
 
     <button type="button" id="saveCompanyBtn" class="btn btn-primary">Save Changes</button>
 </form>

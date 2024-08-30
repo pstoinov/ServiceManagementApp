@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceManagementApp.Data;
+using ServiceManagementApp.Data.Models.Core;
 using ServiceManagementApp.ViewModels;
 
 namespace ServiceManagementApp.Controllers.Api
@@ -39,13 +40,13 @@ namespace ServiceManagementApp.Controllers.Api
                 VATNumber = company.VATNumber,
                 Phone = company.Phone.PhoneNumber!,
                 Email = company.Email.EmailAddress!,
-                Clients = await _context.ClientCompanies
-               .Where(cc => cc.CompanyId == company.Id)
-               .Select(cc => new ClientViewModel
-               {
-                   Id = cc.Client.Id,
-                   FullName = cc.Client.FullName
-               }).ToListAsync()
+               // Clients = await _context.ClientCompanies
+               //.Where(cc => cc.CompanyId == company.Id)
+               //.Select(cc => new ClientViewModel
+               //{
+               //    Id = cc.Client.Id,
+               //    FullName = cc.Client.FullName
+               //}).ToListAsync()
             };
 
             return Ok(viewModel);
@@ -54,28 +55,42 @@ namespace ServiceManagementApp.Controllers.Api
             [HttpPut("{id}")]
             public async Task<IActionResult> Edit(int id, [FromBody] EditCompanyViewModel model)
             {
-                if (id != model.Id)
-                {
-                    return BadRequest();
-                }
-
-                var company = await _context.Companies.FindAsync(id);
-                if (company == null)
-                {
-                    return NotFound();
-                }
-
-                company.CompanyName = model.CompanyName;
-                company.EIK = model.EIK;
-                company.VATNumber = model.VATNumber;
-                company.Phone.PhoneNumber = model.Phone;
-                company.Email.EmailAddress = model.Email;
-
-                _context.Companies.Update(company);
-                await _context.SaveChangesAsync();
-
-                return NoContent();
+            if (id != model.Id)
+            {
+                return BadRequest();
             }
+
+            var company = await _context.Companies
+                .Include(c => c.Phone)
+                .Include(c => c.Email)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            if (company.Phone == null)
+            {
+                company.Phone = new Phone();
+            }
+
+            if (company.Email == null)
+            {
+                company.Email = new Email();
+            }
+
+            company.CompanyName = model.CompanyName;
+            company.EIK = model.EIK;
+            company.VATNumber = model.VATNumber;
+            company.Phone.PhoneNumber = model.Phone;
+            company.Email.EmailAddress = model.Email;
+
+            _context.Companies.Update(company);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
         }
     }
 
