@@ -40,8 +40,14 @@ namespace ServiceManagementApp.Data.Models.RequestModels
 
         [Required]
         public ServiceRequestPriority Priority { get; set; } = ServiceRequestPriority.Medium;
+        [Required]
+        public ServiceRequestType RequestType { get; set; } = ServiceRequestType.OnSite;
 
-        public string? ServiceNotes { get; set; }
+        [MaxLength(500)]
+        public string? ServiceNotes { get; set; } = string.Empty;
+
+        [Required]
+        public bool isCashRegister { get; set; } = false;
 
     }
 }

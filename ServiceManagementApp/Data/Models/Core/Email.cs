@@ -8,6 +8,6 @@ namespace ServiceManagementApp.Data.Models.Core
 
         [MaxLength(254)]
         [EmailAddress]
-        public string? EmailAddress { get; set; }
+        public string? EmailAddress { get; set; } = string.Empty;
     }
 }

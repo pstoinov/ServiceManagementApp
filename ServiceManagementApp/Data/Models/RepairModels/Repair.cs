@@ -21,7 +21,7 @@ namespace ServiceManagementApp.Data.Models.RepairModels
 
         [Required]
         [MaxLength(1000)]
-        public string ProblemDescription { get; set; } = null!; // Описание на проблема
+        public string ProblemDescription { get; set; } = string.Empty; // Описание на проблема
 
         [MaxLength(1000)]
         public string? RepairDescription { get; set; } // Описание на извършения ремонт, не е задължително

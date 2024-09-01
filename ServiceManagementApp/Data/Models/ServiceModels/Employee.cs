@@ -12,7 +12,7 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
         public int Id { get; set; }
 
         [Required]
-        public string FullName { get; set; } = null!;
+        public string FullName { get; set; } = string.Empty;
         [Required]
         public Position Position { get; set; }
 

@@ -115,6 +115,17 @@ namespace ServiceManagementApp.Data
                 .HasForeignKey(cc => cc.CompanyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Address>()
+                .HasIndex(a => new { a.City, a.Street, a.Number, a.Block })
+                .IsUnique();
+
+            //TODO: Да се помисли дали да се добави адрес към клиента !
+            //modelBuilder.Entity<Client>()
+            //    .HasOne(c => c.Address)
+            //    .WithMany()
+            //    .HasForeignKey(c => c.AddressId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

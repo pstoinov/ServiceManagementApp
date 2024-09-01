@@ -5,6 +5,7 @@ using ServiceManagementApp.ViewModels;
 using ServiceManagementApp.Data.Models.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace ServiceManagementApp.Controllers
 {
@@ -64,6 +65,25 @@ namespace ServiceManagementApp.Controllers
         public IActionResult Reports()
         {
             return View();
+        }
+        public IActionResult Edit(int clientId)
+        {
+            var client = _context.Clients
+                .Include(c => c.Phone)
+                .Include(c => c.Email)
+                .FirstOrDefault(c => c.Id == clientId);
+            if (client == null)
+            {
+                return NotFound();
+            }
+            var model = new EditClientViewModel
+            {
+                Id = client.Id,
+                FullName = client.FullName,
+                Phone = client.Phone!.PhoneNumber,
+                Email = client.Email!.EmailAddress
+            };
+            return View(model);
         }
     }
 }

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ServiceManagementApp.ViewModels.CashRegisterViewModel>
+
+<h1>Списък с касови апарати</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Компания</th>
+            <th>Местоположение</th>
+            <th>Сериен Номер</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cashRegister in Model)
+        {
+            <tr>
+                <td>@cashRegister.CompanyName</td>
+                <td>@cashRegister.SiteName</td>
+                <td>@cashRegister.SerialNumber</td>
+                <td>
+                    <a href="@Url.Action("Edit", "CashRegisters", new { id = cashRegister.Id })" class="btn btn-sm btn-info">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="@Url.Action("Delete", "CashRegisters", new { id = cashRegister.Id })" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-primary" asp-action="Create">Нов касов апарат</a>
+
+@section sidebar {
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="CashRegisters" asp-action="Index">Касови апарати</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="CashRegisters" asp-action="Index">Нов касов апарат</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="CashRegisters" asp-action="Index">Договори</a>
+            </li>
+        </ul>
+    </div>
+}

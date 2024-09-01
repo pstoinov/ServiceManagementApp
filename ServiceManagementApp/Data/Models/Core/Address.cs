@@ -7,14 +7,14 @@ namespace ServiceManagementApp.Data.Models.Core
         [Key]
         public int Id { get; set; }
         [MaxLength(100)]
-        public string? City { get; set; }
+        public string? City { get; set; } = string.Empty;
         [MaxLength(255)]
 
-        public string? Street { get; set; }
+        public string? Street { get; set; } = string.Empty;
         [MaxLength(5)]
-        public string? Number { get; set; }
+        public string? Number { get; set; } = string.Empty;
         [MaxLength(5)]
-        public string? Block { get; set; }
+        public string? Block { get; set; } = string.Empty;
 
     }
 }

@@ -16,17 +16,20 @@ namespace ServiceManagementApp.Data.Models.RepairModels
         [Required]
         public DateTime TakenByClient { get; set; }
         [Required]
-        public string DescriptionOfProblem { get; set; } = null!;
+        public string DescriptionOfProblem { get; set; } = string.Empty;
         [Required]
-        public string DescriptionOfRepair { get; set; } = null!;
+        public string DescriptionOfRepair { get; set; } = string.Empty;
         [ForeignKey(nameof(CashRegisterId))]
         public int CashRegisterId { get; set; }
         public CashRegister CashRegister { get; set; } = null!;
         public bool IsDisposed { get; set; } = false;
         public DisposalReason? DisposalReason { get; set; }
-        public string LastReportBeforeRepair { get; set; } = null!;
+        [MaxLength(10)]
+        public string LastReportBeforeRepair { get; set; } = string.Empty;
+        [MaxLength(10)]
         public int NumberOfReceiptsDuringRepair { get; set; }
-        public string LastReportAfterRepair { get; set; } = null!;
+        [MaxLength(10)]
+        public string LastReportAfterRepair { get; set; } = string.Empty;
         [ForeignKey(nameof(EmployeeId))]
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; } = null!;

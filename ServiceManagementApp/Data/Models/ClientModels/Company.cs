@@ -12,11 +12,11 @@ namespace ServiceManagementApp.Data.Models.ClientModels
 
         [Required]
         [MaxLength(255)]
-        public string CompanyName { get; set; } = null!;
+        public string CompanyName { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(13)]
-        public string EIK { get; set; } = null!;
+        public string EIK { get; set; } = string.Empty;
 
         [MaxLength(15)]
         public string? VATNumber { get; set; }
@@ -27,7 +27,7 @@ namespace ServiceManagementApp.Data.Models.ClientModels
 
         [Required]
         [MaxLength(80)]
-        public string Manager { get; set; } = null!;
+        public string Manager { get; set; } = string.Empty;
         [ForeignKey(nameof(PhoneId))]
         public int PhoneId { get; set; }
         public Phone Phone { get; set; } = null!;

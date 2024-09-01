@@ -2,24 +2,27 @@
 
 <h1>Редактирай клиент</h1>
 
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="Id" />
+<form id="editClientForm">
+    <input type="hidden" id="clientId" value="@Model.Id" />
 
     <div class="form-group">
-        <label asp-for="FullName"></label>
-        <input asp-for="FullName" class="form-control" />
-        <span asp-validation-for="FullName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Phone"></label>
-        <input asp-for="Phone" class="form-control" />
-        <span asp-validation-for="Phone" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+        <label for="fullName">Име</label>
+        <input type="text" class="form-control" id="fullName" name="FullName" value="@Model.FullName" required />
     </div>
 
-    <button type="submit" class="btn btn-primary">Запази промените</button>
+    <div class="form-group">
+        <label for="phone">Телефон</label>
+        <input type="text" class="form-control" id="phone" name="Phone" value="@Model.Phone" required />
+    </div>
+
+    <div class="form-group">
+        <label for="email">Емейл</label>
+        <input type="email" class="form-control" id="email" name="Email" value="@Model.Email" required />
+    </div>
+
+    <button type="button" id="saveClientBtn" class="btn btn-primary">Запази промените</button>
 </form>
+
+@section Scripts {
+    <script src="~/js/editClient.js"></script>
+}

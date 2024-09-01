@@ -19,10 +19,10 @@ namespace ServiceManagementApp.ViewModels
         public string Email { get; set; } = null!;
 
 
-        //// A list of clients associated with the company
-        //public List<ClientViewModel> Clients { get; set; } = new();
+        // A list of clients associated with the company
+        public List<ClientViewModel> Clients { get; set; } = new();
 
-        //// Dropdown list for clients
-        //public List<SelectListItem> ClientList { get; set; } = new();
+        // Dropdown list for clients
+        public List<SelectListItem> ClientList { get; set; } = new();
     }
 }

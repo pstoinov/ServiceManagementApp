@@ -7,16 +7,18 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
 {
     public class Service
     {
+       
+
         [Key]
         public int Id { get; set; }
 
         [Required]
         [MaxLength(255)]
-        public required string ServiceName { get; set; }
+        public  string ServiceName { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(13)]
-        public required string EIK { get; set; }
+        public  string EIK { get; set; } = string.Empty;
 
         [MaxLength(15)]
         public string? VATNumber { get; set; }

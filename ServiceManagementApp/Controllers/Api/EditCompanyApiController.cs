@@ -8,7 +8,7 @@ namespace ServiceManagementApp.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EditCompanyApiController : Controller
+    public class EditCompanyApiController : ControllerBase
     {
         
        
@@ -32,22 +32,22 @@ namespace ServiceManagementApp.Controllers.Api
                     return NotFound();
                 }
 
-            var viewModel = new EditCompanyViewModel
-            {
+                var viewModel = new EditCompanyViewModel
+                {
                 Id = company.Id,
                 CompanyName = company.CompanyName,
                 EIK = company.EIK,
                 VATNumber = company.VATNumber,
                 Phone = company.Phone.PhoneNumber!,
                 Email = company.Email.EmailAddress!,
-               // Clients = await _context.ClientCompanies
-               //.Where(cc => cc.CompanyId == company.Id)
-               //.Select(cc => new ClientViewModel
-               //{
-               //    Id = cc.Client.Id,
-               //    FullName = cc.Client.FullName
-               //}).ToListAsync()
-            };
+                    Clients = await _context.ClientCompanies
+               .Where(cc => cc.CompanyId == company.Id)
+               .Select(cc => new ClientViewModel
+               {
+                   Id = cc.Client.Id,
+                   FullName = cc.Client.FullName
+               }).ToListAsync()
+                };
 
             return Ok(viewModel);
             }
@@ -90,7 +90,7 @@ namespace ServiceManagementApp.Controllers.Api
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
+            }
         }
     }
 
