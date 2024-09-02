@@ -65,18 +65,18 @@ namespace ServiceManagementApp.Data
            // Employee
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Service)
-                .WithMany(s => s.Employees)
+                .WithMany()
                 .HasForeignKey(e => e.ServiceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Employee>()
-                .HasOne(e => e.EmployeePhoneNumber)
+                .HasOne(e => e.PhoneNumber)
                 .WithMany()
                 .HasForeignKey(e => e.PhoneId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Employee>()
-                .HasOne(e => e.EmployeeEmailAddress)
+                .HasOne(e => e.EmailAddress)
                 .WithMany()
                 .HasForeignKey(e => e.EmailId)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -95,7 +95,7 @@ namespace ServiceManagementApp.Data
 
             modelBuilder.Entity<Contract>()
                 .HasOne(c => c.CashRegister)
-                .WithMany(cr => cr.Contracts) 
+                .WithMany() 
                  .HasForeignKey(c => c.CashRegisterId)
                 .OnDelete(DeleteBehavior.Restrict);
 

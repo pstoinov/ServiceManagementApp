@@ -60,7 +60,7 @@ body {
 }
 
 /* Тъмна тема */
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
     body {
         background-color: #121212;
         color: #ffffff;
@@ -95,10 +95,10 @@ body {
 
             .sidebar a:hover {
                 color: #ffffff !important;
-            }
+            }*/
 
     /* Footer */
-    footer {
+    /*footer {
         background-color: #333333 !important;
         color: #ffffff !important;
         text-align: center !important;
@@ -107,11 +107,11 @@ body {
         bottom: 0;
         width: 100%;
     }
-}
+}*/
 
 /* Стилове за футъра */
 footer {
-    background-color: #333333; /* Цветът на фона на футъра */
+    background-color: #ffffff; /* Цветът на фона на футъра */
     color: #ffffff; /* Цветът на текста във футъра */
     text-align: center; /* Центриране на текста */
     padding: 10px 0; /* Вътрешни отстояния отгоре и отдолу */

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServiceManagementApp.Data;
 
@@ -11,9 +12,11 @@ using ServiceManagementApp.Data;
 namespace ServiceManagementApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240902183506_AddURLForEmployeePicture")]
+    partial class AddURLForEmployeePicture
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,11 +321,16 @@ namespace ServiceManagementApp.Migrations
                     b.Property<int>("PhoneId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ServiceId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EmailId");
 
                     b.HasIndex("PhoneId");
+
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Clients");
                 });
@@ -931,6 +939,10 @@ namespace ServiceManagementApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Service", null)
+                        .WithMany("Clients")
+                        .HasForeignKey("ServiceId");
+
                     b.Navigation("Email");
 
                     b.Navigation("Phone");
@@ -985,7 +997,7 @@ namespace ServiceManagementApp.Migrations
             modelBuilder.Entity("ServiceManagementApp.Data.Models.ClientModels.Contract", b =>
                 {
                     b.HasOne("ServiceManagementApp.Data.Models.ClientModels.CashRegister", "CashRegister")
-                        .WithMany()
+                        .WithMany("Contracts")
                         .HasForeignKey("CashRegisterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1012,7 +1024,7 @@ namespace ServiceManagementApp.Migrations
             modelBuilder.Entity("ServiceManagementApp.Data.Models.RepairModels.CashRegisterRepair", b =>
                 {
                     b.HasOne("ServiceManagementApp.Data.Models.ClientModels.CashRegister", "CashRegister")
-                        .WithMany()
+                        .WithMany("CashRegisterRepairs")
                         .HasForeignKey("CashRegisterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1095,27 +1107,27 @@ namespace ServiceManagementApp.Migrations
 
             modelBuilder.Entity("ServiceManagementApp.Data.Models.ServiceModels.Employee", b =>
                 {
-                    b.HasOne("ServiceManagementApp.Data.Models.Core.Email", "EmailAddress")
+                    b.HasOne("ServiceManagementApp.Data.Models.Core.Email", "EmployeeEmailAddress")
                         .WithMany()
                         .HasForeignKey("EmailId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ServiceManagementApp.Data.Models.Core.Phone", "PhoneNumber")
+                    b.HasOne("ServiceManagementApp.Data.Models.Core.Phone", "EmployeePhoneNumber")
                         .WithMany()
                         .HasForeignKey("PhoneId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Service", "Service")
-                        .WithMany()
+                        .WithMany("Employees")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("EmailAddress");
+                    b.Navigation("EmployeeEmailAddress");
 
-                    b.Navigation("PhoneNumber");
+                    b.Navigation("EmployeePhoneNumber");
 
                     b.Navigation("Service");
                 });
@@ -1147,6 +1159,13 @@ namespace ServiceManagementApp.Migrations
                     b.Navigation("Phone");
                 });
 
+            modelBuilder.Entity("ServiceManagementApp.Data.Models.ClientModels.CashRegister", b =>
+                {
+                    b.Navigation("CashRegisterRepairs");
+
+                    b.Navigation("Contracts");
+                });
+
             modelBuilder.Entity("ServiceManagementApp.Data.Models.ClientModels.Client", b =>
                 {
                     b.Navigation("ClientCompanies");
@@ -1175,6 +1194,13 @@ namespace ServiceManagementApp.Migrations
             modelBuilder.Entity("ServiceManagementApp.Data.Models.RepairModels.Repair", b =>
                 {
                     b.Navigation("RepairPart");
+                });
+
+            modelBuilder.Entity("ServiceManagementApp.Data.Models.ServiceModels.Service", b =>
+                {
+                    b.Navigation("Clients");
+
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

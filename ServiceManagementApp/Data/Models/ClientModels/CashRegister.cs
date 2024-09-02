@@ -70,9 +70,7 @@ namespace ServiceManagementApp.Data.Models.ClientModels
         //TODO: Да се направи логика за дерегистрация
         public bool IsRegistered { get; set; } = true;
 
-        public ICollection<Contract> Contracts { get; set; } = new List<Contract>(); // Колекция от договори
-
-        public ICollection<CashRegisterRepair> CashRegisterRepairs { get; set; } = new List<CashRegisterRepair>(); // Колекция от ремонти
+       
 
     }
 }

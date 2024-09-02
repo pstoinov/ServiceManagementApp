@@ -18,11 +18,11 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
 
         [ForeignKey(nameof(PhoneId))]
         public int PhoneId { get; set; }
-        public Phone EmployeePhoneNumber { get; set; } = null!;
+        public Phone PhoneNumber { get; set; } = null!;
 
         [ForeignKey(nameof(EmailId))]
         public int EmailId { get; set; }
-        public Email EmployeeEmailAddress { get; set; } = null!;
+        public Email EmailAddress { get; set; } = null!;
 
         public string? EGN { get; set; }
 
@@ -30,11 +30,9 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
         public int ServiceId { get; set; }
         public Service Service { get; set; } = null!;
 
-        ICollection<Repair>? Repairs { get; set; } = new HashSet<Repair>();
-        ICollection<CashRegisterRepair>? CashRegisterRepairs { get; set; } = new HashSet<CashRegisterRepair>();
-
-        ICollection<ServiceRequest>? ServiceRequests { get; set; } = new HashSet<ServiceRequest>();
-
         public bool IsCertifiedForCashRegisterRepair { get; set; } = false;
+        [MaxLength(2083)]
+        public string? PictureUrl { get; set; }
+
     }
 }

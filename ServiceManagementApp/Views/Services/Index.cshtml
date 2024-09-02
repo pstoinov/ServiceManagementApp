@@ -1,4 +1,15 @@
-﻿
-@{
-    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+﻿@section sidebar {
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Employee" asp-action="Index">Служители</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Services" asp-action="Index">Сервизи</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Clients" asp-action="Index">Справки</a>
+            </li>
+        </ul>
+    </div>
 }

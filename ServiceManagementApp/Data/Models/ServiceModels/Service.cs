@@ -35,8 +35,6 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
         [MaxLength(2083)]
         public string? LogoUrl { get; set; }
 
-        public ICollection<Employee> Employees { get; set; } = new List<Employee>();
-
-        public ICollection<Client> Clients { get; set; } = new List<Client>();
+        
     }
 }

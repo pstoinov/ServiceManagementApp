@@ -1,5 +1,63 @@
-﻿
-@{
-    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+﻿@model IEnumerable<ServiceManagementApp.ViewModels.EmployeeViewModel>
+
+<h1>Employee List</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Service Name</th>
+            <th>Position</th>
+            <th>Phone Number</th>
+            <th>Email Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.FullName</td>
+                <td>@employee.ServiceName</td>
+                <td>@employee.Position.ToString()</td>
+                <td>@employee.PhoneNumber</td>
+                <td>@employee.EmailAddress</td>
+                <td>
+                    <!-- View Employee Details Button -->
+                    <a href="@Url.Action("Details", "Employees", new { id = employee.Id })" class="btn btn-sm btn-primary" title="View Employee Details">
+                        <i class="fas fa-id-badge"></i>
+                    </a>
+                    <!-- Edit Employee Button -->
+                    <a href="@Url.Action("Edit", "Employees", new { id = employee.Id })" class="btn btn-sm btn-info" title="Edit Employee">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Add New Employee Button -->
+<a href="@Url.Action("Create", "Employees")" class="btn btn-success">
+    <i class="fas fa-plus"></i> Add New Employee
+</a>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 }
 
+@section sidebar {
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Employee" asp-action="Index">Служители</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Services" asp-action="Index">Сервизи</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Clients" asp-action="Index">Справки</a>
+            </li>
+        </ul>
+    </div>
+}
