@@ -41,40 +41,61 @@ namespace ServiceManagementApp.Controllers
 
             return View(employees);
         }
-        public IActionResult Create()
-        {
-            
-            //var services = _context.Services.Select(s => new SelectListItem
-            //{
-            //    Value = s.Id.ToString(),
-            //    Text = s.ServiceName
-            //}).ToList();
+        
 
-            // Примерно извличане на списъка с позиции (ENUM)
+            public IActionResult Create()
+            {
+                // Извличане на списъка с налични сервизи
+                var services = _context.Services.Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.ServiceName
+                }).ToList();
+
+                if (!services.Any())
+                {
+                    services.Add(new SelectListItem
+                    {
+                       Value = "",
+                       Text = "No services available"
+                    });
+                }
+
+            // Извличане на списъка с позиции (ENUM)
             var positions = Enum.GetValues(typeof(Position))
-                                .Cast<Position>()
-                                .Select(p => new SelectListItem
-                                {
-                                    Value = ((int)p).ToString(),
-                                    Text = p.ToString()
-                                }).ToList();
+                                    .Cast<Position>()
+                                    .Select(p => new SelectListItem
+                                    {
+                                        Value = ((int)p).ToString(),
+                                        Text = p.ToString()
+                                    }).ToList();
 
-            //ViewBag.Services = new SelectList(services, "Value", "Text");
-            ViewBag.Positions = new SelectList(positions, "Value", "Text");
+                ViewBag.Services = new SelectList(services, "Value", "Text"); // коректно подаване на списъка с сервизи
+                ViewBag.Positions = new SelectList(positions, "Value", "Text"); // коректно подаване на списъка с позиции
 
-            return View();
-        }
+                return View(new EmployeeViewModel()); // връщане на празен модел на изгледа
+            } 
+        
 
-        // POST: Employees/Create
+            // POST: Employees/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(EmployeeViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var phone = model.PhoneNumber != null ? new Phone { PhoneNumber = model.PhoneNumber } : new Phone();
-                var email = model.EmailAddress != null ? new Email { EmailAddress = model.EmailAddress } : new Email();
+                // Създаване на нови обекти за телефон и имейл
+                var phone = new Phone
+                {
+                    PhoneNumber = model.PhoneNumber
+                };
 
+                var email = new Email
+                {
+                    EmailAddress = model.EmailAddress
+                };
+
+                // Създаване на нов обект за служител
                 var employee = new Employee
                 {
                     FullName = model.FullName,
@@ -83,20 +104,24 @@ namespace ServiceManagementApp.Controllers
                     PhoneNumber = phone,
                     EmailAddress = email,
                     IsCertifiedForCashRegisterRepair = model.IsCertifiedForCashRegisterRepair,
-                    EGN = model.EGN ?? string.Empty,
-                    PictureUrl = model.PictureUrl ?? string.Empty
+                    EGN = model.EGN,
+                    PictureUrl = model.PictureUrl
                 };
 
-                _context.Add(employee);
+                // Добавяне на новия служител към контекста и записване на промените
+                _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
+            // Подготовка на ViewBag данни за случая, когато ModelState не е валиден
             ViewBag.Services = new SelectList(_context.Services, "Id", "ServiceName");
             ViewBag.Positions = Enum.GetValues(typeof(Position)).Cast<Position>().Select(p => new SelectListItem { Value = ((int)p).ToString(), Text = p.ToString() });
 
             return View(model);
         }
+
 
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int id)
@@ -120,7 +145,7 @@ namespace ServiceManagementApp.Controllers
                 EmailAddress = employee.EmailAddress.EmailAddress!,
                 PhoneNumber = employee.PhoneNumber.PhoneNumber!,
                 IsCertifiedForCashRegisterRepair = employee.IsCertifiedForCashRegisterRepair,
-                EGN = employee.EGN,
+                EGN = employee.EGN!,
                 PictureUrl = employee.PictureUrl
             };
 

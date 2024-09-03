@@ -55,9 +55,18 @@ namespace ServiceManagementApp.Controllers.Api
         {
             if (ModelState.IsValid)
             {
-                var phone = model.PhoneNumber != null ? new Phone { PhoneNumber = model.PhoneNumber } : new Phone();
-                var email = model.EmailAddress != null ? new Email { EmailAddress = model.EmailAddress } : new Email();
+                // Създаване на нови обекти за телефон и имейл
+                var phone = new Phone
+                {
+                    PhoneNumber = model.PhoneNumber
+                };
 
+                var email = new Email
+                {
+                    EmailAddress = model.EmailAddress
+                };
+
+                // Създаване на нов обект за служител
                 var employee = new Employee
                 {
                     FullName = model.FullName,
@@ -66,19 +75,9 @@ namespace ServiceManagementApp.Controllers.Api
                     PhoneNumber = phone,
                     EmailAddress = email,
                     IsCertifiedForCashRegisterRepair = model.IsCertifiedForCashRegisterRepair,
-                    EGN = model.EGN ?? string.Empty,
-                    PictureUrl = model.PictureUrl ?? string.Empty
+                    EGN = model.EGN,
+                    PictureUrl = model.PictureUrl
                 };
-
-                if (employee.PhoneNumber == null)
-                {
-                    employee.PhoneNumber = new Phone();
-                }
-
-                if (employee.EmailAddress == null)
-                {
-                    employee.EmailAddress = new Email();
-                }
 
                 await _context.Employees.AddAsync(employee);
                 await _context.SaveChangesAsync();
@@ -89,7 +88,7 @@ namespace ServiceManagementApp.Controllers.Api
             return BadRequest("Invalid data.");
         }
 
-        [HttpPut("edit/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> EditEmployee(int id, [FromBody] EmployeeViewModel model)
         {
             if (id != model.Id)
@@ -107,11 +106,21 @@ namespace ServiceManagementApp.Controllers.Api
                 return NotFound();
             }
 
+            if (employee.PhoneNumber == null)
+            {
+                employee.PhoneNumber = new Phone();
+            }
+
+            if (employee.EmailAddress == null)
+            {
+                employee.EmailAddress = new Email();
+            }
+
             employee.FullName = model.FullName;
             employee.ServiceId = model.ServiceId;
             employee.Position = model.Position;
-            employee.EmailAddress.EmailAddress = model.EmailAddress;
             employee.PhoneNumber.PhoneNumber = model.PhoneNumber;
+            employee.EmailAddress.EmailAddress = model.EmailAddress;
             employee.IsCertifiedForCashRegisterRepair = model.IsCertifiedForCashRegisterRepair;
             employee.EGN = model.EGN;
             employee.PictureUrl = model.PictureUrl;

@@ -23,7 +23,6 @@ namespace ServiceManagementApp.ViewModels
         public string PhoneNumber { get; set; } = string.Empty;
 
         public bool IsCertifiedForCashRegisterRepair { get; set; }
-        [Required]
         [MaxLength(10)]
         public string EGN { get; set; } = string.Empty;
 
