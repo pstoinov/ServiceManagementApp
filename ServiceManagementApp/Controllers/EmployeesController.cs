@@ -9,11 +9,11 @@ using ServiceManagementApp.Data.Enums;
 
 namespace ServiceManagementApp.Controllers
 {
-    public class EmployeeController : Controller
+    public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EmployeeController(ApplicationDbContext context)
+        public EmployeesController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -43,12 +43,12 @@ namespace ServiceManagementApp.Controllers
         }
         public IActionResult Create()
         {
-            // Примерно извличане на списъка със сервизи
-            var services = _context.Services.Select(s => new SelectListItem
-            {
-                Value = s.Id.ToString(),
-                Text = s.ServiceName
-            }).ToList();
+            
+            //var services = _context.Services.Select(s => new SelectListItem
+            //{
+            //    Value = s.Id.ToString(),
+            //    Text = s.ServiceName
+            //}).ToList();
 
             // Примерно извличане на списъка с позиции (ENUM)
             var positions = Enum.GetValues(typeof(Position))
@@ -59,7 +59,7 @@ namespace ServiceManagementApp.Controllers
                                     Text = p.ToString()
                                 }).ToList();
 
-            ViewBag.Services = new SelectList(services, "Value", "Text");
+            //ViewBag.Services = new SelectList(services, "Value", "Text");
             ViewBag.Positions = new SelectList(positions, "Value", "Text");
 
             return View();
@@ -72,16 +72,19 @@ namespace ServiceManagementApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var phone = model.PhoneNumber != null ? new Phone { PhoneNumber = model.PhoneNumber } : new Phone();
+                var email = model.EmailAddress != null ? new Email { EmailAddress = model.EmailAddress } : new Email();
+
                 var employee = new Employee
                 {
                     FullName = model.FullName,
                     ServiceId = model.ServiceId,
                     Position = model.Position,
-                    EmailAddress = new Email { EmailAddress = model.EmailAddress },
-                    PhoneNumber = new Phone { PhoneNumber = model.PhoneNumber },
+                    PhoneNumber = phone,
+                    EmailAddress = email,
                     IsCertifiedForCashRegisterRepair = model.IsCertifiedForCashRegisterRepair,
-                    EGN = model.EGN,
-                    PictureUrl = model.PictureUrl
+                    EGN = model.EGN ?? string.Empty,
+                    PictureUrl = model.PictureUrl ?? string.Empty
                 };
 
                 _context.Add(employee);

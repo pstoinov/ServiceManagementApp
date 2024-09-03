@@ -10,11 +10,11 @@ namespace ServiceManagementApp.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeApiController : ControllerBase
+    public class EmployeesApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public EmployeeApiController(ApplicationDbContext context)
+        public EmployeesApiController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -55,14 +55,16 @@ namespace ServiceManagementApp.Controllers.Api
         {
             if (ModelState.IsValid)
             {
+                var phone = model.PhoneNumber != null ? new Phone { PhoneNumber = model.PhoneNumber } : new Phone();
+                var email = model.EmailAddress != null ? new Email { EmailAddress = model.EmailAddress } : new Email();
 
                 var employee = new Employee
                 {
                     FullName = model.FullName,
                     ServiceId = model.ServiceId,
                     Position = model.Position,
-                    EmailAddress = new Email { EmailAddress = model.EmailAddress  ?? string.Empty},
-                    PhoneNumber = new Phone { PhoneNumber = model.PhoneNumber ?? string.Empty },
+                    PhoneNumber = phone,
+                    EmailAddress = email,
                     IsCertifiedForCashRegisterRepair = model.IsCertifiedForCashRegisterRepair,
                     EGN = model.EGN ?? string.Empty,
                     PictureUrl = model.PictureUrl ?? string.Empty
