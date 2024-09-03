@@ -20,9 +20,9 @@ namespace ServiceManagementApp.Data.Models.ClientModels
         public int EmailId { get; set; }
         public Email Email { get; set; } = null!;
 
-        public ICollection<ClientCompany>? ClientCompanies { get; set; } = new List<ClientCompany>();
-        public ICollection<Repair>? Repairs { get; set; } = new List<Repair>();
-        public ICollection<ServiceRequest>? ServiceRequests { get; set; } = new List<ServiceRequest>();
+        public ICollection<ClientCompany> ClientCompanies { get; set; } = new List<ClientCompany>();
+        public ICollection<Repair> Repairs { get; set; } = new List<Repair>();
+        public ICollection<ServiceRequest> ServiceRequests { get; set; } = new List<ServiceRequest>();
 
     }
 }
