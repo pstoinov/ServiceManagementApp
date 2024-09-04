@@ -1,4 +1,45 @@
-﻿@section sidebar {
+﻿@model IEnumerable<ServiceManagementApp.ViewModels.ServiceViewModel>
+
+<h1>Списък със сервизни фирми</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Име на фирма</th>
+            <th>ЕИК</th>
+            <th>ДДС Номер</th>
+            <th>Телефонен номер</th>
+            <th>Email адрес</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var service in Model)
+        {
+            <tr>
+                <td>@service.ServiceName</td>
+                <td>@service.EIK</td>
+                <td>@service.VATNumber</td>
+                <td>@service.PhoneNumber</td>
+                <td>@service.EmailAddress</td>
+                <td>
+                    <a href="@Url.Action("Details", "Services", new { id = service.Id })" class="btn btn-sm btn-secondary" title="Детайли">
+                        <i class="fas fa-info-circle"></i>
+                    </a>
+                    <a href="@Url.Action("Edit", "Services", new { id = service.Id })" class="btn btn-sm btn-info" title="Редактирай">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "Services")" class="btn btn-primary">Добави сервизна фирма</a>
+
+
+
+@section sidebar {
     <div class="sidebar">
         <ul class="nav flex-column">
             <li class="nav-item">

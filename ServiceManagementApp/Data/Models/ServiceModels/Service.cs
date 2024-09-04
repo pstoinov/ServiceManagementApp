@@ -14,14 +14,14 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
 
         [Required]
         [MaxLength(255)]
-        public  string ServiceName { get; set; } = string.Empty;
+        public  string ServiceName { get; set; } = null!;
 
         [Required]
         [MaxLength(13)]
-        public  string EIK { get; set; } = string.Empty;
+        public string EIK { get; set; } = null!;
 
         [MaxLength(15)]
-        public string? VATNumber { get; set; }
+        public string? VATNumber { get; set; } = string.Empty;
         [ForeignKey(nameof(AddressId))]
         public int AddressId { get; set; }
         public Address Address { get; set; } = null!;
@@ -33,8 +33,8 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
         public Email Email { get; set; } = null!;
 
         [MaxLength(2083)]
-        public string? LogoUrl { get; set; }
+        public string? LogoUrl { get; set; } = string.Empty;
 
-        
+        public ICollection<Employee> Employees { get; set; } = [];
     }
 }

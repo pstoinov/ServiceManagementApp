@@ -34,5 +34,7 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
         [MaxLength(2083)]
         public string? PictureUrl { get; set; }
 
+
+
     }
 }

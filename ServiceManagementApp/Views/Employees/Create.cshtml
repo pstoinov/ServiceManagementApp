@@ -1,49 +1,51 @@
 ﻿@model ServiceManagementApp.ViewModels.EmployeeViewModel
 
-<h1>Create Employee</h1>
+<h1>Добави служител</h1>
 
-<form asp-action="Create" method="post">
-    <input type="hidden" asp-for="Id" />
+<form asp-action="Create" method="post" enctype="multipart/form-data">
 
     <div class="form-group">
-        <label for="FullName">Full Name</label>
+        <label for="FullName">Име на служител</label>
         <input type="text" class="form-control" id="FullName" name="FullName" value="@Model.FullName" required />
     </div>
 
 
     <div class="form-group">
-        <label for="Position">Position</label>
+        <label for="Position">Позиция</label>
         <select id="Position" class="form-control" asp-items="ViewBag.Positions"></select>
     </div>
 
     <div class="form-group">
-        <label for="EmailAddress">Email Address</label>
+        <label for="EmailAddress">Email Адрес</label>
         <input type="email" class="form-control" id="EmailAddress" name="EmailAddress" value="@Model.EmailAddress" required />
     </div>
 
     <div class="form-group">
-        <label for="PhoneNumber">Phone Number</label>
+        <label for="PhoneNumber">Телефонен номер</label>
         <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" required />
     </div>
 
     <div class="form-group">
-        <label for="IsCertifiedForCashRegisterRepair">Certified for Cash Register Repair</label>
+        <label for="IsCertifiedForCashRegisterRepair">Има ли разрешително за ремонт на касови апарати</label>
         <input type="checkbox" id="IsCertifiedForCashRegisterRepair" name="IsCertifiedForCashRegisterRepair" value="true" />
     </div>
 
     <div class="form-group">
-        <label for="EGN">EGN</label>
-        <input type="text" class="form-control" id="EGN" name="EGN" value="@Model.EGN" required />
+        <label for="EGN">ЕГН</label>
+        <input type="text" class="form-control" id="EGN" name="EGN" value="@Model.EGN" />
+        <span id="egnError" class="text-danger" style="display:none;">ЕГН е задължително, ако служителят е сертифициран.</span>
     </div>
 
     <div class="form-group">
-        <label for="PictureUrl">Picture URL</label>
-        <input type="text" class="form-control" id="PictureUrl" name="PictureUrl" value="@Model.PictureUrl" />
+        <label for="PictureUpload">Качи снимка</label>
+        <input type="file" class="form-control" id="PictureUpload" name="PictureUpload" accept="image/*" />
     </div>
 
-    <button type="button" id="saveEmployeeBtn" class="btn btn-primary">Save Employee</button>
+    <button type="button" id="saveEmployeeBtn" class="btn btn-primary">Добави служител</button>
 </form>
 
 @section Scripts {
     <script src="~/js/employee.js"></script>
+    <script src="~/js/EGNCheck.js"></script>
+
 }

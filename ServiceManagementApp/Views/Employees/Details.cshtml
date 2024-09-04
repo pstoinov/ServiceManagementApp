@@ -11,27 +11,27 @@
         <!-- Employee Details -->
         <table class="table table-bordered">
             <tr>
-                <th>Full Name:</th>
+                <th>Имена на служител:</th>
                 <td>@Model.FullName</td>
             </tr>
             <tr>
-                <th>Service Name:</th>
+                <th>Назначен в:</th>
                 <td>@Model.ServiceName</td>
             </tr>
             <tr>
-                <th>Position:</th>
+                <th>Позиция:</th>
                 <td>@Model.Position.ToString()</td>
             </tr>
             <tr>
-                <th>Phone Number:</th>
+                <th>Телефон:</th>
                 <td>@Model.PhoneNumber</td>
             </tr>
             <tr>
-                <th>Email Address:</th>
+                <th>Email Адрес:</th>
                 <td>@Model.EmailAddress</td>
             </tr>
             <tr>
-                <th>Certified for Cash Register Repairs:</th>
+                <th>Има ли разрешително за ремонт на касови апарати:</th>
                 <td>@Model.IsCertifiedForCashRegisterRepair ? "Yes" : "No"</td>
             </tr>
         </table>
@@ -39,13 +39,13 @@
         <!-- Tabs for Requests, Repairs, and Cash Register Repairs -->
         <ul class="nav nav-tabs" id="employeeTabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="requests-tab" data-bs-toggle="tab" href="#requests" role="tab" aria-controls="requests" aria-selected="true">Requests</a>
+                <a class="nav-link active" id="requests-tab" data-bs-toggle="tab" href="#requests" role="tab" aria-controls="requests" aria-selected="true">Заявки</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="repairs-tab" data-bs-toggle="tab" href="#repairs" role="tab" aria-controls="repairs" aria-selected="false">Repairs</a>
+                <a class="nav-link" id="repairs-tab" data-bs-toggle="tab" href="#repairs" role="tab" aria-controls="repairs" aria-selected="false">Ремонти</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="cashRegisterRepairs-tab" data-bs-toggle="tab" href="#cashRegisterRepairs" role="tab" aria-controls="cashRegisterRepairs" aria-selected="false">Cash Register Repairs</a>
+                <a class="nav-link" id="cashRegisterRepairs-tab" data-bs-toggle="tab" href="#cashRegisterRepairs" role="tab" aria-controls="cashRegisterRepairs" aria-selected="false">Ремонти на касови апарати</a>
             </li>
         </ul>
         <div class="tab-content" id="employeeTabsContent">

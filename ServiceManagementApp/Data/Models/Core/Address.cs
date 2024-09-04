@@ -14,7 +14,7 @@ namespace ServiceManagementApp.Data.Models.Core
         [MaxLength(5)]
         public string Number { get; set; } = string.Empty;
         [MaxLength(5)]
-        public string Block { get; set; } = string.Empty;
+        public string? Block { get; set; } = string.Empty;
 
     }
 }

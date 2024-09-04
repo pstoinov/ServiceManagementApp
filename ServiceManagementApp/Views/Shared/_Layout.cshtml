@@ -42,6 +42,9 @@
                         <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Manager" ? "active" : "")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Manager" asp-action="Index">Мениджър</a>
                         </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Warehouse" ? "active" : "")">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Warehouse" asp-action="Index">Склад</a>
+                        </li>
                         <form method="post" asp-controller="Account" asp-action="Logout">
                             <button type="submit" class="nav-link btn btn-link text-dark">Изход</button>
                         </form>
