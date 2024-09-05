@@ -169,5 +169,20 @@ namespace ServiceManagementApp.Controllers
 
             return View(companies);
         }
+
+        [HttpGet]
+        public JsonResult SearchCompanies(string term)
+        {
+            var companies = _context.Companies
+                .Where(c => c.CompanyName.Contains(term))
+                .Select(c => new
+                {
+                    id = c.Id,
+                    label = c.CompanyName
+                })
+                .ToList();
+
+            return Json(companies);
+        }
     }
 }

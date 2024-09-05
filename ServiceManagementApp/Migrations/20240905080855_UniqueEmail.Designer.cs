@@ -12,8 +12,8 @@ using ServiceManagementApp.Data;
 namespace ServiceManagementApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240902213808_RemovedCollectionsFromEmployeeNotNeeded")]
-    partial class RemovedCollectionsFromEmployeeNotNeeded
+    [Migration("20240905080855_UniqueEmail")]
+    partial class UniqueEmail
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -274,7 +274,8 @@ namespace ServiceManagementApp.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int?>("ServiceId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("SiteAddressId")
@@ -294,6 +295,9 @@ namespace ServiceManagementApp.Migrations
                     b.HasIndex("CompanyId");
 
                     b.HasIndex("ContactPhoneId");
+
+                    b.HasIndex("SerialNumber")
+                        .IsUnique();
 
                     b.HasIndex("ServiceId");
 
@@ -429,6 +433,9 @@ namespace ServiceManagementApp.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("ContractNumber")
+                        .IsUnique();
+
                     b.HasIndex("ServiceId");
 
                     b.ToTable("Contracts");
@@ -447,14 +454,17 @@ namespace ServiceManagementApp.Migrations
                         .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Number")
+                        .IsRequired()
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("Street")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -462,7 +472,7 @@ namespace ServiceManagementApp.Migrations
 
                     b.HasIndex("City", "Street", "Number", "Block")
                         .IsUnique()
-                        .HasFilter("[City] IS NOT NULL AND [Street] IS NOT NULL AND [Number] IS NOT NULL AND [Block] IS NOT NULL");
+                        .HasFilter("[Block] IS NOT NULL");
 
                     b.ToTable("Addresses");
                 });
@@ -476,10 +486,13 @@ namespace ServiceManagementApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("EmailAddress")
-                        .HasMaxLength(254)
-                        .HasColumnType("nvarchar(254)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmailAddress")
+                        .IsUnique();
 
                     b.ToTable("Emails");
                 });
@@ -493,6 +506,7 @@ namespace ServiceManagementApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -1041,7 +1055,8 @@ namespace ServiceManagementApp.Migrations
 
                     b.HasOne("ServiceManagementApp.Data.Models.ClientModels.Company", "Company")
                         .WithMany("Repairs")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Employee", "Employee")
                         .WithMany()
@@ -1111,7 +1126,7 @@ namespace ServiceManagementApp.Migrations
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Service", "Service")
-                        .WithMany()
+                        .WithMany("Employees")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1178,6 +1193,11 @@ namespace ServiceManagementApp.Migrations
             modelBuilder.Entity("ServiceManagementApp.Data.Models.RepairModels.Repair", b =>
                 {
                     b.Navigation("RepairPart");
+                });
+
+            modelBuilder.Entity("ServiceManagementApp.Data.Models.ServiceModels.Service", b =>
+                {
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

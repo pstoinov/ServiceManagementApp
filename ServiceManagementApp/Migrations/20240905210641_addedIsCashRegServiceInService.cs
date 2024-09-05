@@ -5,16 +5,15 @@
 namespace ServiceManagementApp.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedCollectionOfCashRegisterRepairInEmployee : Migration
+    public partial class addedIsCashRegServiceInService : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "LogoUrl",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsCashRegisterService",
                 table: "Services",
-                type: "nvarchar(2083)",
-                maxLength: 2083,
+                type: "bit",
                 nullable: true);
         }
 
@@ -22,7 +21,7 @@ namespace ServiceManagementApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "LogoUrl",
+                name: "IsCashRegisterService",
                 table: "Services");
         }
     }

@@ -10,22 +10,22 @@ namespace ServiceManagementApp.ViewModels
         [Required]
         public string FullName { get; set; } = null!;
 
-        [Required]
+
         public int ServiceId { get; set; }
         public string ServiceName { get; set; } = null!;
 
         [Required]
-        public Position Position { get; set; } 
+        public Position Position { get; set; }
         [Required]
-        public string EmailAddress { get; set; } =null!;
+        public string EmailAddress { get; set; } = null!;
 
         [Required]
         public string PhoneNumber { get; set; } = null!;
 
         public bool IsCertifiedForCashRegisterRepair { get; set; }
         [MaxLength(10)]
-        public string EGN { get; set; } = string.Empty;
+        public string? EGN { get; set; } = string.Empty;
 
-        public string? PictureUrl { get; set; } = string.Empty;
+        //public string? PictureUrl { get; set; } = string.Empty;
     }
 }

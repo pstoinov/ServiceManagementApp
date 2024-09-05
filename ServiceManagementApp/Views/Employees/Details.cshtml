@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-3">
         <!-- Employee Picture -->
-        <img src="@Model.PictureUrl" class="img-fluid rounded-circle" alt="@Model.FullName" />
+        @* <img src="@Model.PictureUrl" class="img-fluid rounded-circle" alt="@Model.FullName" /> *@
     </div>
     <div class="col-md-9">
         <!-- Employee Details -->
@@ -14,11 +14,11 @@
                 <th>Имена на служител:</th>
                 <td>@Model.FullName</td>
             </tr>
-            <tr>
+            @* <tr>
                 <th>Назначен в:</th>
                 <td>@Model.ServiceName</td>
             </tr>
-            <tr>
+            <tr> *@
                 <th>Позиция:</th>
                 <td>@Model.Position.ToString()</td>
             </tr>

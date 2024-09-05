@@ -20,7 +20,7 @@ namespace ServiceManagementApp.Controllers.Api
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetEmployee(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var employee = await _context.Employees
                 .Include(e => e.Service)
@@ -38,62 +38,71 @@ namespace ServiceManagementApp.Controllers.Api
                 Id = employee.Id,
                 FullName = employee.FullName,
                 ServiceId = employee.ServiceId,
-                ServiceName = employee.Service.ServiceName, // Fetching the service name
+                ServiceName = employee.Service.ServiceName,
                 Position = employee.Position,
                 PhoneNumber = employee.PhoneNumber.PhoneNumber!,
                 EmailAddress = employee.EmailAddress.EmailAddress!,
                 IsCertifiedForCashRegisterRepair = employee.IsCertifiedForCashRegisterRepair,
                 EGN = employee.EGN!,
-                PictureUrl = employee.PictureUrl
             };
 
             return Ok(viewModel);
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeViewModel model)
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> Create([FromBody] EmployeeViewModel model)
         {
-            if (ModelState.IsValid)
+            //if (!ModelState.IsValid)
+            //{
+            //    // Логиране на грешките в ModelState
+            //    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+            //    return BadRequest(new { message = "Invalid data", errors = errors });
+            //}
+
+            // Създаване на нови обекти за телефон и имейл
+            var phone = new Phone
             {
-                // Създаване на нови обекти за телефон и имейл
-                var phone = new Phone
-                {
-                    PhoneNumber = model.PhoneNumber
-                };
+                PhoneNumber = model.PhoneNumber
+            };
 
-                var email = new Email
-                {
-                    EmailAddress = model.EmailAddress
-                };
+            var email = new Email
+            {
+                EmailAddress = model.EmailAddress
+            };
 
-                // Създаване на нов обект за служител
-                var employee = new Employee
-                {
-                    FullName = model.FullName,
-                    ServiceId = model.ServiceId,
-                    Position = model.Position,
-                    PhoneNumber = phone,
-                    EmailAddress = email,
-                    IsCertifiedForCashRegisterRepair = model.IsCertifiedForCashRegisterRepair,
-                    EGN = model.EGN,
-                    PictureUrl = model.PictureUrl
-                };
+            // Създаване на нов обект за служител
+            var employee = new Employee
+            {
+                FullName = model.FullName,
+                ServiceId = model.ServiceId,
+                Position = model.Position,
+                PhoneNumber = phone,
+                EmailAddress = email,
+                IsCertifiedForCashRegisterRepair = model.IsCertifiedForCashRegisterRepair,
+                EGN = model.EGN,
+                //PictureUrl = model.PictureUrl
+            };
 
-                await _context.Employees.AddAsync(employee);
-                await _context.SaveChangesAsync();
+            await _context.Employees.AddAsync(employee);
+            await _context.SaveChangesAsync();
 
-                return Ok(new { message = "Employee created successfully." });
-            }
-
-            return BadRequest("Invalid data.");
+            return Ok(new { message = "Employee created successfully." });
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditEmployee(int id, [FromBody] EmployeeViewModel model)
+        public async Task<IActionResult> Edit(int id, [FromBody] EmployeeViewModel model)
         {
             if (id != model.Id)
             {
                 return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                // Логиране на грешките в ModelState
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(new { message = "Invalid data", errors = errors });
             }
 
             var employee = await _context.Employees
@@ -123,7 +132,7 @@ namespace ServiceManagementApp.Controllers.Api
             employee.EmailAddress.EmailAddress = model.EmailAddress;
             employee.IsCertifiedForCashRegisterRepair = model.IsCertifiedForCashRegisterRepair;
             employee.EGN = model.EGN;
-            employee.PictureUrl = model.PictureUrl;
+            //employee.PictureUrl = model.PictureUrl;
 
             _context.Employees.Update(employee);
             await _context.SaveChangesAsync();

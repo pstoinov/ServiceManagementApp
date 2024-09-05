@@ -62,10 +62,14 @@ namespace ServiceManagementApp.Data
                 .WithMany()
                 .HasForeignKey(cr => cr.ContactPhoneId)
                 .OnDelete(DeleteBehavior.Restrict);
-           // Employee
+            modelBuilder.Entity<CashRegister>()
+                .HasIndex(cr => cr.SerialNumber)
+                .IsUnique();
+
+            // Employee
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Service)
-                .WithMany()
+                .WithMany(s => s.Employees)
                 .HasForeignKey(e => e.ServiceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -98,6 +102,9 @@ namespace ServiceManagementApp.Data
                 .WithMany() 
                  .HasForeignKey(c => c.CashRegisterId)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Contract>()
+                .HasIndex(c => c.ContractNumber)
+                .IsUnique();
 
             // ClientCompany
             modelBuilder.Entity<ClientCompany>()
@@ -114,9 +121,12 @@ namespace ServiceManagementApp.Data
                 .WithMany(c => c.ClientCompanies)
                 .HasForeignKey(cc => cc.CompanyId)
                 .OnDelete(DeleteBehavior.Restrict);
-
+            //CORE
             modelBuilder.Entity<Address>()
                 .HasIndex(a => new { a.City, a.Street, a.Number, a.Block })
+                .IsUnique();
+            modelBuilder.Entity<Email>()
+                .HasIndex(a => a.EmailAddress)
                 .IsUnique();
 
             //TODO: Да се помисли дали да се добави адрес към клиента !
@@ -126,6 +136,12 @@ namespace ServiceManagementApp.Data
             //    .HasForeignKey(c => c.AddressId)
             //    .OnDelete(DeleteBehavior.Restrict);
 
+            //Repair
+            modelBuilder.Entity<Repair>()
+                   .HasOne(r => r.Company)
+                   .WithMany(c => c.Repairs)
+                   .HasForeignKey(r => r.CompanyId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -56,9 +56,11 @@ namespace ServiceManagementApp.ViewModels
         public DateTime FirstRegistrationDate { get; set; }
 
         [Required]
-        public bool IsDisposed { get; set; }
+        public bool IsDisposed { get; set; } = false;
 
         [Required]
-        public bool IsRegistered { get; set; }
+        public bool IsRegistered { get; set; } = true;
+
+        public string? PhoneSearch { get; set; }
     }
 }

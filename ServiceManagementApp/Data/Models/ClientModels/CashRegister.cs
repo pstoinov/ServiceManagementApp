@@ -16,11 +16,11 @@ namespace ServiceManagementApp.Data.Models.ClientModels
         [Required]
         public int ServiceId { get; set; }
         [ForeignKey(nameof(ServiceId))]
-        public Service Service { get; set; } = new Service();
+        public Service Service { get; set; } = null!;
         [Required]
         public int CompanyId { get; set; }
         [ForeignKey(nameof(CompanyId))]
-        public Company Company { get; set; } = new Company();
+        public Company Company { get; set; } = null!;
 
 
         [Required]

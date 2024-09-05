@@ -20,9 +20,10 @@ namespace ServiceManagementApp.Data.Models.ClientModels
 
         [MaxLength(15)]
         public string? VATNumber { get; set; }
+        
         [Required]
-        [ForeignKey(nameof(AddressId))]
         public int AddressId { get; set; }
+        [ForeignKey(nameof(AddressId))]
         public Address Address { get; set; } = null!;
 
         [Required]

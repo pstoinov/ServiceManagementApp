@@ -35,6 +35,7 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
         [MaxLength(2083)]
         public string? LogoUrl { get; set; } = string.Empty;
 
+        public bool IsCashRegisterService { get; set; } = false;
         public ICollection<Employee> Employees { get; set; } = [];
     }
 }

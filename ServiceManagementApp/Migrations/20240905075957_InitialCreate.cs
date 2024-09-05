@@ -17,9 +17,9 @@ namespace ServiceManagementApp.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Street = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Number = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     Block = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true)
                 },
                 constraints: table =>
@@ -72,7 +72,7 @@ namespace ServiceManagementApp.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmailAddress = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: true)
+                    EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,7 +99,7 @@ namespace ServiceManagementApp.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    PhoneNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -213,6 +213,33 @@ namespace ServiceManagementApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    PhoneId = table.Column<int>(type: "int", nullable: false),
+                    EmailId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clients_Emails_EmailId",
+                        column: x => x.EmailId,
+                        principalTable: "Emails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Clients_Phones_PhoneId",
+                        column: x => x.PhoneId,
+                        principalTable: "Phones",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Companies",
                 columns: table => new
                 {
@@ -260,7 +287,8 @@ namespace ServiceManagementApp.Migrations
                     VATNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: false),
                     PhoneId = table.Column<int>(type: "int", nullable: false),
-                    EmailId = table.Column<int>(type: "int", nullable: false)
+                    EmailId = table.Column<int>(type: "int", nullable: false),
+                    LogoUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -283,6 +311,30 @@ namespace ServiceManagementApp.Migrations
                         principalTable: "Phones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientCompanies",
+                columns: table => new
+                {
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    CompanyId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientCompanies", x => new { x.ClientId, x.CompanyId });
+                    table.ForeignKey(
+                        name: "FK_ClientCompanies_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ClientCompanies_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -337,39 +389,6 @@ namespace ServiceManagementApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clients",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    PhoneId = table.Column<int>(type: "int", nullable: false),
-                    EmailId = table.Column<int>(type: "int", nullable: false),
-                    ServiceId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clients", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Clients_Emails_EmailId",
-                        column: x => x.EmailId,
-                        principalTable: "Emails",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Clients_Phones_PhoneId",
-                        column: x => x.PhoneId,
-                        principalTable: "Phones",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Clients_Services_ServiceId",
-                        column: x => x.ServiceId,
-                        principalTable: "Services",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -381,7 +400,8 @@ namespace ServiceManagementApp.Migrations
                     EmailId = table.Column<int>(type: "int", nullable: false),
                     EGN = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
-                    IsCertifiedForCashRegisterRepair = table.Column<bool>(type: "bit", nullable: false)
+                    IsCertifiedForCashRegisterRepair = table.Column<bool>(type: "bit", nullable: false),
+                    PictureUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -444,30 +464,6 @@ namespace ServiceManagementApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClientCompany",
-                columns: table => new
-                {
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    CompanyId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClientCompany", x => new { x.ClientId, x.CompanyId });
-                    table.ForeignKey(
-                        name: "FK_ClientCompany_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ClientCompany_Companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Companies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CashRegisterRepairs",
                 columns: table => new
                 {
@@ -481,9 +477,9 @@ namespace ServiceManagementApp.Migrations
                     CashRegisterId = table.Column<int>(type: "int", nullable: false),
                     IsDisposed = table.Column<bool>(type: "bit", nullable: false),
                     DisposalReason = table.Column<int>(type: "int", nullable: true),
-                    LastReportBeforeRepair = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NumberOfReceiptsDuringRepair = table.Column<int>(type: "int", nullable: false),
-                    LastReportAfterRepair = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastReportBeforeRepair = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    NumberOfReceiptsDuringRepair = table.Column<int>(type: "int", maxLength: 10, nullable: false),
+                    LastReportAfterRepair = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
                     IsFiscalMemoryRemoved = table.Column<bool>(type: "bit", nullable: false),
                     NewFiscalMemoryNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -536,7 +532,8 @@ namespace ServiceManagementApp.Migrations
                         name: "FK_Repairs_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Repairs_Employees_EmployeeId",
                         column: x => x.EmployeeId,
@@ -561,7 +558,9 @@ namespace ServiceManagementApp.Migrations
                     ProblemDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false),
-                    ServiceNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RequestType = table.Column<int>(type: "int", nullable: false),
+                    ServiceNotes = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    isCashRegister = table.Column<bool>(type: "bit", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: true),
                     CompanyId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -617,6 +616,13 @@ namespace ServiceManagementApp.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_City_Street_Number_Block",
+                table: "Addresses",
+                columns: new[] { "City", "Street", "Number", "Block" },
+                unique: true,
+                filter: "[Block] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -678,6 +684,12 @@ namespace ServiceManagementApp.Migrations
                 column: "ContactPhoneId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CashRegisters_SerialNumber",
+                table: "CashRegisters",
+                column: "SerialNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CashRegisters_ServiceId",
                 table: "CashRegisters",
                 column: "ServiceId");
@@ -688,8 +700,8 @@ namespace ServiceManagementApp.Migrations
                 column: "SiteAddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientCompany_CompanyId",
-                table: "ClientCompany",
+                name: "IX_ClientCompanies_CompanyId",
+                table: "ClientCompanies",
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
@@ -701,11 +713,6 @@ namespace ServiceManagementApp.Migrations
                 name: "IX_Clients_PhoneId",
                 table: "Clients",
                 column: "PhoneId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Clients_ServiceId",
-                table: "Clients",
-                column: "ServiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Companies_AddressId",
@@ -731,6 +738,12 @@ namespace ServiceManagementApp.Migrations
                 name: "IX_Contracts_CompanyId",
                 table: "Contracts",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contracts_ContractNumber",
+                table: "Contracts",
+                column: "ContractNumber",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contracts_ServiceId",
@@ -832,7 +845,7 @@ namespace ServiceManagementApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ClientCompany");
+                name: "ClientCompanies");
 
             migrationBuilder.DropTable(
                 name: "Contracts");

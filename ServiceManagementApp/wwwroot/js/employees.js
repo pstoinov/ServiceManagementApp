@@ -2,7 +2,7 @@
     // Fetch employee data when editing
     function loadEmployeeData(employeeId) {
         $.ajax({
-            url: `/api/EmployeeApi/${employeeId}`,
+            url: `/api/EmployeesApi/${employeeId}`,
             type: 'GET',
             success: function (data) {
                 $('#FullName').val(data.fullName);
@@ -21,7 +21,8 @@
     }
 
     // Save employee data when the form is submitted
-    $('#saveEmployeeBtn').on('click', function () {
+    $('#saveEmployeeBtn').on('click', function (e) {
+        e.preventDefault(); // Предотвратява стандартното подаване на формата
         let employeeId = $('#Id').val();
         let employeeData = {
             id: employeeId,
@@ -32,15 +33,16 @@
             phoneNumber: $('#PhoneNumber').val(),
             isCertifiedForCashRegisterRepair: $('#IsCertifiedForCashRegisterRepair').prop('checked'),
             egn: $('#EGN').val(),
-            pictureUrl: $('#PictureUrl').val()
         };
 
         let ajaxType = employeeId ? 'PUT' : 'POST';
-        let ajaxUrl = employeeId ? `/api/EmployeeApi/edit/${employeeId}` : '/api/EmployeeApi/create';
+        let ajaxUrl = employeeId ? `/api/EmployeesApi/edit/${employeeId}` : `/api/EmployeesApi/create`;
+
+        console.log(employeeData);
 
         $.ajax({
-            url: ajaxUrl,
-            type: ajaxType,
+            url: `/api/EmployeesApi/create`,
+            type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(employeeData),
             success: function () {

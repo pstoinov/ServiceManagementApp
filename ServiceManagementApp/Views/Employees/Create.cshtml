@@ -2,17 +2,21 @@
 
 <h1>Добави служител</h1>
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
     <div class="form-group">
         <label for="FullName">Име на служител</label>
         <input type="text" class="form-control" id="FullName" name="FullName" value="@Model.FullName" required />
     </div>
 
-
     <div class="form-group">
         <label for="Position">Позиция</label>
-        <select id="Position" class="form-control" asp-items="ViewBag.Positions"></select>
+        <select id="Position" class="form-control" asp-for="Position" asp-items="ViewBag.Positions"></select>
+    </div>
+
+    <div class="form-group">
+        <label for="ServiceId">ID на Сервиз</label>
+        <input type="number" class="form-control" id="ServiceId" name="ServiceId" value="@Model.ServiceId" required />
     </div>
 
     <div class="form-group">
@@ -33,19 +37,7 @@
     <div class="form-group">
         <label for="EGN">ЕГН</label>
         <input type="text" class="form-control" id="EGN" name="EGN" value="@Model.EGN" />
-        <span id="egnError" class="text-danger" style="display:none;">ЕГН е задължително, ако служителят е сертифициран.</span>
     </div>
 
-    <div class="form-group">
-        <label for="PictureUpload">Качи снимка</label>
-        <input type="file" class="form-control" id="PictureUpload" name="PictureUpload" accept="image/*" />
-    </div>
-
-    <button type="button" id="saveEmployeeBtn" class="btn btn-primary">Добави служител</button>
+    <button type="submit" class="btn btn-primary">Добави служител</button>
 </form>
-
-@section Scripts {
-    <script src="~/js/employee.js"></script>
-    <script src="~/js/EGNCheck.js"></script>
-
-}

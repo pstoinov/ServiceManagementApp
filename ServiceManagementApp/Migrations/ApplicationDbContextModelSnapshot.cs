@@ -292,6 +292,9 @@ namespace ServiceManagementApp.Migrations
 
                     b.HasIndex("ContactPhoneId");
 
+                    b.HasIndex("SerialNumber")
+                        .IsUnique();
+
                     b.HasIndex("ServiceId");
 
                     b.HasIndex("SiteAddressId");
@@ -426,6 +429,9 @@ namespace ServiceManagementApp.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("ContractNumber")
+                        .IsUnique();
+
                     b.HasIndex("ServiceId");
 
                     b.ToTable("Contracts");
@@ -477,9 +483,12 @@ namespace ServiceManagementApp.Migrations
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmailAddress")
+                        .IsUnique();
 
                     b.ToTable("Emails");
                 });
@@ -758,9 +767,6 @@ namespace ServiceManagementApp.Migrations
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ServiceId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("EmailId");
@@ -768,8 +774,6 @@ namespace ServiceManagementApp.Migrations
                     b.HasIndex("PhoneId");
 
                     b.HasIndex("ServiceId");
-
-                    b.HasIndex("ServiceId1");
 
                     b.ToTable("Employees");
                 });
@@ -792,6 +796,9 @@ namespace ServiceManagementApp.Migrations
 
                     b.Property<int>("EmailId")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("IsCashRegisterService")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LogoUrl")
                         .HasMaxLength(2083)
@@ -1047,7 +1054,8 @@ namespace ServiceManagementApp.Migrations
 
                     b.HasOne("ServiceManagementApp.Data.Models.ClientModels.Company", "Company")
                         .WithMany("Repairs")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Employee", "Employee")
                         .WithMany()
@@ -1117,14 +1125,10 @@ namespace ServiceManagementApp.Migrations
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Service", "Service")
-                        .WithMany()
+                        .WithMany("Employees")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Service", null)
-                        .WithMany("Employees")
-                        .HasForeignKey("ServiceId1");
 
                     b.Navigation("EmailAddress");
 
