@@ -20,9 +20,20 @@ namespace ServiceManagementApp.ViewModels
         public string SiteName { get; set; } = string.Empty;
 
         [Required]
+        public string City { get; set; } = string.Empty;
+        [Required]
+        public string Street { get; set; } = string .Empty;
+        [Required]
+        public string Number { get; set; } = string.Empty;
+        public string? Block { get; set; }
+
+        [Required]
         public int SiteAddressId { get; set; }
 
         public string SiteAddress { get; set; } = string.Empty;
+        [Required]
+        [MaxLength(255)]
+        public string SiteManager { get; set; } = string.Empty;
 
         [Required]
         public int ContactPhoneId { get; set; }
@@ -31,7 +42,7 @@ namespace ServiceManagementApp.ViewModels
 
         [Required]
         [MaxLength(100)]
-        public string RegionalNRAOffice { get; set; } = string.Empty;
+        public string RegionalNRAOffice { get; set; } = "Пловдив";
 
         [Required]
         public Manufacturer Manufacturer { get; set; }
@@ -39,6 +50,9 @@ namespace ServiceManagementApp.ViewModels
         [Required]
         [MaxLength(6)]
         public string BIMCertificateNumber { get; set; } = string.Empty;
+
+        [Required]
+        public DateTime? BIMCertificateDate {  get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -61,6 +75,6 @@ namespace ServiceManagementApp.ViewModels
         [Required]
         public bool IsRegistered { get; set; } = true;
 
-        public string? PhoneSearch { get; set; }
+        public string PhoneSearch { get; set; } = string.Empty;
     }
 }

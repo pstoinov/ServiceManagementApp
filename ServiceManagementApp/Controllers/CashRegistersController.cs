@@ -30,7 +30,7 @@ namespace ServiceManagementApp.Controllers
                     CompanyName = c.Company.CompanyName,
                     SiteName = c.SiteName,
                     SiteAddress = $"{c.SiteAddress.City}, {c.SiteAddress.Street} {c.SiteAddress.Number}",
-                    ContactPhone = c.ContactPhone.PhoneNumber!,
+                    ContactPhone = c.ContactPhone.PhoneNumber,
                     SerialNumber = c.SerialNumber
                 }).ToList();
 
@@ -50,10 +50,8 @@ namespace ServiceManagementApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Проверяваме дали е избран телефон от autocomplete
                 if (cashRegisterViewModel.ContactPhoneId == 0 && !string.IsNullOrEmpty(cashRegisterViewModel.PhoneSearch))
                 {
-                    // Ако няма съвпадение и е въведен нов номер, създаваме нов запис за телефон
                     var newPhone = new Phone
                     {
                         PhoneNumber = cashRegisterViewModel.PhoneSearch
@@ -61,19 +59,47 @@ namespace ServiceManagementApp.Controllers
                     _context.Phones.Add(newPhone);
                     await _context.SaveChangesAsync();
 
-                    cashRegisterViewModel.ContactPhoneId = newPhone.Id; // Свързваме новия телефон с обекта
+                    cashRegisterViewModel.ContactPhoneId = newPhone.Id; // TODO: Създаването на нов телефон не работи, работи само функцията за търсене в базата с данни
                 }
+
+                var existingAddress = _context.Addresses
+           .FirstOrDefault(a => a.City == cashRegisterViewModel.City && a.Street == cashRegisterViewModel.Street &&
+                                a.Number == cashRegisterViewModel.Number && a.Block == cashRegisterViewModel.Block);
+
+                int addressId;
+                if (existingAddress != null)
+                {
+                    addressId = existingAddress.Id;
+                }
+                else
+                {
+                    // Ако не съществува, създаваме нов запис за адрес
+                    var newAddress = new Address
+                    {
+                        City = cashRegisterViewModel.City,
+                        Street = cashRegisterViewModel.Street,
+                        Number = cashRegisterViewModel.Number,
+                        Block = cashRegisterViewModel.Block
+                    };
+
+                    _context.Addresses.Add(newAddress);
+                    await _context.SaveChangesAsync();
+                    addressId = newAddress.Id;
+                }
+
 
                 var cashRegister = new CashRegister
                 {
                     ServiceId = cashRegisterViewModel.ServiceId,
                     CompanyId = cashRegisterViewModel.CompanyId,
                     SiteName = cashRegisterViewModel.SiteName,
-                    SiteAddressId = cashRegisterViewModel.SiteAddressId,
+                    SiteManager = cashRegisterViewModel.SiteManager,
+                    SiteAddressId = addressId,
                     ContactPhoneId = cashRegisterViewModel.ContactPhoneId,
                     RegionalNRAOffice = cashRegisterViewModel.RegionalNRAOffice,
                     Manufacturer = cashRegisterViewModel.Manufacturer,
                     BIMCertificateNumber = cashRegisterViewModel.BIMCertificateNumber,
+                    BIMCertificateDate = cashRegisterViewModel.BIMCertificateDate,
                     SerialNumber = cashRegisterViewModel.SerialNumber,
                     FiscalMemoryNumber = cashRegisterViewModel.FiscalMemoryNumber,
                     FDRIDNumber = cashRegisterViewModel.FDRIDNumber,

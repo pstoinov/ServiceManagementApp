@@ -51,6 +51,9 @@ namespace ServiceManagementApp.Data.Models.ClientModels
         public string BIMCertificateNumber { get; set; } = string.Empty;
 
         [Required]
+        public DateTime? BIMCertificateDate { get; set; }
+
+        [Required]
         [MaxLength(50)]
         public string SerialNumber { get; set; } = string.Empty;
 
