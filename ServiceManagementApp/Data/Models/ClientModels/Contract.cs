@@ -11,7 +11,7 @@ namespace ServiceManagementApp.Data.Models.ClientModels
 
         [Required]
         [MaxLength(20)]
-        public string ContractNumber { get; set; } = string.Empty;
+        public string ContractNumber { get; set; } = "C000001";
 
         [Required]
         public DateTime StartDate { get; set; }
