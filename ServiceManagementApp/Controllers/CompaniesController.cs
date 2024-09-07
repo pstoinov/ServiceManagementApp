@@ -173,6 +173,10 @@ namespace ServiceManagementApp.Controllers
         [HttpGet]
         public JsonResult SearchCompanies(string term)
         {
+            //if (string.IsNullOrWhiteSpace(term))
+            //{
+            //    return Json(new List<object>());  // Връщаме празен резултат
+            //}
             var companies = _context.Companies
                 .Where(c => c.CompanyName.Contains(term))
                 .Select(c => new

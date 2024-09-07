@@ -11,7 +11,7 @@ namespace ServiceManagementApp.Data.Models.ClientModels
 
         [Required]
         [MaxLength(20)]
-        public string ContractNumber { get; set; } = "C000001";
+        public string ContractNumber { get; set; } = "C000000";
 
         [Required]
         public DateTime StartDate { get; set; }
@@ -20,7 +20,7 @@ namespace ServiceManagementApp.Data.Models.ClientModels
         public DateTime EndDate { get; set; }
 
         [Required]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [Required]
         public int CompanyId { get; set; }

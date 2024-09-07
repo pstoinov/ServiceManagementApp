@@ -41,6 +41,9 @@
                         <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "CashRegisters" ? "active" : "")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="CashRegisters" asp-action="Index">Касови апарати</a>
                         </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Contracts" ? "active" : "")">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Contracts" asp-action="Index">Договори</a>
+                        </li>
                         <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Manager" ? "active" : "")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Manager" asp-action="Index">Мениджър</a>
                         </li>

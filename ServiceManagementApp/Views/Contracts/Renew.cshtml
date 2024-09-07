@@ -1,0 +1,108 @@
+﻿@model ServiceManagementApp.ViewModels.ContractViewModel
+
+<h2>Подновяване на договор</h2>
+
+<form asp-action="Renew" method="post">
+    <div class="form-group">
+        <label asp-for="ContractNumber" class="control-label">Номер на договор</label>
+        <input asp-for="ContractNumber" class="form-control" readonly />
+        <span asp-validation-for="ContractNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label">Начална дата</label>
+        <input asp-for="StartDate" class="form-control" type="date" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ContractDurationMonths" class="control-label">Продължителност (месеци)</label>
+        <input asp-for="ContractDurationMonths" class="form-control" type="number" min="1" value="12"/>
+        <span asp-validation-for="ContractDurationMonths" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndDate" class="control-label">Крайна дата</label>
+        <input asp-for="EndDate" class="form-control" type="date" readonly />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CompanyName" class="control-label">Фирма клиент</label>
+        <input asp-for="CompanyName" class="form-control" readonly />
+        <input type="hidden" asp-for="CompanyId" />
+        <span asp-validation-for="CompanyId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CashRegisterSerialNumber" class="control-label">Сериен номер на касов апарат</label>
+        <input asp-for="CashRegisterSerialNumber" class="form-control" readonly />
+        <input type="hidden" asp-for="CashRegisterId" />
+        <span asp-validation-for="CashRegisterId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ServiceId" class="control-label">Сервизна фирма</label>
+        <select asp-for="ServiceId" class="form-control" asp-items="ViewBag.Services"></select>
+        <span asp-validation-for="ServiceId" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" value="Запази" class="btn btn-primary" />
+        <a href="@Url.Action("Index", "Contracts")" class="btn btn-secondary">Отказ</a>
+    </div>
+</form>
+
+@* @section Scripts {
+    <script>
+        $(function () {
+            $('#ContractDurationMonths').on('input', function () {
+                var startDate = new Date($('#StartDate').val());
+                var months = parseInt($('#ContractDurationMonths').val());
+
+                if (!isNaN(startDate.getTime()) && months > 0) {
+                    var endDate = new Date(startDate);
+                    endDate.setMonth(endDate.getMonth() + months);
+
+                    var year = endDate.getFullYear();
+                    var month = ('0' + (endDate.getMonth() + 1)).slice(-2); 
+                    var day = ('0' + endDate.getDate()).slice(-2);
+
+                    $('#EndDate').val(`${year}-${month}-${day}`);
+                }
+            });
+        });
+    </script>
+
+} *@
+@section Scripts {
+    <script>
+        $(function () {
+            // Функция за изчисляване на крайната дата
+            function calculateEndDate() {
+                var startDate = new Date($('#StartDate').val());
+                var months = parseInt($('#ContractDurationMonths').val());
+
+                if (!isNaN(startDate.getTime()) && months > 0) {
+                    var endDate = new Date(startDate);
+                    endDate.setMonth(endDate.getMonth() + months);
+
+                    var year = endDate.getFullYear();
+                    var month = ('0' + (endDate.getMonth() + 1)).slice(-2);
+                    var day = ('0' + endDate.getDate()).slice(-2);
+
+                    $('#EndDate').val(`${year}-${month}-${day}`);
+                }
+            }
+
+            // Изчисляване на крайната дата веднага при зареждане на страницата
+            calculateEndDate();
+
+            // Изчисляване на крайната дата при промяна на стойността в полето за месеци
+            $('#ContractDurationMonths').on('input', function () {
+                calculateEndDate();
+            });
+        });
+    </script>
+}

@@ -65,6 +65,7 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddScoped<IPdfService, PdfService>();
 builder.Services.AddControllers();
 builder.Services.AddLogging();
+builder.Services.AddTransient<DocumentService>();
 
 var app = builder.Build();
 
@@ -123,6 +124,8 @@ app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 
 app.MapRazorPages();
 

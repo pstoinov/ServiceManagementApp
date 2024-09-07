@@ -1,0 +1,103 @@
+﻿@model ServiceManagementApp.ViewModels.ContractViewModel
+
+<h2>Създаване на нов договор</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="ContractNumber" class="control-label">Номер на договор</label>
+        <input asp-for="ContractNumber" class="form-control" readonly />
+        <span asp-validation-for="ContractNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label">Начална дата</label>
+        <input asp-for="StartDate" class="form-control" type="date" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ContractDurationMonths" class="control-label">Продължителност (месеци)</label>
+        <input asp-for="ContractDurationMonths" class="form-control" type="number" min="1" value="12" />
+        <span asp-validation-for="ContractDurationMonths" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="companySearch">Фирма собственик</label>
+        <input type="text" id="companySearch" class="form-control" placeholder="Start typing company name..." />
+        <input type="hidden" asp-for="CompanyId" id="CompanyId" />
+        <span asp-validation-for="CompanyId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CashRegisterId" class="control-label">Сериен номер на касов апарат</label>
+        <input type="text" id="cashRegisterSearch" class="form-control" placeholder="Търсете по сериен номер..." />
+        <input type="hidden" asp-for="CashRegisterId" id="CashRegisterId" />
+        <span asp-validation-for="CashRegisterId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ServiceId" class="control-label">Сервизна фирма</label>
+        <select asp-for="ServiceId" class="form-control" asp-items="ViewBag.Services"></select>
+        <span asp-validation-for="ServiceId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Запази</button>
+</form>
+
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    
+    
+        <script type="text/javascript">
+        $(function () {
+            // Търсене на компании
+            $("#companySearch").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("SearchCompanies", "Companies")',
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.label,
+                                    value: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $("#companySearch").val(ui.item.label);
+                    $("#CompanyId").val(ui.item.value);
+                    return false;
+                }
+            });
+
+            // Търсене на касов апарат
+            $("#cashRegisterSearch").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("SearchCashRegisters", "CashRegisters")',
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.label,
+                                    value: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $("#cashRegisterSearch").val(ui.item.label);
+                    $("#CashRegisterId").val(ui.item.value);
+                    return false;
+                }
+            });
+        });
+        </script>
+}

@@ -18,6 +18,7 @@ namespace ServiceManagementApp.Controllers
             _context = context;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var cashRegisters = _context.CashRegisters
@@ -37,6 +38,7 @@ namespace ServiceManagementApp.Controllers
             return View(cashRegisters);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             ViewBag.Services = GetServices();
@@ -137,7 +139,21 @@ namespace ServiceManagementApp.Controllers
                        }).ToList();
         }
 
-       
+        [HttpGet]
+        [Route("SearchCashRegisters")]
+        public async Task<JsonResult> SearchCashRegisters(string term)
+        {
+            //if (string.IsNullOrWhiteSpace(term))
+            //{
+            //    return Json(new List<object>());  // Връщаме празен резултат
+            //}
+            var cashRegisters = await _context.CashRegisters
+                .Where(cr => cr.SerialNumber.Contains(term))
+                .Select(cr => new { id = cr.Id, serialNumber = cr.SerialNumber })
+                .ToListAsync();
+
+            return Json(cashRegisters);
+        }
 
     }
 }

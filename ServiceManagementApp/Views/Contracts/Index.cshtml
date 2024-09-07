@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ServiceManagementApp.ViewModels.ContractViewModel>
+
+<h2>Списък с активни договори</h2>
+
+<table id="dataTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Номер на договор</th>
+            <th>Начална Дата</th>
+            <th>Крайна Дата</th>
+            <th>Фирмата клиент</th>
+            <th>Сериен номер на касовия апарат</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contract in Model)
+        {
+            <tr>
+                <td>@contract.ContractNumber</td>
+                <td>@contract.StartDate.ToString("dd/MM/yyyy")</td>
+                <td>@contract.EndDate.ToString("dd/MM/yyyy")</td>
+                <td>@contract.CompanyName</td>
+                <td>@contract.CashRegisterSerialNumber</td>
+                <td>
+                    <a href="@Url.Action("GetContractPdf", "Pdf", new { id = contract.Id })" class="btn btn-sm btn-info" target="_blank">
+                        <i class="fas fa-print"></i> Печат
+                    </a>
+                    <a href="@Url.Action("Renew", "Contracts", new { id = contract.Id })" class="btn btn-sm btn-warning">
+                        <i class="fas fa-sync-alt"></i> Поднови
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "Contracts")" class="btn btn-primary mt-3">Добавяне на нов договор</a>
+
