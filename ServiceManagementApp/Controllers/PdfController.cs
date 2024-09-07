@@ -30,14 +30,18 @@ namespace ServiceManagementApp.Controllers
         [HttpGet("contract/{id}")]
         public IActionResult GetContractPdf(int id)
         {
-           
-                var pdfData = _pdfService.GenerateContractPdf(id);
-                if (pdfData == null || pdfData.Length == 0)
-                {
-                    return NotFound($"PDF документът за договор с ID {id} не беше генериран.");
-                }
-                return File(pdfData, "application/pdf", $"contract_{id}.pdf");
-            
+            var pdfData = _pdfService.GenerateContractPdf(id);
+
+            if (pdfData == null || pdfData.Length == 0)
+            {
+                return NotFound($"PDF документът за договор с ID {id} не беше генериран.");
+            }
+
+            Console.WriteLine($"Успешно генериран PDF за договор с ID {id}.");
+
+            Response.Headers.Append("Content-Disposition", "inline; filename=contract_" + id + ".pdf");
+
+            return File(pdfData, "application/pdf");
         }
 
         [HttpGet("repair/{id}")]

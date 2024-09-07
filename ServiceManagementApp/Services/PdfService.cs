@@ -1,18 +1,22 @@
-﻿using System.IO;
-using iText.Kernel.Pdf;
+﻿using iText.Kernel.Pdf;
+using iText.Kernel;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using iText.Layout.Borders;
-using iText.Kernel.Colors;
-using System.Linq;
 using ServiceManagementApp.Interfaces;
 using ServiceManagementApp.Data;
+using ServiceManagementApp.Data.Models.ClientModels;
 using Microsoft.EntityFrameworkCore;
 using iText.IO.Image;
 using ServiceManagementApp.Data.Models.RepairModels;
 using iText.IO.Font.Constants;
 using iText.Kernel.Font;
+using iText.IO.Font;
+using iText.Html2pdf;
+using iText.Html2pdf.Resolver.Font;
+using iText.Layout.Font;
+using iText.Forms;
 
 namespace ServiceManagementApp.Services
 {
@@ -201,43 +205,67 @@ namespace ServiceManagementApp.Services
             }
         }
 
-        //private byte[] GeneratePdf(Action<Document> contentGenerator)
-            //{
-            //    using (var stream = new MemoryStream())
-            //    {
-            //        PdfWriter writer = new PdfWriter(stream);
-            //        PdfDocument pdf = new PdfDocument(writer);
-            //        Document document = new Document(pdf);
-
-            //        // Добавяне на хедър
-            //        AddHeader(document, "path/to/logo.png", "Име на фирма", "Адрес на фирмата", "Телефон и Email");
-
-            //        // Генериране на съдържание чрез делегат
-            //        contentGenerator(document);
-
-            //        // Добавяне на футър
-            //        AddFooter(document, "Този документ е генериран от софтуер за управление на сервизи.", "© 2024 Вашата Фирма. Всички права запазени.");
-
-            //        document.Close();
-            //        return stream.ToArray();
-            //    }
-            //}
         public byte[] GenerateContractPdf(int contractId)
         {
 
+            var contract = _context.Contracts
+                .Include(c => c.Company)
+                .Include(c => c.CashRegister)
+                .ThenInclude(cr => cr.SiteAddress)
+                .FirstOrDefault(c => c.Id == contractId);
+
+            if (contract == null)
+            {
+                throw new Exception("Contract not found.");
+            }
+
             using (var stream = new MemoryStream())
             {
+                PdfReader pdfReader = new PdfReader("Templates/contractTemplate.pdf");
                 PdfWriter writer = new PdfWriter(stream);
-                PdfDocument pdf = new PdfDocument(writer);
-                Document document = new Document(pdf);
+                PdfDocument pdf = new PdfDocument(pdfReader, writer);
+                PdfAcroForm form = PdfAcroForm.GetAcroForm(pdf, true);
+                string fontPath = "";
 
-                document.Add(new Paragraph($"Contract ID: {contractId}"));
-                // Добави друга необходима информация
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    fontPath = @"C:\Windows\Fonts\arial.ttf"; // Път към шрифт за Windows
+                }
+                else if (Environment.OSVersion.Platform == PlatformID.Unix)
+                {
+                    fontPath = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"; // Път към шрифт за Linux
+                }
+                PdfFont font = PdfFontFactory.CreateFont(fontPath, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
+                
+                string street = contract.CashRegister.SiteAddress.Street;
+                string city = contract.CashRegister.SiteAddress.City;
+                string number = contract.CashRegister.SiteAddress.Number;
+                string fullAddress = $"гр. {city}, б/ул.{street} No: {number}";
+                
 
-                document.Close();
+
+                // Попълване на полетата с данни
+                form.GetField("{{Address}}").SetValue(fullAddress).SetFont(font);
+                form.GetField("{{CompanyName}}").SetValue(contract.Company?.CompanyName ?? "").SetFont(font);
+                form.GetField("{{EIK}}").SetValue(contract.Company?.EIK ?? "").SetFont(font);
+                form.GetField("{{ContractNumber}}").SetValue(contract.ContractNumber ?? "");
+                form.GetField("{{StartDate}}").SetValue(contract.StartDate.ToString("dd.MM.yyyy"));
+                form.GetField("{{EndDate}}").SetValue(contract.EndDate.ToString("dd.MM.yyyy"));
+                form.GetField("{{Manufacturer}}").SetValue(contract.CashRegister.Manufacturer.ToString()).SetFont(font);
+                form.GetField("{{CashRegisterSerial}}").SetValue(contract.CashRegister.SerialNumber ?? "").SetFont(font);
+                form.GetField("{{FiscalMemoryNumber}}").SetValue(contract.CashRegister.FiscalMemoryNumber ?? "").SetFont(font);
+
+
+
+
+                form.FlattenFields(); // Заключва полетата след попълване, за да не могат да бъдат редактирани
+                pdf.Close();
+
                 return stream.ToArray();
             }
         }
+
+
 
         public byte[] GenerateSimplePdf()
         {
@@ -287,5 +315,19 @@ namespace ServiceManagementApp.Services
                     297.5f, 10, i, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0);
             }
         }
+
+        public string LoadHtmlTemplate(string path, Contract contract)
+        {
+            string htmlContent = File.ReadAllText(path);
+            htmlContent = htmlContent.Replace("{{ContractNumber}}", contract.ContractNumber ?? "N/A")
+                                     .Replace("{{CompanyName}}", contract.Company?.CompanyName ?? "N/A")
+                                     .Replace("{{City}}", contract.Company?.Address?.City ?? "N/A")
+                                     .Replace("{{Street}}", contract.Company?.Address?.Street ?? "N/A")
+                                     .Replace("{{StartDate}}", contract.StartDate.ToString("dd.MM.yyyy"))
+                                     .Replace("{{EndDate}}", contract.EndDate.ToString("dd.MM.yyyy"));
+            return htmlContent;
+        }
+
+        
     }
 }

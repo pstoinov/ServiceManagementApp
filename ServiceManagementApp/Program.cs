@@ -65,7 +65,6 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddScoped<IPdfService, PdfService>();
 builder.Services.AddControllers();
 builder.Services.AddLogging();
-builder.Services.AddTransient<DocumentService>();
 
 var app = builder.Build();
 

@@ -12,12 +12,10 @@ namespace ServiceManagementApp.Controllers
     public class ContractsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly DocumentService _documentService;
 
-        public ContractsController(ApplicationDbContext context, DocumentService documentService)
+        public ContractsController(ApplicationDbContext context)
         {
             _context = context;
-            _documentService = documentService;
         }
 
         [HttpGet]
@@ -259,18 +257,7 @@ namespace ServiceManagementApp.Controllers
         //    return Json(companies);
         //}
 
-        [HttpGet("contract/{id}")]
-        public IActionResult GetContractDocx(int id)
-        {
-            var docxData = _documentService.GenerateContractDocx(id);
-            if (docxData == null)
-            {
-                return NotFound($"Документът за договор с ID {id} не беше генериран.");
-            }
-
-            // Връщаме документа като Word файл
-            return File(docxData, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"contract_{id}.docx");
-        }
+        
     }
 
 

@@ -46,6 +46,10 @@ namespace ServiceManagementApp.Data.Models.ClientModels
 
         [Required]
         public Manufacturer Manufacturer { get; set; }
+
+        [Required]
+        public string Model { get; set; } = string.Empty;
+
         [Required]
         [MaxLength(6)]
         public string BIMCertificateNumber { get; set; } = string.Empty;
