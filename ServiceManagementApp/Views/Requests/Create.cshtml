@@ -43,7 +43,7 @@
     <!-- Полета за заявката -->
     <div class="form-group">
         <label for="RequestDate">Дата на заявка</label>
-        <input type="date" class="form-control" id="RequestDate" name="RequestDate" value="@Model.RequestDate.ToString("MM/dd/YYYY")" required />
+        <input type="date" class="form-control" id="RequestDate" name="RequestDate"  required />
         <span asp-validation-for="RequestDate" class="text-danger"></span>
     </div>
 
@@ -69,7 +69,7 @@
 
     <div class="form-group">
         <label for="ExpectedCompletionDate">Очаквана дата за приключване</label>
-        <input type="date" class="form-control" id="ExpectedCompletionDate" name="ExpectedCompletionDate" value="@Model.ExpectedCompletionDate.ToString("yyyy-MM-dd")" readonly />
+        <input type="date" class="form-control" id="ExpectedCompletionDate" name="ExpectedCompletionDate"   />
         <span asp-validation-for="ExpectedCompletionDate" class="text-danger"></span>
     </div>
 

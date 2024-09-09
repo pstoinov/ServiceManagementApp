@@ -27,12 +27,11 @@ namespace ServiceManagementApp.Controllers
         public IActionResult Create()
         {
             PopulateDropdowns();
-            var CompletionDays = GetCompletionDays(ServiceRequestPriority.Medium);
             return View(new RequestViewModel
             {
                 RequestDate = DateTime.Now,
+                ExpectedCompletionDate = DateTime.Now,
                 RequestNumber = GenerateRequestNumber(),
-                ExpectedCompletionDate = DateTime.Now.AddDays(7)
             });
         }
 
@@ -43,13 +42,7 @@ namespace ServiceManagementApp.Controllers
             if (ModelState.IsValid)
             {
 
-                DateTime parsedRequestDate;
-                if (!DateTime.TryParseExact(model.RequestDate.ToString(), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedRequestDate))
-                {
-                    ModelState.AddModelError("RequestDate", "Invalid date. Please enter the date in the format MM/dd/yyyy.");
-                    PopulateDropdowns();
-                    return View(model);
-                }
+
                 // Логика за търсене на клиента по име, телефон или имейл
                 var client = await _context.Clients
                     .Include(c => c.Email)
@@ -57,7 +50,7 @@ namespace ServiceManagementApp.Controllers
                     .FirstOrDefaultAsync(c => c.FullName == model.ClientName
                         || c.Phone.PhoneNumber == model.ClientPhone
                         || c.Email.EmailAddress == model.ClientEmail);
-
+            
                 if (client == null)
                 {
                     // Ако няма такъв клиент, създаваме нов
@@ -89,7 +82,8 @@ namespace ServiceManagementApp.Controllers
                         await _context.SaveChangesAsync();
                     }
                 }
-                model.ExpectedCompletionDate = model.RequestDate.AddDays(model.CompletionDays);
+                int days = GetCompletionDays(model.Priority);
+                var fake = model.ExpectedCompletionDate = DateTime.Now.AddDays(days);
 
                 // Логика за създаване на нова заявка
                 var serviceRequest = new ServiceRequest
@@ -101,7 +95,7 @@ namespace ServiceManagementApp.Controllers
                     Status = model.Status,
                     Priority = model.Priority,
                     ProblemDescription = model.ProblemDescription,
-                    ExpectedCompletionDate = model.ExpectedCompletionDate,
+                    ExpectedCompletionDate = fake,
                     Device = model.Device,
                     Accessories = model.Accessories
                 };
@@ -139,26 +133,26 @@ namespace ServiceManagementApp.Controllers
             }
         }
 
-        // Изчисляване на очаквана дата за приключване
-        private DateTime CalculateCompletionDate(ServiceRequestPriority priority)
-        {
-            return priority switch
-            {
-                ServiceRequestPriority.High => DateTime.Now.AddDays(1),
-                ServiceRequestPriority.Medium => DateTime.Now.AddDays(3),
-                _ => DateTime.Now.AddDays(5)
-            };
-        }
+
 
         private int GetCompletionDays(ServiceRequestPriority priority)
         {
-            return priority switch
+            if (priority == ServiceRequestPriority.High)
             {
-                ServiceRequestPriority.High => 1,
-                ServiceRequestPriority.Medium => 3,
-                ServiceRequestPriority.Low => 5,
-                _ => 5
-            };
+                return 1;
+            }
+            else if (priority == ServiceRequestPriority.Medium)
+            {
+                return 3;
+            }
+            else if (priority == ServiceRequestPriority.Low)
+            {
+                return 5;
+            }
+            else
+            {
+                return 5; // Default to 5 if no matching priority
+            }
         }
         private void PopulateDropdowns()
         {
