@@ -12,7 +12,7 @@ namespace ServiceManagementApp.ViewModels
 
 
         public int ServiceId { get; set; }
-        public string ServiceName { get; set; } = null!;
+        public string? ServiceName { get; set; } = string.Empty;
 
         [Required]
         public Position Position { get; set; }
@@ -22,7 +22,7 @@ namespace ServiceManagementApp.ViewModels
         [Required]
         public string PhoneNumber { get; set; } = null!;
 
-        public bool IsCertifiedForCashRegisterRepair { get; set; }
+        public bool IsCertifiedForCashRegisterRepair { get; set; } =false;
         [MaxLength(10)]
         public string? EGN { get; set; } = string.Empty;
 

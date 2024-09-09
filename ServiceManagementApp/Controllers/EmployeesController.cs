@@ -12,12 +12,15 @@ namespace ServiceManagementApp.Controllers
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<EmployeesController> _logger;
 
-        public EmployeesController(ApplicationDbContext context)
+        public EmployeesController(ApplicationDbContext context, ILogger<EmployeesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var employees = _context.Employees
@@ -40,9 +43,12 @@ namespace ServiceManagementApp.Controllers
 
             return View(employees);
         }
-
+        [HttpGet]
         public IActionResult Create()
         {
+
+
+
             var services = _context.Services.Select(s => new SelectListItem
             {
                 Value = s.Id.ToString(),
@@ -76,27 +82,31 @@ namespace ServiceManagementApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(EmployeeViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    _logger.LogError(error.ErrorMessage);
+                }
+                return View(model); // Връщане на формата със съобщения за грешки
+            }
             if (ModelState.IsValid)
             {
-                var phone = new Phone
-                {
-                    PhoneNumber = model.PhoneNumber
-                };
+                var phone = new Phone { PhoneNumber = model.PhoneNumber };
+                var email = new Email { EmailAddress = model.EmailAddress };
 
-                var email = new Email
-                {
-                    EmailAddress = model.EmailAddress
-                };
+                _context.Phones.Add(phone);
+                _context.Emails.Add(email);
+                await _context.SaveChangesAsync();
 
-                
 
                 var employee = new Employee
                 {
                     FullName = model.FullName,
                     ServiceId = model.ServiceId,
                     Position = model.Position,
-                    PhoneNumber = phone,
-                    EmailAddress = email,
+                    PhoneId = phone.Id,
+                    EmailId = email.Id,
                     IsCertifiedForCashRegisterRepair = model.IsCertifiedForCashRegisterRepair,
                     EGN = model.EGN,
                 };

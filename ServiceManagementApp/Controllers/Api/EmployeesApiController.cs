@@ -38,7 +38,7 @@ namespace ServiceManagementApp.Controllers.Api
                 Id = employee.Id,
                 FullName = employee.FullName,
                 ServiceId = employee.ServiceId,
-                ServiceName = employee.Service.ServiceName,
+                //ServiceName = employee.Service.ServiceName,
                 Position = employee.Position,
                 PhoneNumber = employee.PhoneNumber.PhoneNumber!,
                 EmailAddress = employee.EmailAddress.EmailAddress!,

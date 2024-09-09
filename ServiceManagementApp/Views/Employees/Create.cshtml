@@ -3,6 +3,7 @@
 <h1>Добави служител</h1>
 
 <form asp-action="Create" method="post">
+
     @Html.AntiForgeryToken()
     <div class="form-group">
         <label for="FullName">Име на служител</label>
@@ -39,5 +40,5 @@
         <input type="text" class="form-control" id="EGN" name="EGN" value="@Model.EGN" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Добави служител</button>
+    <button type="submit" value="Create" class="btn btn-primary">Добави служител</button>
 </form>
