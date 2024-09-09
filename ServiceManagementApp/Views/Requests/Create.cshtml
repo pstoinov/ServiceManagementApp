@@ -43,7 +43,7 @@
     <!-- Полета за заявката -->
     <div class="form-group">
         <label for="RequestDate">Дата на заявка</label>
-        <input type="date" class="form-control" id="RequestDate" name="RequestDate" value="@Model.RequestDate.ToString("yyyy-MM-dd")" required />
+        <input type="date" class="form-control" id="RequestDate" name="RequestDate" value="@Model.RequestDate.ToString("MM/dd/YYYY")" required />
         <span asp-validation-for="RequestDate" class="text-danger"></span>
     </div>
 

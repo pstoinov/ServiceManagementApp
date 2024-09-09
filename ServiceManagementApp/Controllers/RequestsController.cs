@@ -44,9 +44,9 @@ namespace ServiceManagementApp.Controllers
             {
 
                 DateTime parsedRequestDate;
-                if (!DateTime.TryParseExact(model.RequestDate.ToString(), "MM-dd-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedRequestDate))
+                if (!DateTime.TryParseExact(model.RequestDate.ToString(), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedRequestDate))
                 {
-                    ModelState.AddModelError("RequestDate", "Invalid date. Please enter the date in the format MM-dd-yyyy.");
+                    ModelState.AddModelError("RequestDate", "Invalid date. Please enter the date in the format MM/dd/yyyy.");
                     PopulateDropdowns();
                     return View(model);
                 }
