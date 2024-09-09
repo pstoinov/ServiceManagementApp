@@ -30,6 +30,15 @@ using Microsoft.EntityFrameworkCore;
 using ServiceManagementApp.Data;
 using ServiceManagementApp.Interfaces;
 using ServiceManagementApp.Services;
+using System.Globalization;
+
+var cultureInfo = new CultureInfo("bg-BG")
+{
+    DateTimeFormat = { ShortDatePattern = "dd-MM-yyyy", LongDatePattern = "dd-MM-yyyy" }
+};
+
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();

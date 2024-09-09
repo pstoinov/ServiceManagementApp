@@ -1,5 +1,6 @@
 ﻿using ServiceManagementApp.Data.Models.ClientModels;
 using ServiceManagementApp.Data.Models.Core;
+using ServiceManagementApp.Data.Models.RequestModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -37,5 +38,6 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
 
         public bool IsCashRegisterService { get; set; } = false;
         public ICollection<Employee> Employees { get; set; } = [];
+        public ICollection<ServiceRequest> ServiceRequests { get; set; } = [];
     }
 }

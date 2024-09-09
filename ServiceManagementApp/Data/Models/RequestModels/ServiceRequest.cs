@@ -1,4 +1,5 @@
 ﻿using ServiceManagementApp.Data.Enums;
+using ServiceManagementApp.Data.Models.ClientModels;
 using ServiceManagementApp.Data.Models.ServiceModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,6 +11,8 @@ namespace ServiceManagementApp.Data.Models.RequestModels
         [Key]
         public int Id { get; set; }
 
+        public int? ClientCompanyId { get; set; } 
+        public Company? ClientCompany { get; set; }
         [Required]
         [MaxLength(20)]
         public string RequestNumber { get; set; } = "R000000";
@@ -17,27 +20,25 @@ namespace ServiceManagementApp.Data.Models.RequestModels
         [Required]
         public DateTime RequestDate { get; set; }
         [Required]
-        public DateTime ExpectedCompleteTime { get; set; }
+        public DateTime ExpectedCompletionDate { get; set; }
 
         public DateTime? ResolvedDate { get; set; }
 
 
-        [Required]
-        [MaxLength(255)]
-        public string ClientName { get; set; } = null!;
+        public int ClientId { get; set; }
+        [ForeignKey(nameof(ClientId))]
+        public Client Client { get; set; } = null!;
 
-        [MaxLength(100)]
-        public string? ClientEmail { get; set; }
-
-        [MaxLength(15)]
-        public string? ClientPhone { get; set; }
+        public int ServiceId {  get; set; }
+        [ForeignKey(nameof(ServiceId))]
+        public Service? Service { get; set; }
 
         public int? EmployeeId { get; set; }
         [ForeignKey(nameof(EmployeeId))]
         public Employee? Employee { get; set; }
 
         [Required]
-        public string ProblemDescription { get; set; } = null!;
+        public string ProblemDescription { get; set; } = string.Empty;
 
         [MaxLength(255)]
         public string? Device {  get; set; }

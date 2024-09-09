@@ -1,53 +1,69 @@
-﻿using ServiceManagementApp.Data.Enums;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ServiceManagementApp.Data.Enums;
 
 namespace ServiceManagementApp.ViewModels
 {
     public class RequestViewModel
     {
-        public int Id { get; set; }
+        // Клиентска информация
+        public int ClientId { get; set; }
 
-        [Required]
-        [MaxLength(20)]
-        public string RequestNumber { get; set; } = "R000000";
+        [Required(ErrorMessage = "Моля, въведете име на клиента")]
+        public string ClientName { get; set; } = string.Empty;
 
-        [Required]
-        public DateTime RequestDate { get; set; }
+        [Required(ErrorMessage = "Моля, въведете телефон на клиента")]
+        [Phone(ErrorMessage = "Моля, въведете валиден телефонен номер")]
+        public string ClientPhone { get; set; } = string.Empty;
 
-        [Required]
-        public DateTime ExpectedCompleteTime { get; set; }
+        [Required(ErrorMessage = "Моля, въведете имейл на клиента")]
+        [EmailAddress(ErrorMessage = "Моля, въведете валиден имейл")]
+        public string ClientEmail { get; set; } = string.Empty;
 
-        public DateTime? ResolvedDate { get; set; }
+        public int? ClientCompanyId { get; set; }
+        public string? ClientCompanyName { get; set; }
 
-        [Required]
-        [MaxLength(255)]
-        public string ClientName { get; set; } = null!;
+        [Display(Name = "Фирма на клиента")]
+        public int? SelectedCompanyId { get; set; }
+        public IEnumerable<SelectListItem>? Companies { get; set; } 
 
-        [MaxLength(100)]
-        public string? ClientEmail { get; set; }
+        // Заявка
+        [Required(ErrorMessage = "Моля, въведете описание на проблема")]
+        [Display(Name = "Описание на проблема")]
+        public string ProblemDescription { get; set; } = string.Empty;
 
-        [MaxLength(15)]
-        public string? ClientPhone { get; set; }
+        [Display(Name = "Приоритет")]
+        public ServiceRequestPriority Priority { get; set; } = ServiceRequestPriority.Medium; 
 
-        public int? EmployeeId { get; set; }
-
-        [Required]
-        public string ProblemDescription { get; set; } = null!;
-
-        [MaxLength(255)]
-        public string? Device { get; set; }
-
-        public string? Accessories { get; set; }
-
-        [Required]
-        public ServiceRequestPriority Priority { get; set; } = ServiceRequestPriority.Medium;
-
-        [Required]
-        public ServiceRequestStatus Status { get; set; }
-
-        [Required]
+        [Display(Name = "Тип на заявката")]
         public ServiceRequestType RequestType { get; set; }
 
-        public bool isCashRegister { get; set; } = false;
+        [Display(Name = "Статус на заявката")]
+        public ServiceRequestStatus Status { get; set; } = ServiceRequestStatus.New; 
+
+        [Display(Name = "Очаквана дата за приключване")]
+        public DateTime ExpectedCompletionDate { get; set; }
+
+        [Display(Name = "Дата на заявка")]
+        public DateTime RequestDate { get; set; } = DateTime.Now;
+
+        public int CompletionDays { get; set; }
+
+        [Display(Name = "Устройство")]
+        public string? Device { get; set; }
+
+        [Display(Name = "Аксесоари към устройството")]
+        public string? Accessories { get; set; } 
+  
+        // Логнат служител
+        public string? LoggedInEmployeeName { get; set; }
+        public string? LoggedInEmployeePhone { get; set; }
+        public string? LoggedInEmployeeEmail { get; set; }
+        public string? LoggedInEmployeeService { get; set; }
+
+        [Display(Name = "Номер на заявката")]
+        public string RequestNumber { get; set; } = "R000001"; 
     }
 }

@@ -6,6 +6,14 @@
 <h2>Създаване на заявка за сервиз</h2>
 
 <form asp-action="Create" method="post">
+    <!-- Поле за номер на заявка -->
+    <div class="form-group">
+        <label for="RequestNumber">Номер на заявка</label>
+        <input type="text" class="form-control" id="RequestNumber" name="RequestNumber" value="@Model.RequestNumber" readonly />
+        <span asp-validation-for="RequestNumber" class="text-danger"></span>
+    </div>
+
+    <!-- Полета за клиента -->
     <div class="form-group">
         <label for="ClientName">Име на клиент</label>
         <input type="text" class="form-control" id="ClientName" name="ClientName" value="@Model.ClientName" required />
@@ -19,7 +27,28 @@
     </div>
 
     <div class="form-group">
-        <label for="Type">Тип на заявка</label>
+        <label for="ClientEmail">Имейл на клиент</label>
+        <input type="email" class="form-control" id="ClientEmail" name="ClientEmail" value="@Model.ClientEmail" required />
+        <span asp-validation-for="ClientEmail" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="ClientCompanyId">Фирма на клиент (по избор)</label>
+        <select class="form-control" asp-for="ClientCompanyId" asp-items="ViewBag.ClientCompanies">
+            <option value="">Изберете фирма</option>
+        </select>
+        <span asp-validation-for="ClientCompanyId" class="text-danger"></span>
+    </div>
+
+    <!-- Полета за заявката -->
+    <div class="form-group">
+        <label for="RequestDate">Дата на заявка</label>
+        <input type="date" class="form-control" id="RequestDate" name="RequestDate" value="@Model.RequestDate.ToString("yyyy-MM-dd")" required />
+        <span asp-validation-for="RequestDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="RequestType">Тип на заявка</label>
         <select class="form-control" asp-for="RequestType" asp-items="ViewBag.RequestTypes"></select>
         <span asp-validation-for="RequestType" class="text-danger"></span>
     </div>
@@ -36,10 +65,50 @@
         <span asp-validation-for="Priority" class="text-danger"></span>
     </div>
 
+    
+
     <div class="form-group">
-        <label for="Description">Описание на проблема</label>
-        <textarea class="form-control" id="Description" name="Description">@Model.ProblemDescription</textarea>
+        <label for="ExpectedCompletionDate">Очаквана дата за приключване</label>
+        <input type="date" class="form-control" id="ExpectedCompletionDate" name="ExpectedCompletionDate" value="@Model.ExpectedCompletionDate.ToString("yyyy-MM-dd")" readonly />
+        <span asp-validation-for="ExpectedCompletionDate" class="text-danger"></span>
     </div>
+
+    <div class="form-group">
+        <label for="Device">Устройство</label>
+        <input type="text" class="form-control" id="Device" name="Device" value="@Model.Device" required />
+        <span asp-validation-for="Device" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Accessories">Аксесоари</label>
+        <input type="text" class="form-control" id="Accessories" name="Accessories" value="@Model.Accessories" required />
+        <span asp-validation-for="Accessories" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="ProblemDescription">Описание на проблема</label>
+        <textarea class="form-control" id="ProblemDescription" name="ProblemDescription">@Model.ProblemDescription</textarea>
+        <span asp-validation-for="ProblemDescription" class="text-danger"></span>
+    </div>
+
+    <hr />
+
+    <!-- Полета за служителя -->
+    @* <h4>Данни за служителя</h4>
+    <div class="form-group">
+        <label for="EmployeeName">Име на служител</label>
+        <input type="text" class="form-control" id="EmployeeName" name="EmployeeName" value="@Model.EmployeeName" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="EmployeePhone">Телефон на служител</label>
+        <input type="text" class="form-control" id="EmployeePhone" name="EmployeePhone" value="@Model.EmployeePhone" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="EmployeeEmail">Имейл на служител</label>
+        <input type="email" class="form-control" id="EmployeeEmail" name="EmployeeEmail" value="@Model.EmployeeEmail" readonly />
+    </div> *@
 
     <button type="submit" class="btn btn-primary">Създай заявка</button>
 </form>

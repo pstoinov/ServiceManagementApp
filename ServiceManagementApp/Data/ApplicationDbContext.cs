@@ -142,6 +142,14 @@ namespace ServiceManagementApp.Data
                    .WithMany(c => c.Repairs)
                    .HasForeignKey(r => r.CompanyId)
                    .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Service>()
+                    .HasMany(s => s.ServiceRequests)
+                    .WithOne(sr => sr.Service)
+                    .HasForeignKey(sr => sr.ServiceId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+            
         }
     }
 }

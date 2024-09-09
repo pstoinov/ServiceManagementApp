@@ -682,23 +682,10 @@ namespace ServiceManagementApp.Migrations
                     b.Property<string>("Accessories")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClientEmail")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("ClientId")
+                    b.Property<int?>("ClientCompanyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ClientName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("ClientPhone")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<int?>("CompanyId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<string>("Device")
@@ -708,7 +695,7 @@ namespace ServiceManagementApp.Migrations
                     b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ExpectedCompleteTime")
+                    b.Property<DateTime>("ExpectedCompletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Priority")
@@ -732,6 +719,9 @@ namespace ServiceManagementApp.Migrations
                     b.Property<DateTime?>("ResolvedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ServiceNotes")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -744,11 +734,13 @@ namespace ServiceManagementApp.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClientCompanyId");
+
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("CompanyId");
-
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("ServiceRequests");
                 });
@@ -1115,19 +1107,33 @@ namespace ServiceManagementApp.Migrations
 
             modelBuilder.Entity("ServiceManagementApp.Data.Models.RequestModels.ServiceRequest", b =>
                 {
-                    b.HasOne("ServiceManagementApp.Data.Models.ClientModels.Client", null)
+                    b.HasOne("ServiceManagementApp.Data.Models.ClientModels.Company", "ClientCompany")
                         .WithMany("ServiceRequests")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientCompanyId");
 
-                    b.HasOne("ServiceManagementApp.Data.Models.ClientModels.Company", null)
+                    b.HasOne("ServiceManagementApp.Data.Models.ClientModels.Client", "Client")
                         .WithMany("ServiceRequests")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId");
 
+                    b.HasOne("ServiceManagementApp.Data.Models.ServiceModels.Service", "Service")
+                        .WithMany("ServiceRequests")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("ClientCompany");
+
                     b.Navigation("Employee");
+
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("ServiceManagementApp.Data.Models.ServiceModels.Employee", b =>
@@ -1217,6 +1223,8 @@ namespace ServiceManagementApp.Migrations
             modelBuilder.Entity("ServiceManagementApp.Data.Models.ServiceModels.Service", b =>
                 {
                     b.Navigation("Employees");
+
+                    b.Navigation("ServiceRequests");
                 });
 #pragma warning restore 612, 618
         }

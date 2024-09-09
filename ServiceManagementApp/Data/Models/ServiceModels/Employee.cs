@@ -1,4 +1,5 @@
-﻿using ServiceManagementApp.Data.Enums;
+﻿using Microsoft.AspNetCore.Identity;
+using ServiceManagementApp.Data.Enums;
 using ServiceManagementApp.Data.Models.Core;
 using ServiceManagementApp.Data.Models.RepairModels;
 using ServiceManagementApp.Data.Models.RequestModels;
@@ -25,6 +26,9 @@ namespace ServiceManagementApp.Data.Models.ServiceModels
         public Email EmailAddress { get; set; } = null!;
 
         public string? EGN { get; set; }
+
+        //public string? UserId { get; set; }
+        //public IdentityUser? User { get; set; }
 
         [ForeignKey(nameof(ServiceId))]
         public int ServiceId { get; set; }
