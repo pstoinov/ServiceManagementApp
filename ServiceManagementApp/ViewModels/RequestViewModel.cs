@@ -1,13 +1,10 @@
 ﻿using ServiceManagementApp.Data.Enums;
-using ServiceManagementApp.Data.Models.ServiceModels;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ServiceManagementApp.Data.Models.RequestModels
+namespace ServiceManagementApp.ViewModels
 {
-    public class ServiceRequest
+    public class RequestViewModel
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -16,11 +13,11 @@ namespace ServiceManagementApp.Data.Models.RequestModels
 
         [Required]
         public DateTime RequestDate { get; set; }
+
         [Required]
         public DateTime ExpectedCompleteTime { get; set; }
 
         public DateTime? ResolvedDate { get; set; }
-
 
         [Required]
         [MaxLength(255)]
@@ -33,30 +30,24 @@ namespace ServiceManagementApp.Data.Models.RequestModels
         public string? ClientPhone { get; set; }
 
         public int? EmployeeId { get; set; }
-        [ForeignKey(nameof(EmployeeId))]
-        public Employee? Employee { get; set; }
 
         [Required]
         public string ProblemDescription { get; set; } = null!;
 
         [MaxLength(255)]
-        public string? Device {  get; set; }
+        public string? Device { get; set; }
 
         public string? Accessories { get; set; }
 
         [Required]
-        public ServiceRequestStatus Status { get; set; } = ServiceRequestStatus.New;
-
-        [Required]
         public ServiceRequestPriority Priority { get; set; } = ServiceRequestPriority.Medium;
-        [Required]
-        public ServiceRequestType RequestType { get; set; } = ServiceRequestType.OnSite;
-
-        [MaxLength(500)]
-        public string? ServiceNotes { get; set; } = string.Empty;
 
         [Required]
+        public ServiceRequestStatus Status { get; set; }
+
+        [Required]
+        public ServiceRequestType RequestType { get; set; }
+
         public bool isCashRegister { get; set; } = false;
-
     }
 }

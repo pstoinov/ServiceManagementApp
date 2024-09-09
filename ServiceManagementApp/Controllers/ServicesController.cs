@@ -72,7 +72,8 @@ namespace ServiceManagementApp.Controllers
                     Address = address,
                     Phone = phone,
                     Email = email,
-                    LogoUrl = model.LogoUrl
+                    LogoUrl = model.LogoUrl,
+                    IsCashRegisterService = model.IsCashRegisterService
                 };
 
                 _context.Add(service);
@@ -109,7 +110,8 @@ namespace ServiceManagementApp.Controllers
                 Block = service.Address.Block,
                 PhoneNumber = service.Phone.PhoneNumber!,
                 EmailAddress = service.Email.EmailAddress!,
-                LogoUrl = service.LogoUrl 
+                LogoUrl = service.LogoUrl,
+                IsCashRegisterService = service.IsCashRegisterService
             };
 
             return View(viewModel);
@@ -150,6 +152,7 @@ namespace ServiceManagementApp.Controllers
                 service.Phone.PhoneNumber = model.PhoneNumber;
                 service.Email.EmailAddress = model.EmailAddress;
                 service.LogoUrl = model.LogoUrl;
+                service.IsCashRegisterService = model.IsCashRegisterService;
 
                 _context.Update(service);
                 await _context.SaveChangesAsync();

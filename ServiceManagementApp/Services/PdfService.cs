@@ -17,6 +17,9 @@ using iText.Html2pdf;
 using iText.Html2pdf.Resolver.Font;
 using iText.Layout.Font;
 using iText.Forms;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf.Canvas;
+using iText.Kernel.Pdf.Xobject;
 
 namespace ServiceManagementApp.Services
 {
@@ -29,6 +32,33 @@ namespace ServiceManagementApp.Services
             _context = context;
         }
 
+        public byte[] GenerateRepairRequestPdf(/*int requestId*/)
+        {
+            string htmlTemplatePath = "Templates/RequestTemplate.html"; // Път към HTML файла
+
+            // Четем съдържанието на HTML файла
+            string htmlContent = File.ReadAllText(htmlTemplatePath);
+
+            // Логика за плейсхолдерите
+            //var repairRequest = _context.ServiceRequest.Find(requestId); // Пример: намиране на заявка за ремонт по ID
+            //htmlContent = htmlContent.Replace("{{ClientName}}", ServiceRequest.ClientName ?? "N/A");
+            //htmlContent = htmlContent.Replace("{{RequestNumber}}", ServiceRequest.RequestNumber ?? "N/A");
+            //htmlContent = htmlContent.Replace("{{RequestDate}}", ServiceRequest.RequestDate.ToString("dd.MM.yyyy"));
+            // Добави още замествания за други плейсхолдъри тук
+
+            using (var stream = new MemoryStream())
+            {
+                // Настройки за преобразуване на HTML в PDF
+                ConverterProperties properties = new ConverterProperties();
+
+                // Конвертиране на HTML в PDF
+                HtmlConverter.ConvertToPdf(htmlContent, stream, properties);
+
+                return stream.ToArray(); // Връщаме PDF файла като масив от байтове
+            }
+
+
+        }
         public byte[] GenerateClientServiceCard(int repairId)
         {
             using (var stream = new MemoryStream())
@@ -229,11 +259,11 @@ namespace ServiceManagementApp.Services
 
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                 {
-                    fontPath = @"C:\Windows\Fonts\arial.ttf"; // Път към шрифт за Windows
+                    fontPath = @"C:\Windows\Fonts\arial.ttf"; 
                 }
                 else if (Environment.OSVersion.Platform == PlatformID.Unix)
                 {
-                    fontPath = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"; // Път към шрифт за Linux
+                    fontPath = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf";
                 }
                 PdfFont font = PdfFontFactory.CreateFont(fontPath, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
                 
@@ -244,8 +274,8 @@ namespace ServiceManagementApp.Services
                 
 
 
-                // Попълване на полетата с данни
                 form.GetField("{{Address}}").SetValue(fullAddress).SetFont(font);
+                form.GetField("{{Model}}").SetValue(contract.CashRegister.Model ?? "").SetFont(font);
                 form.GetField("{{CompanyName}}").SetValue(contract.Company?.CompanyName ?? "").SetFont(font);
                 form.GetField("{{EIK}}").SetValue(contract.Company?.EIK ?? "").SetFont(font);
                 form.GetField("{{ContractNumber}}").SetValue(contract.ContractNumber ?? "");
@@ -258,8 +288,7 @@ namespace ServiceManagementApp.Services
 
 
 
-                form.FlattenFields(); // Заключва полетата след попълване, за да не могат да бъдат редактирани
-                pdf.Close();
+                form.FlattenFields(); 
 
                 return stream.ToArray();
             }
@@ -283,11 +312,9 @@ namespace ServiceManagementApp.Services
         }
         private void AddHeader(Document document, string logoPath, string companyName, string companyAddress, string contactInfo)
         {
-            // Лого
             ImageData imageData = ImageDataFactory.Create(logoPath);
             Image logo = new Image(imageData).ScaleAbsolute(50, 50).SetFixedPosition(20, 760);
 
-            // Информация за фирмата
             Paragraph info = new Paragraph()
                 .Add(companyName + "\n")
                 .Add(companyAddress + "\n")
@@ -316,17 +343,17 @@ namespace ServiceManagementApp.Services
             }
         }
 
-        public string LoadHtmlTemplate(string path, Contract contract)
-        {
-            string htmlContent = File.ReadAllText(path);
-            htmlContent = htmlContent.Replace("{{ContractNumber}}", contract.ContractNumber ?? "N/A")
-                                     .Replace("{{CompanyName}}", contract.Company?.CompanyName ?? "N/A")
-                                     .Replace("{{City}}", contract.Company?.Address?.City ?? "N/A")
-                                     .Replace("{{Street}}", contract.Company?.Address?.Street ?? "N/A")
-                                     .Replace("{{StartDate}}", contract.StartDate.ToString("dd.MM.yyyy"))
-                                     .Replace("{{EndDate}}", contract.EndDate.ToString("dd.MM.yyyy"));
-            return htmlContent;
-        }
+        //public string LoadHtmlTemplate(string path, Contract contract)
+        //{
+        //    string htmlContent = File.ReadAllText(path);
+        //    htmlContent = htmlContent.Replace("{{ContractNumber}}", contract.ContractNumber ?? "N/A")
+        //                             .Replace("{{CompanyName}}", contract.Company?.CompanyName ?? "N/A")
+        //                             .Replace("{{City}}", contract.Company?.Address?.City ?? "N/A")
+        //                             .Replace("{{Street}}", contract.Company?.Address?.Street ?? "N/A")
+        //                             .Replace("{{StartDate}}", contract.StartDate.ToString("dd.MM.yyyy"))
+        //                             .Replace("{{EndDate}}", contract.EndDate.ToString("dd.MM.yyyy"));
+        //    return htmlContent;
+        //}
 
         
     }

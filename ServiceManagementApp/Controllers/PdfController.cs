@@ -15,10 +15,10 @@ namespace ServiceManagementApp.Controllers
         }
 
         [HttpGet("simple")]
-        public IActionResult GetSimplePdf()
+        public IActionResult GenerateRepairRequestPdf()
         {
             
-                var pdfData = _pdfService.GenerateSimplePdf();
+                var pdfData = _pdfService.GenerateRepairRequestPdf();
                 if (pdfData == null || pdfData.Length == 0)
                 {
                     return NotFound("PDF документът не беше генериран.");

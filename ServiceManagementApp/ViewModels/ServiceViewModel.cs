@@ -24,6 +24,8 @@ namespace ServiceManagementApp.ViewModels
         public string EmailAddress { get; set; } = null!;
         public string? LogoUrl { get; set; } = string.Empty;
 
+        public bool IsCashRegisterService { get; set; } = false;
+
         public ICollection<EmployeeViewModel> Employees { get; set; } = [];
     }
 }

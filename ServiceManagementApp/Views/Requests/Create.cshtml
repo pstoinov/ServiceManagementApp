@@ -1,0 +1,45 @@
+﻿@model ServiceManagementApp.ViewModels.RequestViewModel
+@{
+    ViewBag.Title = "Създаване на заявка за сервиз";
+}
+
+<h2>Създаване на заявка за сервиз</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="ClientName">Име на клиент</label>
+        <input type="text" class="form-control" id="ClientName" name="ClientName" value="@Model.ClientName" required />
+        <span asp-validation-for="ClientName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="ClientPhone">Телефон на клиент</label>
+        <input type="text" class="form-control" id="ClientPhone" name="ClientPhone" value="@Model.ClientPhone" required />
+        <span asp-validation-for="ClientPhone" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Type">Тип на заявка</label>
+        <select class="form-control" asp-for="RequestType" asp-items="ViewBag.RequestTypes"></select>
+        <span asp-validation-for="RequestType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Status">Статус на заявка</label>
+        <select class="form-control" asp-for="Status" asp-items="ViewBag.Statuses"></select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Priority">Приоритет на заявка</label>
+        <select class="form-control" asp-for="Priority" asp-items="ViewBag.Priorities"></select>
+        <span asp-validation-for="Priority" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Описание на проблема</label>
+        <textarea class="form-control" id="Description" name="Description">@Model.ProblemDescription</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Създай заявка</button>
+</form>

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ServiceManagementApp.ViewModels.RequestViewModel
+@{
     ViewData["Title"] = "Заявки";
 }
 
@@ -10,7 +11,7 @@
             <a class="nav-link" asp-action="CurrentRequests">Текущи заявки</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-action="NewRequest">Нова заявка</a>
+            <a class="nav-link" asp-action="Create">Нова заявка</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" asp-action="History">История</a>

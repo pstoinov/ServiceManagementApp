@@ -32,7 +32,8 @@ namespace ServiceManagementApp.Controllers
                     SiteName = c.SiteName,
                     SiteAddress = $"{c.SiteAddress.City}, {c.SiteAddress.Street} {c.SiteAddress.Number}",
                     ContactPhone = c.ContactPhone.PhoneNumber,
-                    SerialNumber = c.SerialNumber
+                    SerialNumber = c.SerialNumber,
+                    Model = c.Model
                 }).ToList();
 
             return View(cashRegisters);
@@ -65,7 +66,7 @@ namespace ServiceManagementApp.Controllers
                 }
 
                 var existingAddress = _context.Addresses
-           .FirstOrDefault(a => a.City == cashRegisterViewModel.City && a.Street == cashRegisterViewModel.Street &&
+                                .FirstOrDefault(a => a.City == cashRegisterViewModel.City && a.Street == cashRegisterViewModel.Street &&
                                 a.Number == cashRegisterViewModel.Number && a.Block == cashRegisterViewModel.Block);
 
                 int addressId;
@@ -75,7 +76,6 @@ namespace ServiceManagementApp.Controllers
                 }
                 else
                 {
-                    // Ако не съществува, създаваме нов запис за адрес
                     var newAddress = new Address
                     {
                         City = cashRegisterViewModel.City,
@@ -100,6 +100,7 @@ namespace ServiceManagementApp.Controllers
                     ContactPhoneId = cashRegisterViewModel.ContactPhoneId,
                     RegionalNRAOffice = cashRegisterViewModel.RegionalNRAOffice,
                     Manufacturer = cashRegisterViewModel.Manufacturer,
+                    Model = cashRegisterViewModel.Model,
                     BIMCertificateNumber = cashRegisterViewModel.BIMCertificateNumber,
                     BIMCertificateDate = cashRegisterViewModel.BIMCertificateDate,
                     SerialNumber = cashRegisterViewModel.SerialNumber,
@@ -145,7 +146,7 @@ namespace ServiceManagementApp.Controllers
         {
             //if (string.IsNullOrWhiteSpace(term))
             //{
-            //    return Json(new List<object>());  // Връщаме празен резултат
+            //    return Json(new List<object>());  // Връща празен резултат
             //}
             var cashRegisters = await _context.CashRegisters
                 .Where(cr => cr.SerialNumber.Contains(term))
