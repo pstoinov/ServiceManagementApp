@@ -41,7 +41,7 @@ namespace ServiceManagementApp.Controllers
 
             Response.Headers.Append("Content-Disposition", "inline; filename=contract_" + id + ".pdf");
 
-            return File(pdfData, "application/pdf");
+            return File(pdfData, "application/pdf"/*, $"contract_{id}.pdf"*/);
         }
 
         [HttpGet("repair/{id}")]
