@@ -20,6 +20,7 @@ using iText.Forms;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf.Canvas;
 using iText.Kernel.Pdf.Xobject;
+using iText.StyledXmlParser.Jsoup.Select;
 
 namespace ServiceManagementApp.Services
 {
@@ -32,51 +33,23 @@ namespace ServiceManagementApp.Services
             _context = context;
         }
 
-        //public byte[] GenerateRepairRequestPdf(/*int requestId*/)
-        //{
-        //    string htmlTemplatePath = "Templates/RequestTemplate.html"; // Път към HTML файла
-
-        //    // Четем съдържанието на HTML файла
-        //    string htmlContent = File.ReadAllText(htmlTemplatePath);
-
-        //    // Логика за плейсхолдерите
-        //    //var repairRequest = _context.ServiceRequest.Find(requestId); // Пример: намиране на заявка за ремонт по ID
-        //    //htmlContent = htmlContent.Replace("{{ClientName}}", ServiceRequest.ClientName ?? "N/A");
-        //    //htmlContent = htmlContent.Replace("{{RequestNumber}}", ServiceRequest.RequestNumber ?? "N/A");
-        //    //htmlContent = htmlContent.Replace("{{RequestDate}}", ServiceRequest.RequestDate.ToString("dd.MM.yyyy"));
-        //    // Добави още замествания за други плейсхолдъри тук
-
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        PdfWriter writer = new PdfWriter(stream);
-        //        PdfDocument pdf = new PdfDocument(writer);
-        //        Document document = new Document(pdf);
-
-        //        // Настройки за преобразуване на HTML в PDF
-        //        ConverterProperties properties = new ConverterProperties();
-
-        //        // Конвертиране на HTML в PDF
-        //        HtmlConverter.ConvertToPdf(htmlContent, pdf, properties);  // Convert HTML directly into the PdfDocument object
-
-        //        // Add header after conversion
-        //        string logoPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/DUGA.png"); ;
-        //        string companyName = $"Дъга Плюс ООД";
-        //        string companyAddress = "Сервиз: Ул. Хаджи Димитър Асенов 72";
-        //        string contactInfo = $"service@dagaplus.com / тел.0887979700";
-
-        //        AddHeader(document, logoPath, companyName, companyAddress, contactInfo);
-
-        //        document.Close(); // Ensure the document is closed properly
-        //        return stream.ToArray(); // Връщаме PDF файла като масив от байтове
-        //    }
 
 
-        //}
 
-        public byte[] GenerateRepairRequestPdf()
+        public byte[] GenerateRepairRequestPdf(int requestId)
         {
-            string htmlTemplatePath = "Templates/RequestTemplate.html"; // Path to the HTML template
-            string htmlContent = File.ReadAllText(htmlTemplatePath); // Read HTML content
+            string htmlTemplatePath = "Templates/RequestTemplate.html"; // Path to your HTML file
+            string htmlContent = File.ReadAllText(htmlTemplatePath);
+
+            var repairRequest =  _context.ServiceRequests
+                .Include(r => r.Client)
+                .FirstOrDefault(r => r.Id == requestId);
+
+            //Замяна на плейсхолдерите с данни от заявката
+            htmlContent = htmlContent.Replace("{{ClientName}}", repairRequest?.Client.FullName ?? "N/A");
+            htmlContent = htmlContent.Replace("{{RequestNumber}}", repairRequest?.RequestNumber ?? "N/A");
+            htmlContent = htmlContent.Replace("{{RequestDate}}", repairRequest?.RequestDate.ToString("dd.MM.yyyy"));
+
 
             using (var stream = new MemoryStream())
             {
@@ -84,55 +57,33 @@ namespace ServiceManagementApp.Services
                 PdfDocument pdf = new PdfDocument(writer);
                 Document document = new Document(pdf);
 
-                // Convert HTML to PDF
+                //TODO: Set the base URI for resources (like images) or use base64 in html!
                 ConverterProperties properties = new ConverterProperties();
-                HtmlConverter.ConvertToPdf(htmlContent, pdf, properties);  // Convert HTML to PDF
+                //properties.SetBaseUri("http://localhost:5190/");
+                //HtmlConverter.ConvertToPdf(htmlContent, pdf, properties);
 
-                // Add header to each page
-                string logoPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/DUGA.png");
-                string companyName = "Дъга Плюс ООД";
-                string companyAddress = "Сервиз: Ул. Хаджи Димитър Асенов 72";
-                string contactInfo = "service@dagaplus.com / тел.0887979700";
-
-                for (int i = 1; i <= pdf.GetNumberOfPages(); i++)
+                
+                
+                for (int i = 0; i < 2; i++)
                 {
-                    Rectangle pageSize = pdf.GetPage(i).GetPageSize();
-                    float x = pageSize.GetLeft() + 20;
-                    float y = pageSize.GetTop() - 50;
-
-                    // Add logo image
-                    ImageData imageData = ImageDataFactory.Create(logoPath);
-                    Image logo = new Image(imageData).ScaleAbsolute(50, 50).SetFixedPosition(i, x, y);
-                    document.Add(logo);
-
-                    // Add company details as header text
-                    Paragraph header = new Paragraph($"{companyName}\n{companyAddress}\n{contactInfo}")
-                        .SetFont(PdfFontFactory.CreateFont(StandardFonts.HELVETICA))
-                        .SetFontSize(10)
-                        .SetTextAlignment(TextAlignment.RIGHT);
-
-                    document.ShowTextAligned(header, pageSize.GetRight() - 50, y, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
+                var elements = HtmlConverter.ConvertToElements(htmlContent, properties);
+                foreach (var element in elements)
+                {
+                    document.Add((IBlockElement)element);
                 }
 
-                document.Close(); // Ensure the document is closed properly
-                return stream.ToArray(); // Return PDF as byte array
+                }
+
+
+                document.Close(); // Затваряме документа
+                return stream.ToArray(); // Връщаме PDF-а като byte[]
+
             }
         }
 
-        private void AddHeader(Document document, string logoPath, string companyName, string companyAddress, string contactInfo)
-        {
-            ImageData imageData = ImageDataFactory.Create(logoPath); // Load image
-            Image logo = new Image(imageData).ScaleAbsolute(50, 50); // Set image size
-            document.Add(logo); // Add image to document
 
-            // Add company information
-            Paragraph info = new Paragraph()
-                .Add(companyName + "\n")
-                .Add(companyAddress + "\n")
-                .Add(contactInfo)
-                .SetTextAlignment(TextAlignment.RIGHT);
-            document.Add(info); // Add text to document
-        }
+
+
 
         public byte[] GenerateClientServiceCard(int repairId)
         {
@@ -237,6 +188,7 @@ namespace ServiceManagementApp.Services
                 return stream.ToArray();
             }
         }
+
         public byte[] GenerateCashRegisterRepairAcceptanceForm(int cashRegisterRepairId)
         {
             using (var stream = new MemoryStream())
@@ -355,8 +307,6 @@ namespace ServiceManagementApp.Services
             }
         }
 
-
-
         public byte[] GenerateSimplePdf()
         {
             using (var stream = new MemoryStream())
@@ -371,50 +321,9 @@ namespace ServiceManagementApp.Services
                 return stream.ToArray();
             }
         }
-        //private void AddHeader(Document document, string logoPath, string companyName, string companyAddress, string contactInfo)
-        //{
-        //    ImageData imageData = ImageDataFactory.Create(logoPath);
-        //    Image logo = new Image(imageData).ScaleAbsolute(50, 50).SetFixedPosition(20, 760);
+        
 
-        //    Paragraph info = new Paragraph()
-        //        .Add(companyName + "\n")
-        //        .Add(companyAddress + "\n")
-        //        .Add(contactInfo)
-        //        .SetTextAlignment(TextAlignment.RIGHT)
-        //        .SetFixedPosition(400, 760, 200);
-
-        //    document.Add(logo);
-        //    document.Add(info);
-        //}
-
-        private void AddFooter(Document document, string footerText, string copyrightText)
-        {
-            int numberOfPages = document.GetPdfDocument().GetNumberOfPages();
-            for (int i = 1; i <= numberOfPages; i++)
-            {
-                document.ShowTextAligned(new Paragraph(footerText)
-                    .SetFontSize(10)
-                    .SetTextAlignment(TextAlignment.CENTER),
-                    297.5f, 20, i, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0);
-
-                document.ShowTextAligned(new Paragraph(copyrightText)
-                    .SetFontSize(8)
-                    .SetTextAlignment(TextAlignment.CENTER),
-                    297.5f, 10, i, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0);
-            }
-        }
-
-        //public string LoadHtmlTemplate(string path, Contract contract)
-        //{
-        //    string htmlContent = File.ReadAllText(path);
-        //    htmlContent = htmlContent.Replace("{{ContractNumber}}", contract.ContractNumber ?? "N/A")
-        //                             .Replace("{{CompanyName}}", contract.Company?.CompanyName ?? "N/A")
-        //                             .Replace("{{City}}", contract.Company?.Address?.City ?? "N/A")
-        //                             .Replace("{{Street}}", contract.Company?.Address?.Street ?? "N/A")
-        //                             .Replace("{{StartDate}}", contract.StartDate.ToString("dd.MM.yyyy"))
-        //                             .Replace("{{EndDate}}", contract.EndDate.ToString("dd.MM.yyyy"));
-        //    return htmlContent;
-        //}
+        
 
         
     }

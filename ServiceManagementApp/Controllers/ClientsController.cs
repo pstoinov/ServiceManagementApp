@@ -85,5 +85,23 @@ namespace ServiceManagementApp.Controllers
             };
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> FindClients(string term)
+        {
+            var clients = await _context.Clients
+       .Include(c => c.Phone)
+       .Include(c => c.Email)
+       .Where(c => c.FullName.Contains(term) || c.Phone.PhoneNumber.Contains(term) || c.Email.EmailAddress.Contains(term))
+       .Select(c => new {
+           id = c.Id,
+           name = c.FullName,
+           phone = c.Phone.PhoneNumber,
+           email = c.Email.EmailAddress
+       })
+       .ToListAsync();
+
+            return Json(clients);
+        }
     }
 }

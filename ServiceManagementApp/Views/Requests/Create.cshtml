@@ -13,22 +13,28 @@
         <span asp-validation-for="RequestNumber" class="text-danger"></span>
     </div>
 
+    <div class="form-group">
+        <label for="clientSearch">Търсене на клиент</label>
+        <input type="text" id="clientSearch" class="form-control" placeholder="Въведете име, телефон или имейл на клиент" />
+        <input type="hidden" asp-for="ClientId" id="ClientId" />
+        <span asp-validation-for="ClientId" class="text-danger"></span>
+    </div>
     <!-- Полета за клиента -->
     <div class="form-group">
         <label for="ClientName">Име на клиент</label>
-        <input type="text" class="form-control" id="ClientName" name="ClientName" value="@Model.ClientName" required />
+        <input type="text" class="form-control" id="ClientName" name="ClientName" required />
         <span asp-validation-for="ClientName" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label for="ClientPhone">Телефон на клиент</label>
-        <input type="text" class="form-control" id="ClientPhone" name="ClientPhone" value="@Model.ClientPhone" required />
+        <input type="text" class="form-control" id="ClientPhone" name="ClientPhone" required />
         <span asp-validation-for="ClientPhone" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label for="ClientEmail">Имейл на клиент</label>
-        <input type="email" class="form-control" id="ClientEmail" name="ClientEmail" value="@Model.ClientEmail" required />
+        <input type="email" class="form-control" id="ClientEmail" name="ClientEmail" required />
         <span asp-validation-for="ClientEmail" class="text-danger"></span>
     </div>
 
@@ -112,3 +118,40 @@
 
     <button type="submit" class="btn btn-primary">Създай заявка</button>
 </form>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <script type="text/javascript">
+        $(function () {
+            $("#clientSearch").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("FindClients", "Clients")', // Методът в контролера
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.name + " - " + item.phone + " - " + item.email, // Показва информация за клиента
+                                    value: item.id, // ID на клиента
+                                    name: item.name,
+                                    phone: item.phone,
+                                    email: item.email
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $("#clientSearch").val(ui.item.label); // Показва информацията за клиента в полето за търсене
+                    $("#ClientId").val(ui.item.value); // Записва ID-то на клиента в скритото поле
+                    $("#ClientName").val(ui.item.name); // Попълва името на клиента
+                    $("#ClientPhone").val(ui.item.phone); // Попълва телефона на клиента
+                    $("#ClientEmail").val(ui.item.email); // Попълва имейла на клиента
+                    return false;
+                }
+            });
+        });
+    </script>
+}

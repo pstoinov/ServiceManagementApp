@@ -8,6 +8,7 @@ namespace ServiceManagementApp.ViewModels
 {
     public class RequestViewModel
     {
+        public int Id { get; set; } 
         // Клиентска информация
         public int ClientId { get; set; }
 

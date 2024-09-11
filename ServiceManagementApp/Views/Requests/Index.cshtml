@@ -1,9 +1,37 @@
-﻿@model ServiceManagementApp.ViewModels.RequestViewModel
+﻿@model IEnumerable<ServiceManagementApp.ViewModels.RequestViewModel>
 @{
     ViewData["Title"] = "Заявки";
 }
 
 <h2>Заявки</h2>
+<table class="table" id="dataTable">
+    <thead>
+        <tr>
+            <th>Номер на заявка</th>
+            <th>Име на клиент</th>
+            <th>Телефон на клиент</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var request in Model)
+        {
+            <tr>
+                <td>@request.RequestNumber</td>
+                <td>@request.ClientName</td>
+                <td>@request.ClientPhone</td>
+                <td>
+                    <a href="@Url.Action("GenerateRepairRequestPdf", "Pdf", new { id = request.Id })" class="btn btn-success" target="_blank">
+                        <i class="fas fa-print"></i> Печат
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@request.RequestNumber" class="btn btn-primary">Промяна</a>
+                    <a asp-action="Delete" asp-route-id="@request.RequestNumber" class="btn btn-danger"
+                       onclick="return confirm('Сигурни ли сте, че искате да изтриете тази заявка?');">Изтриване</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @section Sidebar {
     <ul class="nav flex-column">

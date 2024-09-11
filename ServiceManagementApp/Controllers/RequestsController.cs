@@ -24,6 +24,23 @@ namespace ServiceManagementApp.Controllers
             _userManager = userManager;
         }
 
+        [HttpGet]
+        public IActionResult Index()
+        {
+            var serviceRequest = _context.ServiceRequests
+                .Include(r => r.Client)
+                .Select(r => new RequestViewModel
+                {
+                    Id = r.Id,
+                    RequestNumber = r.RequestNumber,
+                    ClientName = r.Client.FullName,
+                    ClientPhone = r.Client.Phone.PhoneNumber
+                    
+                })
+                .ToList();
+            return View(serviceRequest);
+        }
+
         public IActionResult Create()
         {
             PopulateDropdowns();
@@ -43,7 +60,6 @@ namespace ServiceManagementApp.Controllers
             {
 
 
-                // Логика за търсене на клиента по име, телефон или имейл
                 var client = await _context.Clients
                     .Include(c => c.Email)
                     .Include(c => c.Phone)
@@ -53,7 +69,6 @@ namespace ServiceManagementApp.Controllers
             
                 if (client == null)
                 {
-                    // Ако няма такъв клиент, създаваме нов
                     client = new Client
                     {
                         FullName = model.ClientName,
@@ -64,13 +79,11 @@ namespace ServiceManagementApp.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                // Проверка дали клиентът е свързан с фирма
                 if (model.ClientCompanyId.HasValue)
                 {
                     var clientCompany = _context.ClientCompanies
                         .FirstOrDefault(cc => cc.ClientId == client.Id && cc.CompanyId == model.ClientCompanyId);
 
-                    // Ако връзката не съществува, я създаваме
                     if (clientCompany == null)
                     {
                         clientCompany = new ClientCompany
@@ -85,11 +98,12 @@ namespace ServiceManagementApp.Controllers
                 int days = GetCompletionDays(model.Priority);
                 var fake = model.ExpectedCompletionDate = DateTime.Now.AddDays(days);
 
-                // Логика за създаване на нова заявка
                 var serviceRequest = new ServiceRequest
                 {
+                    Id = model.Id,
                     ClientId = client.Id,
-                    ClientCompanyId = model.ClientCompanyId, // Връзка с фирма, ако има
+                    ServiceId = 1, //TODO Да се премахне като се направи логика за логнати служители !
+                    ClientCompanyId = model.ClientCompanyId, 
                     RequestNumber = model.RequestNumber,
                     RequestDate = model.RequestDate,
                     Status = model.Status,
@@ -118,7 +132,6 @@ namespace ServiceManagementApp.Controllers
             return View(model);
         }
 
-        // Логика за генериране на номер на заявка
         private string GenerateRequestNumber()
         {
             var lastRequest = _context.ServiceRequests.OrderByDescending(r => r.Id).FirstOrDefault();
@@ -133,7 +146,7 @@ namespace ServiceManagementApp.Controllers
             }
         }
 
-
+        
 
         private int GetCompletionDays(ServiceRequestPriority priority)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceManagementApp.Interfaces;
 using System;
+using System.Diagnostics;
 
 namespace ServiceManagementApp.Controllers
 {
@@ -14,16 +15,17 @@ namespace ServiceManagementApp.Controllers
             _pdfService = pdfService;
         }
 
-        [HttpGet("simple")]
-        public IActionResult GenerateRepairRequestPdf()
+
+        [HttpGet("request/{id}")]
+        public IActionResult GenerateRepairRequestPdf(int id)
         {
             
-                var pdfData = _pdfService.GenerateRepairRequestPdf();
+                var pdfData = _pdfService.GenerateRepairRequestPdf(id);
                 if (pdfData == null || pdfData.Length == 0)
                 {
                     return NotFound("PDF документът не беше генериран.");
                 }
-                return File(pdfData, "application/pdf", "simple.pdf");
+                return File(pdfData, "application/pdf");
             
         }
 
