@@ -48,7 +48,7 @@ namespace ServiceManagementApp.Services
             //Замяна на плейсхолдерите с данни от заявката
             htmlContent = htmlContent.Replace("{{ClientName}}", repairRequest?.Client.FullName ?? "N/A");
             htmlContent = htmlContent.Replace("{{RequestNumber}}", repairRequest?.RequestNumber ?? "N/A");
-            htmlContent = htmlContent.Replace("{{RequestDate}}", repairRequest?.RequestDate.ToString("dd.MM.yyyy"));
+            htmlContent = htmlContent.Replace("{{StarDate}}", repairRequest?.RequestDate.ToString("dd.MM.yyyy"));
 
 
             using (var stream = new MemoryStream())
@@ -64,15 +64,13 @@ namespace ServiceManagementApp.Services
 
                 
                 
-                for (int i = 0; i < 2; i++)
-                {
                 var elements = HtmlConverter.ConvertToElements(htmlContent, properties);
                 foreach (var element in elements)
                 {
                     document.Add((IBlockElement)element);
                 }
 
-                }
+                
 
 
                 document.Close(); // Затваряме документа

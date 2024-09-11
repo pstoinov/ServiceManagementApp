@@ -25,7 +25,11 @@ namespace ServiceManagementApp.Controllers
                 {
                     return NotFound("PDF документът не беше генериран.");
                 }
-                return File(pdfData, "application/pdf");
+            
+            Response.Headers.Append("Content-Disposition", "inline; filename=req_" + id + ".pdf");
+
+            return File(pdfData, "application/pdf");
+
             
         }
 

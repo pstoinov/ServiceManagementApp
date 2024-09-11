@@ -1,74 +1,138 @@
-<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
-<html xmlns='https://www.w3.org/1999/xhtml'>
+<!DOCTYPE html>
+<html lang="bg">
 <head>
-<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-<body style='font-family:Tahoma;font-size:12px;color: #333333;background-color:#FFFFFF;'>
-    <div style="text-align: right;">
-        <img src="~/images/DUGA.png" alt="Logo" width="100" height="100" />
-    </div>
-    <table align='center' border='0' cellpadding='0' cellspacing='0' style='height:842px; width:595px;font-size:12px;'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Request</title>
+    <style>
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+            body {
+                margin: 0;
+                padding: 10px;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            padding: 5px;
+        }
+
+        .header {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            width: 150px;
+        }
+
+        .service-info {
+            text-align: right;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .divider {
+            border-top: 2px solid #000;
+            margin: 10px 0;
+        }
+
+        /* Premahni defaultni margin i padding na tabele */
+        table, tr, td {
+            border-spacing: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Stil na celija na tablica */
+        td {
+            border: 1px solid #CCC;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Заглавие с лого и информация за фирмата -->
+    <table>
         <tr>
-            <td valign='top'>
-                <table width='100%' cellspacing='0' cellpadding='0'>
-                    <tr>
-                        <td valign='bottom' width='50%' height='50'><div align='left'><img src='~/images/DUGA.png' /></div><br /></td>
-                        <td width='50%'>&nbsp;</td>
-                    </tr>
-                </table>Клиент: <br /><br />
-                <table width='100%' cellspacing='0' cellpadding='0'>
-                    <tr>
-                        <td valign='top' width='35%' style='font-size:12px;'>
-                            <strong>{{ClientName}}</strong><br />
-                            {{ClientCompany}} <br /> {{ClientPhone}} <br />
-                        </td>
-                        <td valign='top' width='35%'>&nbsp;</td>
-                        <td valign='top' width='30%' style='font-size:12px;'>Дата на заявка: {{StarDate}}<br /> Очаквана дата за приключване: {{ExpectedDate}}<br /></td>
-                    </tr>
-                </table>
-                <table width='100%' height='100' cellspacing='0' cellpadding='0'>
-                    <tr>
-                        <td><div align='center' style='font-size: 14px;font-weight: bold;'>Заявка за ремонт # {{RequestNumber}}</div></td>
-                    </tr>
-                </table>
-                <table width='100%' cellspacing='0' cellpadding='2' border='1' bordercolor='#CCCCCC'>
-                    <tr>
-                        <td style='font-size:12px;'>Устройство:</td>
-                        <td style='font-size:12px;'>{{Device}}</td>
-                    </tr>
-                    <tr>
-                        <td style='font-size:12px;'>Комплектовка/Състояние:</td>
-                        <td style='font-size:12px;'>{{Accessoaries}}</td>
-                    </tr>
-                    <tr>
-                        <td style='font-size:12px;'>Описание на проблема:</br></br></br></br></br></td>
-                        <td style='font-size:12px;'>{{Description}}</td>
-                    </tr>
-                </table>
-                <table width='100%' height='50'><tr><td style='font-size:12px;text-align:justify;'></td></tr></table>
-                <table width='100%' cellspacing='0' cellpadding='2'>
-                    <tr>
-                        <td width='33%' style='border-top:double medium #CCCCCC;font-size:12px;' valign='top'>
-                            <b>{{ServiceName}}</b><br />
-                            ЕИК:  {{EIK}}<br />
-                        </td>
-
-
-                        <td valign='top' width='34%' style='border-top:double medium #CCCCCC;font-size:12px;' align='right'>
-                            {{Address}}<br />{{ServicePhone}}
-                        </td>
-                    </tr>
-                </table>
-                <table width='100%'>
-                    <tr>
-                        </br>
-                        </br>
-
-                        <td width='50%' align='left'>Съставил: <b>{{Employee}}</b></td>
-                        <td width='50%' align='right'>Получател: <b>___________</b></td>
-                    </tr>
-                </table>
+            <td style="width: 50%; text-align: left;">
+                <img src="logo" alt="Company Logo" style="width:100px; height:auto;">
+            </td>
+            <td style="width: 50%; text-align: right;">
+                <p>Дъга Плюс ООД<br>гр.Стара Загора<br>ул. Хаджи Димитър Асенов 72<br>088888888 / service@dagaplus.com</p>
             </td>
         </tr>
     </table>
+
+    <div class="divider"></div>
+
+    <!-- Таблица за клиентски данни и детайли за заявката -->
+    <table>
+        <tr>
+            <td valign='top' width='35%' style='font-size:12px;'>
+                <strong>{{ClientName}}</strong><br />
+                {{ClientCompany}} <br /> {{ClientPhone}} <br />
+            </td>
+            <td valign='top' width='35%'>&nbsp;</td>
+            <td valign='top' width='30%' style='font-size:12px;'>Дата на заявка: {{StarDate}}<br /> Очаквана дата за приключване: {{ExpectedDate}}<br /></td>
+        </tr>
+    </table>
+
+    <!-- Номер на заявката -->
+    <table>
+        <tr>
+            <td><div align='center' style='font-size: 14px;font-weight: bold;'>Заявка за ремонт # {{RequestNumber}}</div></td>
+        </tr>
+    </table>
+
+    <!-- Детайли за устройството и проблема -->
+    <table>
+        <tr>
+            <td style='font-size:12px;'>Устройство:</td>
+            <td style='font-size:12px;'>{{Device}}</td>
+        </tr>
+        <tr>
+            <td style='font-size:12px;'>Комплектовка/Състояние:</td>
+            <td style='font-size:12px;'>{{Accessoaries}}</td>
+        </tr>
+        <tr>
+            <td style='font-size:12px;'>Описание на проблема:</td>
+            <td style='font-size:12px;'>{{Description}}</td>
+        </tr>
+    </table>
+
+    <!-- Подписване -->
+    <table>
+        <tr>
+            <td width='33%' style='border-top:double medium #CCCCCC;font-size:12px;' valign='top'>
+                <b>{{ServiceName}}</b><br />
+                ЕИК:  {{EIK}}<br />
+            </td>
+            <td valign='top' width='34%' style='border-top:double medium #CCCCCC;font-size:12px;' align='right'>
+                {{Address}}<br />{{ServicePhone}}
+            </td>
+        </tr>
+        <tr>
+            <td width='50%' align='left'>Съставил: <b>{{Employee}}</b></td>
+            <td width='50%' align='right'>Получател: <b>___________</b></td>
+        </tr>
+    </table>
+
 </body>
 </html>
