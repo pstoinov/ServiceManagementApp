@@ -174,7 +174,10 @@ namespace ServiceManagementApp.Controllers
                                       .Select(e => new SelectListItem
                                       {
                                           Value = ((int)e).ToString(),
-                                          Text = e == ServiceRequestType.OnSite ? "В сервиз" : "На адрес"
+                                          Text = e == ServiceRequestType.OnSite ? "В сервиз"
+            : e == ServiceRequestType.OnAddress ? "На адрес"
+            : e == ServiceRequestType.RemoteSupport ? "Дистанционен достъп"
+            : e.ToString() 
                                       }).ToList();
 
             ViewBag.Statuses = Enum.GetValues(typeof(ServiceRequestStatus))

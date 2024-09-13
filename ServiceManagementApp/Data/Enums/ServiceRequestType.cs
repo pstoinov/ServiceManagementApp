@@ -3,6 +3,7 @@
     public enum ServiceRequestType
     {
         OnSite,
-        OnAddress
+        OnAddress,
+        RemoteSupport
     }
 }
