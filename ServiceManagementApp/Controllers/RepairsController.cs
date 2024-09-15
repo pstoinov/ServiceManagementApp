@@ -19,21 +19,19 @@ namespace ServiceManagementApp.Controllers
             _context = context;
         }
 
-        // Показване на всички ремонти
         public IActionResult Index()
         {
             var repairs = _context.Repairs
-                .Include(r => r.Client)
-                .Include(r => r.Employee)
+                .Where(r => r.Status != ServiceRequestStatus.Completed && r.Status != ServiceRequestStatus.Cancelled)
                 .Select(r => new RepairViewModel
                 {
                     Id = r.Id,
                     ClientName = r.Client.FullName,
                     EmployeeName = r.Employee.FullName,
                     StartRepairDate = r.StartRepairDate,
-                    RepairDescription = r.RepairDescription,
-                    RepairCost = r.RepairCost,
-                    Status = r.EndRepairDate == null ? "In Progress" : "Completed"
+                    Status = r.Status,
+                    ProblemDescription = r.ProblemDescription,
+                    RepairCost = r.RepairCost
                 })
                 .ToList();
 
@@ -63,8 +61,12 @@ namespace ServiceManagementApp.Controllers
 
             ViewBag.ServiceRequests = serviceRequests;
             ViewBag.Employees = employees;
-
-            return View();
+            PopulateStatusDropdown();
+            return View(new RepairViewModel
+            {
+                StartRepairDate = DateTime.Now,
+                Status = ServiceRequestStatus.InProgress
+            });
         }
 
         [HttpPost]
@@ -73,7 +75,6 @@ namespace ServiceManagementApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Промяна на статуса на заявката на InProgress
                 var serviceRequest = await _context.ServiceRequests.FindAsync(model.ServiceRequestId);
                 if (serviceRequest != null)
                 {
@@ -81,15 +82,15 @@ namespace ServiceManagementApp.Controllers
                     _context.ServiceRequests.Update(serviceRequest);
                 }
 
-                // Създаване на нов ремонт
                 var repair = new Repair
                 {
                     StartRepairDate = DateTime.Now,
-                    ProblemDescription = serviceRequest.ProblemDescription,
-                    RepairDescription = model.RepairDescription,
+                    //ProblemDescription = serviceRequest.ProblemDescription,
+                    //RepairDescription = model.RepairDescription,
                     ClientId = serviceRequest.ClientId,
                     EmployeeId = model.EmployeeId,
-                    RepairCost = model.RepairCost // Може да се добави поле за въвеждане на цена
+                    //RepairCost = model.RepairCost,
+                    Status = model.Status
                 };
 
                 _context.Repairs.Add(repair);
@@ -98,7 +99,6 @@ namespace ServiceManagementApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Ако нещо се обърка, отново попълваме dropdown менютата
             ViewBag.ServiceRequests = _context.ServiceRequests
                 .Where(r => r.Status == ServiceRequestStatus.New)
                 .Select(r => new SelectListItem
@@ -115,6 +115,7 @@ namespace ServiceManagementApp.Controllers
                     Text = e.FullName
                 })
                 .ToList();
+            PopulateStatusDropdown();
 
             return View(model);
         }
@@ -126,5 +127,18 @@ namespace ServiceManagementApp.Controllers
         {
             return View();
         }
+        private void PopulateStatusDropdown()
+        {
+            ViewBag.Statuses = Enum.GetValues(typeof(ServiceRequestStatus))
+                                   .Cast<ServiceRequestStatus>()
+                                   .Select(s => new SelectListItem
+                                   {
+                                       Value = ((int)s).ToString(),
+                                       Text = s.ToString(),
+                                       Selected = s == ServiceRequestStatus.InProgress
+                                   })
+                                   .ToList();
+        }
+
     }
 }

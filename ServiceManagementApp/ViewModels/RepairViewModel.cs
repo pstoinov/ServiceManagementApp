@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceManagementApp.Data.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ServiceManagementApp.ViewModels
@@ -14,11 +15,9 @@ namespace ServiceManagementApp.ViewModels
 
         public DateTime? TakenByClient { get; set; }
 
-        public string Status { get; set; } = string.Empty; 
 
-        [Required]
         [MaxLength(1000)]
-        public string ProblemDescription { get; set; } = string.Empty; 
+        public string? ProblemDescription { get; set; } 
 
         [MaxLength(1000)]
         public string? RepairDescription { get; set; } 
@@ -32,7 +31,9 @@ namespace ServiceManagementApp.ViewModels
         public int EmployeeId { get; set; } 
 
         [Required]
-        public int ServiceRequestId { get; set; } 
+        public int ServiceRequestId { get; set; }
+        [Required]
+        public ServiceRequestStatus? Status { get; set; } = ServiceRequestStatus.InProgress;
 
         // Полета за рендериране на имена във View-то
         public string ClientName { get; set; } = string.Empty; // Не е задължително, но ще се използва за показване на името на клиента

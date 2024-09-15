@@ -1,4 +1,5 @@
-﻿using ServiceManagementApp.Data.Models.ClientModels;
+﻿using ServiceManagementApp.Data.Enums;
+using ServiceManagementApp.Data.Models.ClientModels;
 using ServiceManagementApp.Data.Models.ServiceModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,6 +28,9 @@ namespace ServiceManagementApp.Data.Models.RepairModels
         public ICollection<RepairPart>? RepairPart { get; set; } = new List<RepairPart>(); // Списък от вложени части, не е задължително
 
         [Required]
+        public ServiceRequestStatus? Status { get; set; } = ServiceRequestStatus.InProgress;
+        
+        
         [Column(TypeName = "decimal(18,2)")]
         public decimal? RepairCost { get; set; } // Цена на ремонта
 
