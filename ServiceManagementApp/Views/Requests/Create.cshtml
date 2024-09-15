@@ -40,7 +40,7 @@
 
     <div class="form-group">
         <label for="ClientCompanyId">Фирма на клиент (по избор)</label>
-        <select class="form-control" asp-for="ClientCompanyId" asp-items="ViewBag.ClientCompanies">
+        <select class="form-control" id="ClientCompanyId" name="ClientCompanyId">
             <option value="">Изберете фирма</option>
         </select>
         <span asp-validation-for="ClientCompanyId" class="text-danger"></span>
@@ -123,35 +123,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    <script type="text/javascript">
-        $(function () {
-            $("#clientSearch").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: '@Url.Action("FindClients", "Clients")', // Методът в контролера
-                        data: { term: request.term },
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return {
-                                    label: item.name + " - " + item.phone + " - " + item.email, // Показва информация за клиента
-                                    value: item.id, // ID на клиента
-                                    name: item.name,
-                                    phone: item.phone,
-                                    email: item.email
-                                };
-                            }));
-                        }
-                    });
-                },
-                select: function (event, ui) {
-                    $("#clientSearch").val(ui.item.label); // Показва информацията за клиента в полето за търсене
-                    $("#ClientId").val(ui.item.value); // Записва ID-то на клиента в скритото поле
-                    $("#ClientName").val(ui.item.name); // Попълва името на клиента
-                    $("#ClientPhone").val(ui.item.phone); // Попълва телефона на клиента
-                    $("#ClientEmail").val(ui.item.email); // Попълва имейла на клиента
-                    return false;
-                }
-            });
-        });
+    <script>
+        var findClientsUrl = '@Url.Action("FindClients", "Clients")';
     </script>
+   <script src="~/js/FindClients.js"></script>
 }

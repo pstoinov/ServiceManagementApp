@@ -44,6 +44,7 @@ namespace ServiceManagementApp.Controllers
         public IActionResult Create()
         {
             PopulateDropdowns();
+            ViewBag.ClientCompanies = new List<SelectListItem>();
             return View(new RequestViewModel
             {
                 RequestDate = DateTime.Now,
@@ -79,24 +80,26 @@ namespace ServiceManagementApp.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                if (model.ClientCompanyId.HasValue)
-                {
-                    var clientCompany = _context.ClientCompanies
-                        .FirstOrDefault(cc => cc.ClientId == client.Id && cc.CompanyId == model.ClientCompanyId);
+                //if (model.ClientCompanyId.HasValue)
+                //{
+                //    var clientCompany = _context.ClientCompanies
+                //        .FirstOrDefault(cc => cc.ClientId == client.Id && cc.CompanyId == model.ClientCompanyId);
 
-                    if (clientCompany == null)
-                    {
-                        clientCompany = new ClientCompany
-                        {
-                            ClientId = client.Id,
-                            CompanyId = model.ClientCompanyId.Value
-                        };
-                        _context.ClientCompanies.Add(clientCompany);
-                        await _context.SaveChangesAsync();
-                    }
-                }
+                //    if (clientCompany == null)
+                //    {
+                //        clientCompany = new ClientCompany
+                //        {
+                //            ClientId = client.Id,
+                //            CompanyId = model.ClientCompanyId.Value
+                //        };
+                //        _context.ClientCompanies.Add(clientCompany);
+                //        await _context.SaveChangesAsync();
+                //    }
+                //}
+
+                ViewBag.ClientCompanies = GetClientCompanies(client.Id);
                 int days = GetCompletionDays(model.Priority);
-                var fake = model.ExpectedCompletionDate = DateTime.Now.AddDays(days);
+                var fake = model.ExpectedCompletionDate = DateTime.Now.AddDays(days); //TODO Не работи да се оправи !
 
                 var serviceRequest = new ServiceRequest
                 {
@@ -209,6 +212,20 @@ namespace ServiceManagementApp.Controllers
                                              _ => e.ToString()
                                          }
                                      }).ToList();
+
         }
+        
+        [HttpGet]
+        public JsonResult GetClientCompanies(int clientId)
+        {
+            var companies = _context.ClientCompanies
+                .Include(cc => cc.Company)
+                .Where(cc => cc.ClientId == clientId)
+                .Select(cc => new { cc.CompanyId, cc.Company.CompanyName })
+                .ToList();
+
+            return Json(companies);
+        }
+
     }
 }

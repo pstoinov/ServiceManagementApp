@@ -13,15 +13,13 @@ namespace ServiceManagementApp.Data.Models.RepairModels
         [Required]
         public DateTime StartRepairDate { get; set; }
 
-        [Required]
-        public DateTime EndRepairDate { get; set; }
+        public DateTime? EndRepairDate { get; set; }
 
-        [Required]
-        public DateTime TakenByClient { get; set; }
+        public DateTime? TakenByClient { get; set; }
 
         [Required]
         [MaxLength(1000)]
-        public string ProblemDescription { get; set; } = string.Empty; // Описание на проблема
+        public string ProblemDescription { get; set; } = string.Empty; // Описание какво е отркил като проблем сервизният техник
 
         [MaxLength(1000)]
         public string? RepairDescription { get; set; } // Описание на извършения ремонт, не е задължително
@@ -30,7 +28,7 @@ namespace ServiceManagementApp.Data.Models.RepairModels
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal RepairCost { get; set; } // Цена на ремонта
+        public decimal? RepairCost { get; set; } // Цена на ремонта
 
         [Required]
         public int ClientId { get; set; }
@@ -46,6 +44,9 @@ namespace ServiceManagementApp.Data.Models.RepairModels
         [ForeignKey(nameof(CompanyId))]
         public Company? Company { get; set; }
 
-        public bool IsOnSiteRepair { get; set; } = false; // Поле за това дали ремонтът е на адрес при клиента
+
+
+        public bool? IsOnSiteRepair { get; set; } = false; 
+        public bool? IsRemoteRepair { get; set; } = false;
     }
 }

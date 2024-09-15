@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServiceManagementApp.Data;
 
@@ -11,9 +12,11 @@ using ServiceManagementApp.Data;
 namespace ServiceManagementApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240915154828_AddedIsRemoteRepairInReparis")]
+    partial class AddedIsRemoteRepairInReparis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -606,6 +609,7 @@ namespace ServiceManagementApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("EndRepairDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsOnSiteRepair")
@@ -631,6 +635,7 @@ namespace ServiceManagementApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("TakenByClient")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
