@@ -1,5 +1,6 @@
 ﻿using ServiceManagementApp.Data.Enums;
 using ServiceManagementApp.Data.Models.ClientModels;
+using ServiceManagementApp.Data.Models.RequestModels;
 using ServiceManagementApp.Data.Models.ServiceModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -47,6 +48,10 @@ namespace ServiceManagementApp.Data.Models.RepairModels
         public int? CompanyId { get; set; } // Поле за фирма, не е задължително
         [ForeignKey(nameof(CompanyId))]
         public Company? Company { get; set; }
+
+        public int ServiceRequestId { get; set; }
+        [ForeignKey(nameof(ServiceRequestId))]
+        public ServiceRequest ServiceRequest { get; set; } = null!;
 
 
 

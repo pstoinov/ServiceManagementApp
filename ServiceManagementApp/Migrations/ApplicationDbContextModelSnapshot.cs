@@ -626,6 +626,9 @@ namespace ServiceManagementApp.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<int>("ServiceRequestId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartRepairDate")
                         .HasColumnType("datetime2");
 
@@ -642,6 +645,8 @@ namespace ServiceManagementApp.Migrations
                     b.HasIndex("CompanyId");
 
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ServiceRequestId");
 
                     b.ToTable("Repairs");
                 });
@@ -1081,11 +1086,19 @@ namespace ServiceManagementApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ServiceManagementApp.Data.Models.RequestModels.ServiceRequest", "ServiceRequest")
+                        .WithMany()
+                        .HasForeignKey("ServiceRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Client");
 
                     b.Navigation("Company");
 
                     b.Navigation("Employee");
+
+                    b.Navigation("ServiceRequest");
                 });
 
             modelBuilder.Entity("ServiceManagementApp.Data.Models.RepairModels.RepairPart", b =>

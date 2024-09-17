@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ServiceManagementApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -506,46 +506,6 @@ namespace ServiceManagementApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Repairs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StartRepairDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndRepairDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TakenByClient = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProblemDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    RepairDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    RepairCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    CompanyId = table.Column<int>(type: "int", nullable: true),
-                    IsOnSiteRepair = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Repairs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Repairs_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Repairs_Companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Companies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Repairs_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ServiceRequests",
                 columns: table => new
                 {
@@ -593,6 +553,55 @@ namespace ServiceManagementApp.Migrations
                         principalTable: "Services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Repairs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartRepairDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndRepairDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TakenByClient = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ProblemDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    RepairDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    RepairCost = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    CompanyId = table.Column<int>(type: "int", nullable: true),
+                    ServiceRequestId = table.Column<int>(type: "int", nullable: false),
+                    IsOnSiteRepair = table.Column<bool>(type: "bit", nullable: true),
+                    IsRemoteRepair = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Repairs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Repairs_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Repairs_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Repairs_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Repairs_ServiceRequests_ServiceRequestId",
+                        column: x => x.ServiceRequestId,
+                        principalTable: "ServiceRequests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -813,6 +822,11 @@ namespace ServiceManagementApp.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Repairs_ServiceRequestId",
+                table: "Repairs",
+                column: "ServiceRequestId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ServiceRequests_ClientCompanyId",
                 table: "ServiceRequests",
                 column: "ClientCompanyId");
@@ -876,9 +890,6 @@ namespace ServiceManagementApp.Migrations
                 name: "RepairPart");
 
             migrationBuilder.DropTable(
-                name: "ServiceRequests");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -897,13 +908,16 @@ namespace ServiceManagementApp.Migrations
                 name: "CashRegisters");
 
             migrationBuilder.DropTable(
+                name: "ServiceRequests");
+
+            migrationBuilder.DropTable(
                 name: "Clients");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Companies");
 
             migrationBuilder.DropTable(
-                name: "Companies");
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Services");

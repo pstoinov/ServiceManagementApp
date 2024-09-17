@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ServiceManagementApp.Data;
 using ServiceManagementApp.Data.Enums;
 using ServiceManagementApp.Data.Models.RepairModels;
+using ServiceManagementApp.Data.Models.RequestModels;
 using ServiceManagementApp.ViewModels;
 
 namespace ServiceManagementApp.Controllers
@@ -90,7 +91,8 @@ namespace ServiceManagementApp.Controllers
                     ClientId = serviceRequest.ClientId,
                     EmployeeId = model.EmployeeId,
                     //RepairCost = model.RepairCost,
-                    Status = model.Status
+                    Status = model.Status,
+                    ServiceRequestId = serviceRequest.Id
                 };
 
                 _context.Repairs.Add(repair);
