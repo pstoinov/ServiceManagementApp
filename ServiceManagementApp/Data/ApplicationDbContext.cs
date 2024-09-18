@@ -149,7 +149,14 @@ namespace ServiceManagementApp.Data
                     .HasForeignKey(sr => sr.ServiceId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-            
+
+            modelBuilder.Entity<Repair>()
+                .HasOne(r => r.ServiceRequest)
+                .WithOne(sr => sr.Repair)
+                .HasForeignKey<Repair>(r => r.ServiceRequestId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
         }
     }
 }

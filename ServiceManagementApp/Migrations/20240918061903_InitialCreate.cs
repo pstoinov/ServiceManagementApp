@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ServiceManagementApp.Migrations
 {
     /// <inheritdoc />
-    public partial class initialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -601,7 +601,7 @@ namespace ServiceManagementApp.Migrations
                         column: x => x.ServiceRequestId,
                         principalTable: "ServiceRequests",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -824,7 +824,8 @@ namespace ServiceManagementApp.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Repairs_ServiceRequestId",
                 table: "Repairs",
-                column: "ServiceRequestId");
+                column: "ServiceRequestId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServiceRequests_ClientCompanyId",

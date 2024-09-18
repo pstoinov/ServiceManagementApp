@@ -9,7 +9,6 @@ using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace ServiceManagementApp.Controllers
 {
-    [Authorize]
     public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;

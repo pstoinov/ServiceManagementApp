@@ -10,7 +10,6 @@ using ServiceManagementApp.ViewModels;
 
 namespace ServiceManagementApp.Controllers
 {
-    [Authorize]
     public class RepairsController : Controller
     {
         private readonly ApplicationDbContext _context;

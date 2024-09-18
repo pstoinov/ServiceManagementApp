@@ -1,5 +1,6 @@
 ﻿using ServiceManagementApp.Data.Enums;
 using ServiceManagementApp.Data.Models.ClientModels;
+using ServiceManagementApp.Data.Models.RepairModels;
 using ServiceManagementApp.Data.Models.ServiceModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -36,6 +37,8 @@ namespace ServiceManagementApp.Data.Models.RequestModels
         public int? EmployeeId { get; set; }
         [ForeignKey(nameof(EmployeeId))]
         public Employee? Employee { get; set; }
+
+        public Repair? Repair { get; set; }
 
         [Required]
         public string ProblemDescription { get; set; } = string.Empty;

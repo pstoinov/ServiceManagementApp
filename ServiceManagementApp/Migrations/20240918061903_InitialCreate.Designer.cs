@@ -12,8 +12,8 @@ using ServiceManagementApp.Data;
 namespace ServiceManagementApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240917143439_initialCreate")]
-    partial class initialCreate
+    [Migration("20240918061903_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -649,7 +649,8 @@ namespace ServiceManagementApp.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("ServiceRequestId");
+                    b.HasIndex("ServiceRequestId")
+                        .IsUnique();
 
                     b.ToTable("Repairs");
                 });
@@ -1090,9 +1091,9 @@ namespace ServiceManagementApp.Migrations
                         .IsRequired();
 
                     b.HasOne("ServiceManagementApp.Data.Models.RequestModels.ServiceRequest", "ServiceRequest")
-                        .WithMany()
-                        .HasForeignKey("ServiceRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne("Repair")
+                        .HasForeignKey("ServiceManagementApp.Data.Models.RepairModels.Repair", "ServiceRequestId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -1240,6 +1241,11 @@ namespace ServiceManagementApp.Migrations
             modelBuilder.Entity("ServiceManagementApp.Data.Models.RepairModels.Repair", b =>
                 {
                     b.Navigation("RepairPart");
+                });
+
+            modelBuilder.Entity("ServiceManagementApp.Data.Models.RequestModels.ServiceRequest", b =>
+                {
+                    b.Navigation("Repair");
                 });
 
             modelBuilder.Entity("ServiceManagementApp.Data.Models.ServiceModels.Service", b =>
