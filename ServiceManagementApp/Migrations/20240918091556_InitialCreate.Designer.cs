@@ -12,7 +12,7 @@ using ServiceManagementApp.Data;
 namespace ServiceManagementApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240918061903_InitialCreate")]
+    [Migration("20240918091556_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

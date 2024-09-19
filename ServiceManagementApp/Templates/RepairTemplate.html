@@ -65,26 +65,14 @@
                             <td valign='top' width='30%' style='font-size:12px;'>Дата на заявка: {{StarDate}}<br /> Очаквана дата за приключване: {{ExpectedDate}}<br /></td>
                         </tr>
                     </table>
-                    <table width='100%' height='100' cellspacing='0' cellpadding='0'>
-                        <tr>
-                            <td><div align='center' style='font-size: 14px;font-weight: bold;'>Протокол за извършена дейност към заявка # {{RequestNumber}}</div></td>
-                        </tr>
-                    </table>
-                    <table width='100%' cellspacing='0' cellpadding='2' border='1' bordercolor='#CCCCCC'>
-                        <tr>
-                            <td style='font-size: 12px; width: 30%; white-space: nowrap;'>Устройство:</td>
-                            <td style='font-size:12px;'>{{Device}}</td>
-                        </tr>
-                        <tr>
-                            <td style='font-size: 12px; width: 30%; white-space: nowrap;'>Комплектовка/Състояние:</td>
-                            <td style='font-size:12px;'>{{Accessoaries}}</td>
-                        </tr>
-                        <tr>
-                            <td style='font-size: 12px; width: 30%; white-space: nowrap;'>Описание на проблема:</td>
-                            <td style='font-size:12px;'>{{Description}}</td>
-                        </tr>
-                    </table>
-                    <table width='100%' height='50'><tr><td style='font-size:12px;text-align:justify;'></td></tr></table>
+                    <br />
+                    <!-- Placeholder за таблицата с части -->
+                {{PartsTable}}
+                    <br />
+                <!-- Placeholder за таблицата с дейности -->
+                {{ActivitiesTable}}
+
+                    
                     <table width='100%' cellspacing='0' cellpadding='2'>
                         <tr>
                             <td width='33%' style='border-top:double medium #CCCCCC;font-size:12px;' valign='top'>

@@ -22,4 +22,6 @@ RUN dotnet publish "./ServiceManagementApp.csproj" -c $BUILD_CONFIGURATION -o /a
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY ./Templates /app/Templates
 ENTRYPOINT ["dotnet", "ServiceManagementApp.dll"]
+
