@@ -24,8 +24,9 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <!-- Лявата част на навигационното меню -->
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "HomeController" ? "active" : "")">
+                        <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
                         </li>
                         <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Requests" ? "active" : "")">
@@ -52,10 +53,22 @@
                         <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Warehouse" ? "active" : "")">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Warehouse" asp-action="Index">Склад</a>
                         </li>
-                        <form method="post" asp-controller="Account" asp-action="Logout">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Изход</button>
-                        </form>
                     </ul>
+
+                    <!-- Дясната част на навигационното меню: Потребителска информация и бутон за изход -->
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link text-dark">
+                            <!-- Иконка за потребителски аватар -->
+                            <i class="fas fa-user-circle" style="font-size: 24px;"></i>
+                            <!-- Хардкоднато име на потребител -->
+                            Developer
+                        </span>
+                        <form method="post" asp-controller="Account" asp-action="Logout" class="ms-2">
+                            <button type="submit" class="btn btn-outline-danger d-flex align-items-center">
+                                <i class="fas fa-sign-out-alt me-1"></i> Изход
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </nav>
