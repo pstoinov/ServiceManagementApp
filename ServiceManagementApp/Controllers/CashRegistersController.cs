@@ -6,6 +6,8 @@ using ServiceManagementApp.Data.Enums;
 using ServiceManagementApp.Data.Models.ClientModels;
 using ServiceManagementApp.Data.Models.Core;
 using ServiceManagementApp.ViewModels;
+using System.Text;
+using System.Xml.Linq;
 
 namespace ServiceManagementApp.Controllers
 {
@@ -150,10 +152,67 @@ namespace ServiceManagementApp.Controllers
             //}
             var cashRegisters = await _context.CashRegisters
                 .Where(cr => cr.SerialNumber.Contains(term))
-                .Select(cr => new { id = cr.Id, serialNumber = cr.SerialNumber })
+                .Select(cr => new 
+                { 
+                    id = cr.Id, label = cr.SerialNumber 
+                })
                 .ToListAsync();
 
             return Json(cashRegisters);
+        }
+
+        [HttpGet]
+        public IActionResult GenerateXML(int id)
+        {
+            var cashRegister = _context.CashRegisters
+                .Include(cr => cr.Company)
+                .FirstOrDefault(cr => cr.Id == id);
+            if (cashRegister == null)
+            {
+                return NotFound();
+            }
+
+            var companyEIK = cashRegister.Company.EIK;  
+            var fdrid = cashRegister.FDRIDNumber;
+
+            var templatePath = Path.Combine(Directory.GetCurrentDirectory(), "Templates", "template.xml");
+            var xmlTemplate = System.IO.File.ReadAllText(templatePath, Encoding.GetEncoding("windows-1251"));
+
+            xmlTemplate = xmlTemplate.Replace("{EIK}", companyEIK)
+                                     .Replace("{FDRID}", fdrid);
+            
+            //TODO: Да тествам това защото е по красиво
+            //XNamespace xsi = "http://www.w3.org/2001/XMLSchema-instance";
+            //XNamespace ns = "http://inetdec.nra.bg/xsd/dec_44a2.xsd";
+
+            //XDocument xmlDocument = new XDocument(
+            //    new XElement(ns + "dec44a2",
+            //        new XAttribute(XNamespace.Xmlns + "xsi", xsi),
+            //        new XAttribute(XNamespace.Xmlns + "", ns),
+            //        new XAttribute(xsi + "schemaLocation", "http://inetdec.nra.bg/xsd/dec_44a2.xsd"),
+            //        new XElement("name", "ДЕЛТА"),
+            //        new XElement("bulstat", "123059763"),
+            //        new XElement("telcode", "0887"),
+            //        new XElement("telnum", "979700"),
+            //        new XElement("authorizeid", "6212057588"),
+            //        new XElement("autorizecode", "1"),
+            //        new XElement("fname", "Петър"),
+            //        new XElement("sname", "Атанасов"),
+            //        new XElement("tname", "Гицов"),
+            //        new XElement("id", companyEIK),
+            //        new XElement("code", "5"),
+            //        new XElement("fuiasutd",
+            //            new XElement("rowenum",
+            //                new XElement("fdrid", fdrid)
+            //            )
+            //        )
+            //    )
+            //);
+
+            var fileName = $"{cashRegister.SerialNumber}.xml";
+            var bytes = System.Text.Encoding.GetEncoding("windows-1251").GetBytes(xmlTemplate);
+
+            return File(bytes, "application/xml", fileName);
         }
 
     }
