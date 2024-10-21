@@ -1,14 +1,106 @@
-﻿@section sidebar {
+﻿@{
+    ViewData["Title"] = "Settings";
+}
+
+<h2>Настройки на приложението</h2>
+
+<!-- Настройки за базата данни -->
+<div class="card mb-3">
+    <div class="card-header">
+        <h4>Настройки за базата данни</h4>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group mb-3">
+                <label for="dbPath">Път към базата данни</label>
+                <input type="password" id="dbPath" class="form-control" value="************" readonly />
+            </div>
+            <div class="form-group mb-3">
+                <label for="dbPassword">Парола за връзка с базата данни</label>
+                <input type="password" id="dbPassword" class="form-control" value="************" readonly />
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Настройки за Email -->
+<div class="card mb-3">
+    <div class="card-header">
+        <h4>Настройки за Email</h4>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group mb-3">
+                <label for="email">Имейл за изпращане до клиенти</label>
+                <input type="email" id="email" class="form-control" value="office@dagaplus.com" readonly />
+            </div>
+            <div class="form-group mb-3">
+                <label for="emailPassword">Парола за имейл акаунт</label>
+                <input type="password" id="emailPassword" class="form-control" value="************" readonly />
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Настройки за Telegram бот -->
+<div class="card mb-3">
+    <div class="card-header">
+        <h4>Настройки за Telegram бот</h4>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group mb-3">
+                <label for="telegramToken">Токен за Telegram бот</label>
+                <input type="text" id="telegramToken" class="form-control" placeholder="Въведете токен за Telegram бот" />
+            </div>
+            <div class="form-group mb-3">
+                <label for="telegramChatId">Chat ID за изпращане на съобщения</label>
+                <input type="text" id="telegramChatId" class="form-control" placeholder="Въведете Chat ID" />
+            </div>
+            <div class="form-group mb-3">
+                <label for="telegramProxy">Прокси сървър за Telegram</label>
+                <input type="text" id="telegramProxy" class="form-control" placeholder="Въведете адрес на прокси сървър (опционално)" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Други настройки -->
+<div class="card mb-3">
+    <div class="card-header">
+        <h4>Други настройки</h4>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group mb-3">
+                <label for="appLanguage">Език на приложението</label>
+                <select id="appLanguage" class="form-control">
+                    <option selected>Български</option>
+                    <option>Английски</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="appTheme">Тема на приложението</label>
+                <select id="appTheme" class="form-control">
+                    <option selected>Светла</option>
+                    <option>Тъмна</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section sidebar {
     <div class="sidebar">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Employee" asp-action="Index">Служители</a>
+                <a class="nav-link" asp-controller="Employees" asp-action="Index">Служители</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Services" asp-action="Index">Сервизи</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Settings" asp-action="Index">Настройки</a>
+                <a class="nav-link" asp-controller="Manager" asp-action="Settings">Настройки</a>
             </li>
         </ul>
     </div>
