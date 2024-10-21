@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<dec44a2 xmlns="http://inetdec.nra.bg/xsd/dec_44a2.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://inetdec.nra.bg/xsd/dec_44a2.xsd http://inetdec.nra.bg/xsd/dec_44a2.xsd">
+  <name>ДЕЛТА</name>
+  <bulstat>123059763</bulstat>
+  <telcode>0887</telcode>
+  <telnum>979700</telnum>
+  <authorizeid>6212057588</authorizeid>
+  <autorizecode>1</autorizecode>
+  <fname>Петър</fname>
+  <sname>Атанасов</sname>
+  <tname>Гицов</tname>
+  <id>{EIK}</id>
+  <code>5</code>
+  <fuiasutd>
+    <rowenum>
+      <fdrid>{FDRID}</fdrid>
+    </rowenum>
+  </fuiasutd>
+</dec44a2>

@@ -25,6 +25,9 @@
                     <a href="@Url.Action("Delete", "CashRegisters", new { id = cashRegister.Id })" class="btn btn-sm btn-danger">
                         <i class="fas fa-trash"></i>
                     </a>
+                    <a href="@Url.Action("GenerateXML", "CashRegisters", new { id = cashRegister.Id })" class="btn btn-sm btn-success">
+                        <i class="fas fa-file-export"></i> XML
+                    </a>
                 </td>
             </tr>
         }
