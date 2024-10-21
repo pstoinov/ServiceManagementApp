@@ -150,7 +150,10 @@ namespace ServiceManagementApp.Controllers
             //}
             var cashRegisters = await _context.CashRegisters
                 .Where(cr => cr.SerialNumber.Contains(term))
-                .Select(cr => new { id = cr.Id, serialNumber = cr.SerialNumber })
+                .Select(cr => new 
+                { 
+                    id = cr.Id, label = cr.SerialNumber 
+                })
                 .ToListAsync();
 
             return Json(cashRegisters);
