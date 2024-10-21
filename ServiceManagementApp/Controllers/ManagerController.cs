@@ -8,5 +8,10 @@ namespace ServiceManagementApp.Controllers
         {
             return View();
         }
+
+        public IActionResult Settings()
+        {
+            return View();
+        }
     }
 }

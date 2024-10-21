@@ -46,16 +46,16 @@ builder.Logging.AddDebug(); // Добавете логване за дебъг
 //.AddEntityFrameworkStores<ApplicationDbContext>();
 
 // БАЗА ДАННИ ЗА РАЗРАБОТКА
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseInMemoryDatabase("TestDatabase")); // Използва in-memory база данни в development среда
-}
-else
-{
+//if (builder.Environment.IsDevelopment())
+//{
+//    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//        options.UseInMemoryDatabase("TestDatabase")); // Използва in-memory база данни в development среда
+//}
+//else
+//{
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
       options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-}
+//}
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
