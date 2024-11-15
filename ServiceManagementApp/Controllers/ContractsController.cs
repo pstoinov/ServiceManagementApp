@@ -5,6 +5,7 @@ using ServiceManagementApp.Data;
 using ServiceManagementApp.Data.Models.ClientModels;
 using ServiceManagementApp.ViewModels;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ServiceManagementApp.Controllers
@@ -245,6 +246,37 @@ namespace ServiceManagementApp.Controllers
             return $"C{nextNumber.ToString("D6")}";
         }
 
+        [HttpGet]
+        public IActionResult Inquiry()
+        {
+            // Изпращане на данни за месеци и години към View-то
+            ViewBag.Months = new SelectList(Enumerable.Range(1, 12).Select(m => new SelectListItem
+            {
+                Text = new DateTime(1, m, 1).ToString("MMMM"),
+                Value = m.ToString()
+            }), "Value", "Text");
+
+            ViewBag.Years = new SelectList(Enumerable.Range(DateTime.Now.Year - 10, 11).Reverse().Select(y => new SelectListItem
+            {
+                Text = y.ToString(),
+                Value = y.ToString()
+            }), "Value", "Text");
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult GenerateFiscalSerFile(int month, int year)
+        {
+            var fiscalSerService = new FiscalSerService(_context);
+            var content = fiscalSerService.GenerateFiscalSerFile(month, year);
+            var fileName = $"fiscal_{month:00}_{year}.ser";
+            var fileContent = System.Text.Encoding.GetEncoding("windows-1251").GetBytes(content);
+
+            return File(fileContent, "application/octet-stream", fileName);
+        }
+
+
         // Метод за търсене на компании (autocomplete)
         //[HttpGet]
         //public async Task<JsonResult> SearchCompanies(string term)
@@ -257,7 +289,7 @@ namespace ServiceManagementApp.Controllers
         //    return Json(companies);
         //}
 
-        
+
     }
 
 

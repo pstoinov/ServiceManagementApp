@@ -12,7 +12,7 @@ public class FiscalSerService
         _context = context;
     }
 
-    public byte[] GenerateFiscalSerFile(int month, int year)
+    public string GenerateFiscalSerFile(int month, int year)
     {
         var startDate = new DateTime(year, month, 1);
         var endDate = startDate.AddMonths(1).AddDays(-1);
@@ -21,6 +21,7 @@ public class FiscalSerService
         var contracts = _context.Contracts
              .Include(c => c.CashRegister) // Включваме свързания касов апарат
              .ThenInclude(cr => cr.Company) // Включваме компанията, свързана с касовия апарат
+             .ThenInclude(cmp => cmp.Address)
              .Include(c => c.CashRegister.ContactPhone) // Включваме телефона на касовия апарат
              .Include(c => c.CashRegister.SiteAddress) // Включваме адреса на касовия апарат
              .Where(c => c.StartDate >= startDate && c.StartDate <= endDate)
@@ -56,7 +57,7 @@ public class FiscalSerService
             builder.AppendLine($"02{company.CompanyName}                                   {company.Address.City}         {company.Address.Street}                        {cashRegister.SiteManager}");
 
             // Четвърти ред - 03
-            builder.AppendLine($"03{cashRegister.SiteName}                                              {cashRegister.SiteAddress.City}         {cashRegister.SiteAddress.Street}                   {cashRegister.ContactPhone}");
+            builder.AppendLine($"03{cashRegister.SiteName}                                              {cashRegister.SiteAddress.City}         {cashRegister.SiteAddress.Street}                   {cashRegister.ContactPhone.PhoneNumber}");
 
             // Петият ред - 04
             builder.AppendLine($"04{cashRegister.RegionalNRAOffice}");
@@ -86,6 +87,6 @@ public class FiscalSerService
         // Последен ред - 99
         builder.AppendLine("99");
 
-        return Encoding.GetEncoding("windows-1251").GetBytes(builder.ToString());
+        return builder.ToString();
     }
 }

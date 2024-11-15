@@ -37,3 +37,13 @@
 
 <a href="@Url.Action("Create", "Contracts")" class="btn btn-primary mt-3">Добавяне на нов договор</a>
 
+
+@section sidebar {
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Contracts" asp-action="Inquiry">Справка</a>
+            </li>
+        </ul>
+    </div>
+}
